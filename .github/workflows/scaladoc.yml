@@ -1,4 +1,4 @@
-name: scaladoc.yml
+name: Scaladoc
 
 on:
   push:
