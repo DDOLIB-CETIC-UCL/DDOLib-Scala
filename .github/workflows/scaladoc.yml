@@ -1,0 +1,22 @@
+name: scaladoc.yml
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  scaladoc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'sbt'
+
+      - name: Generation doc
+        run: sbt doc
