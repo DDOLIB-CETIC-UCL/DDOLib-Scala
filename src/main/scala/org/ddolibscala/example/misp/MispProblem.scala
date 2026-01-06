@@ -23,7 +23,7 @@ object MispProblem {
     var numNodes: Int              = 0
 
     Using(Source.fromFile(fname)) { source =>
-      val (nodesLines, edgesLines) = source.getLines().span(!_.contains("--"))
+      val (nodesLines, edgesLines) = source.getLines().drop(1).span(!_.contains("--"))
 
       for (line <- nodesLines if line.trim.nonEmpty) {
         if (line.contains("optimal")) {
@@ -40,7 +40,7 @@ object MispProblem {
       }
 
       numNodes = weight.length
-      neighbors = new Array[Set[Int]](numNodes)
+      neighbors = Array.fill(numNodes)(Set.empty)
 
       for (line <- edgesLines.takeWhile(_ != "}") if line.trim.nonEmpty) {
         val tokens: Array[String] = line.trim.replace(" ", "").replace(";", "").split("--")
