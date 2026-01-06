@@ -3,6 +3,11 @@ package org.ddolibscala.example.misp
 import org.ddolib.ddo.core.Decision
 import org.ddolibscala.modeling.Relaxation
 
+object MispRelaxation {
+
+  def apply(problem: MispProblem): MispRelaxation = new MispRelaxation(problem)
+}
+
 class MispRelaxation(problem: MispProblem) extends Relaxation[Set[Int]] {
 
   override def merge(statesToMerge: Iterable[Set[Int]]): Set[Int] = {
