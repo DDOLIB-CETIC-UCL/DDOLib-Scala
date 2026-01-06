@@ -8,6 +8,8 @@ object MispRanking {
 
 class MispRanking extends StateRanking[Set[Int]] {
 
-  override def rank(state1: Set[Int], state2: Set[Int]): Int = state1.sizeCompare(state2)
+  override def rank(state1: Set[Int], state2: Set[Int]): Int = {
+    state1.size.compare(state2.size)
+  }
 
 }
