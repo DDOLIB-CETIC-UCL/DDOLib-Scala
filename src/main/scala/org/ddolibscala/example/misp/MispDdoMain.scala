@@ -1,10 +1,13 @@
 package org.ddolibscala.example.misp
 
-import org.ddolib.common.dominance.{DominanceChecker, SimpleDominanceChecker}
+import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.common.solver.Solution
-import org.ddolib.ddo.core.frontier.{CutSetType, Frontier, SimpleFrontier}
-import org.ddolib.ddo.core.heuristics.width.{FixedWidth, WidthHeuristic}
+import org.ddolib.ddo.core.frontier.Frontier
+import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
 import org.ddolib.modeling._
+import org.ddolibscala.common.dominance.SimpleDominanceChecker
+import org.ddolibscala.ddo.core.frontier.Frontier
+import org.ddolibscala.ddo.core.heuristics.width.FixedWidth
 
 object MispDdoMain {
 
@@ -21,15 +24,14 @@ object MispDdoMain {
 
       override def lowerBound(): FastLowerBound[Set[Int]] = MispFlb(p)
 
-      override def widthHeuristic(): WidthHeuristic[Set[Int]] = new FixedWidth[Set[Int]](2)
+      override def widthHeuristic(): WidthHeuristic[Set[Int]] = FixedWidth[Set[Int]](2)
 
-      override def frontier(): Frontier[Set[Int]] =
-        new SimpleFrontier[Set[Int]](ranking(), CutSetType.Frontier)
+      override def frontier(): Frontier[Set[Int]] = Frontier(ranking())
 
       override def useCache(): Boolean = true
 
       override def dominance(): DominanceChecker[Set[Int]] =
-        new SimpleDominanceChecker[Set[Int]](MispDominance(), p.nbVars())
+        SimpleDominanceChecker[Set[Int]](MispDominance(), p.nbVars())
 
       override def exportDot(): Boolean = true
     }

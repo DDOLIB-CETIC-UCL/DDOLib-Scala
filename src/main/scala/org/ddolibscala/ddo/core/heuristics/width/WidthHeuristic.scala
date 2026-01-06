@@ -1,4 +1,4 @@
-package org.ddolibscala.ddo.heuristics.width
+package org.ddolibscala.ddo.core.heuristics.width
 
 trait WidthHeuristic[T] extends org.ddolib.ddo.core.heuristics.width.WidthHeuristic[T] {
 

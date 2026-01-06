@@ -1,4 +1,4 @@
-package org.ddolibscala.ddo.heuristics.variables
+package org.ddolibscala.ddo.core.heuristics.variables
 
 object DefaultVariableHeuristic {
   def apply[T](): DefaultVariableHeuristic[T] = new DefaultVariableHeuristic()
