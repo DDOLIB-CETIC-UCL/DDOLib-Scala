@@ -1,8 +1,8 @@
 package org.ddolibscala.modeling
 
 import java.util.Optional
-import scala.jdk.CollectionConverters._
-import scala.jdk.OptionConverters._
+import scala.jdk.CollectionConverters.IteratorHasAsJava
+import scala.jdk.OptionConverters.RichOption
 
 trait Problem[T] extends org.ddolib.modeling.Problem[T] {
 
