@@ -4,6 +4,8 @@ import org.ddolib.ddo.core.Decision
 import org.ddolibscala.modeling.Problem
 
 import scala.collection.mutable.ArrayBuffer
+import scala.io.Source
+import scala.util.Using
 
 object MispProblem {
 
@@ -13,6 +15,45 @@ object MispProblem {
     weight: Array[Int],
     optimal: Option[Double] = None
   ): MispProblem = new MispProblem(nodes, neighbors, weight, optimal)
+
+  def apply(fname: String): MispProblem = {
+    val weight: ArrayBuffer[Int]   = ArrayBuffer()
+    var neighbors: Array[Set[Int]] = Array()
+    var opti: Option[Double]       = None
+    var numNodes: Int              = 0
+
+    Using(Source.fromFile(fname)) { source =>
+      val (nodesLines, edgesLines) = source.getLines().span(!_.contains("--"))
+
+      for (line <- nodesLines if line.trim.nonEmpty) {
+        if (line.contains("optimal")) {
+          val optiStr: String       = line.replace(";", "")
+          val tokens: Array[String] = optiStr.split("=")
+          opti = Some(tokens(1).toDouble)
+        } else if (line.contains("weight")) {
+          var w: String = line.trim.split(" ")(1)
+          w = w.replace("[weight=", "").replace("];", "")
+          weight += w.toInt
+        } else {
+          weight += 1
+        }
+      }
+
+      numNodes = weight.length
+      neighbors = new Array[Set[Int]](numNodes)
+
+      for (line <- edgesLines.takeWhile(_ != "}") if line.trim.nonEmpty) {
+        val tokens: Array[String] = line.trim.replace(" ", "").replace(";", "").split("--")
+        val source: Int           = tokens(0).toInt - 1
+        val target: Int           = tokens(1).toInt - 1
+        neighbors(source) = neighbors(source) + target
+        neighbors(target) = neighbors(target) + source
+      }
+    }
+
+    MispProblem((0 until numNodes).toSet, neighbors, weight.toArray, opti)
+
+  }
 }
 
 class MispProblem(
@@ -71,5 +112,21 @@ class MispProblem(
 
     -value
   }
-  
+
+  override def toString: String = {
+    val weightStr = weight.zipWithIndex.map { case (w, n) => s"\t$n: $w" }.mkString("\n")
+    val neighStr = neighbors.zipWithIndex
+      .map { case (neigh, n) =>
+        s"\t$n: $neigh"
+      }
+      .mkString("\n")
+
+    s"""Nodes: $nodes
+       |Weight:
+       |$weightStr
+       |Neighbors:
+       |$neighStr
+       |""".stripMargin
+
+  }
 }
