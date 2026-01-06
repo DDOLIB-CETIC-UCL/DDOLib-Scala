@@ -6,7 +6,7 @@ import org.ddolib.ddo.core.frontier.Frontier
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
 import org.ddolib.modeling._
 import org.ddolibscala.common.dominance.SimpleDominanceChecker
-import org.ddolibscala.ddo.core.frontier.Frontier
+import org.ddolibscala.ddo.core.frontier.SimpleFrontier
 import org.ddolibscala.ddo.core.heuristics.width.FixedWidth
 
 object MispDdoMain {
@@ -26,7 +26,7 @@ object MispDdoMain {
 
       override def widthHeuristic(): WidthHeuristic[Set[Int]] = FixedWidth[Set[Int]](2)
 
-      override def frontier(): Frontier[Set[Int]] = Frontier(ranking())
+      override def frontier(): Frontier[Set[Int]] = SimpleFrontier(ranking())
 
       override def useCache(): Boolean = true
 
