@@ -71,7 +71,7 @@ class MispProblem(
 
   override def initialValue(): Double = 0.0
 
-  override def nextValues(state: Set[Int], variable: Int): Iterable[Int] = {
+  override def domainValues(state: Set[Int], variable: Int): Iterable[Int] = {
     if (state.contains(variable)) List(0, 1)
     else List(0)
   }
