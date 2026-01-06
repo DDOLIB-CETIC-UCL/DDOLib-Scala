@@ -78,7 +78,8 @@ class MispProblem(
 
   override def transition(state: Set[Int], decision: Decision): Set[Int] = {
     val variable: Int = decision.`var`()
-    (state - variable) diff neighbors(variable)
+    if (decision.`val`() == 1) (state - variable) diff neighbors(variable)
+    else state - variable
   }
 
   override def transitionCost(state: Set[Int], decision: Decision): Double =
@@ -115,11 +116,7 @@ class MispProblem(
 
   override def toString: String = {
     val weightStr = weight.zipWithIndex.map { case (w, n) => s"\t$n: $w" }.mkString("\n")
-    val neighStr = neighbors.zipWithIndex
-      .map { case (neigh, n) =>
-        s"\t$n: $neigh"
-      }
-      .mkString("\n")
+    val neighStr  = neighbors.zipWithIndex.map { case (neigh, n) => s"\t$n: $neigh" }.mkString("\n")
 
     s"""Nodes: $nodes
        |Weight:
