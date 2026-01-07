@@ -12,13 +12,16 @@ import org.ddolibscala.tools.dominance.SimpleDominanceChecker
 object MispDdoMain {
 
   def main(args: Array[String]): Unit = {
+
+    // Just an example to test if all is working. This is not the final user api
+
     val p = MispProblem("data/MISP/weighted.dot")
     println(p)
 
     val model: DdoModel[Set[Int]] = new DdoModel[Set[Int]] {
       override def problem(): Problem[Set[Int]] = p
 
-      override def relaxation(): Relaxation[Set[Int]] = MispRelaxation(p)
+      override def relaxation(): Relaxation[Set[Int]] = MispRelaxation()
 
       override def ranking(): StateRanking[Set[Int]] = MispRanking()
 
@@ -26,7 +29,8 @@ object MispDdoMain {
 
       override def widthHeuristic(): WidthHeuristic[Set[Int]] = FixedWidth[Set[Int]](2)
 
-      override def frontier(): Frontier[Set[Int]] = SimpleFrontier(ranking())
+      override def frontier(): Frontier[Set[Int]] =
+        SimpleFrontier(ranking()) // or SimpleFrontier.lastExactLayer(ranking())
 
       override def useCache(): Boolean = true
 

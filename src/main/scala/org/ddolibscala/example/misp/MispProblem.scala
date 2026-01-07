@@ -7,8 +7,24 @@ import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 import scala.util.Using
 
+/** Companion object of the   [[MispProblem]] class. */
 object MispProblem {
 
+  /** Returns an instance of the Maximum Independent Set Problem (MISP) as a
+    * [[org.ddolibscala.modeling.Problem]].
+    *
+    * @param nodes
+    *   all the nodes of the graph
+    * @param neighbors
+    *   adjacency list for each node
+    * @param weight
+    *   weight of each node
+    * @param optimal
+    *   the value of the optimal solution if known
+    * @return
+    *   an instance of the Maximum Independent Set Problem (MISP) as a
+    *   [[org.ddolibscala.modeling.Problem]].
+    */
   def apply(
     nodes: Set[Int],
     neighbors: Array[Set[Int]],
@@ -16,6 +32,15 @@ object MispProblem {
     optimal: Option[Double] = None
   ): MispProblem = new MispProblem(nodes, neighbors, weight, optimal)
 
+  /** Returns an instance of the Maximum Independent Set Problem (MISP) as a
+    * [[org.ddolibscala.modeling.Problem]] by reading a file.
+    *
+    * @param fname
+    *   The path to the data file
+    * @return
+    *   an instance of the Maximum Independent Set Problem (MISP) as a
+    *   [[org.ddolibscala.modeling.Problem]].
+    */
   def apply(fname: String): MispProblem = {
     val weight: ArrayBuffer[Int]   = ArrayBuffer()
     var neighbors: Array[Set[Int]] = Array()
@@ -56,6 +81,23 @@ object MispProblem {
   }
 }
 
+/** Represents an instance of the Maximum Independent Set Problem (MISP) as a
+  * [[org.ddolibscala.modeling.Problem]].
+  *
+  * <p> The problem is defined on a weighted undirected graph. Each node can either be included in
+  * the independent set or not, and selected nodes cannot be adjacent. </p> <p> The state of the
+  * problem is represented by a Set indicating which nodes can still be selected. The solver
+  * explores decisions for each node to build an independent set of maximum weight. </p>
+  *
+  * @param nodes
+  *   all the nodes of the graph
+  * @param neighbors
+  *   adjacency list for each node
+  * @param weight
+  *   weight of each node
+  * @param _optimal
+  *   the value of the optimal solution if known
+  */
 class MispProblem(
   nodes: Set[Int],
   val neighbors: Array[Set[Int]],
