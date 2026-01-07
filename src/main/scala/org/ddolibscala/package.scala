@@ -12,4 +12,19 @@ package object ddolibscala {
     val Frontier       = org.ddolib.ddo.core.frontier.CutSetType.Frontier
   }
 
+  type VerbosityLevel = org.ddolib.util.verbosity.VerbosityLevel
+  object VerbosityLevel {
+    val SILENT = org.ddolib.util.verbosity.VerbosityLevel.SILENT
+    val NORMAL = org.ddolib.util.verbosity.VerbosityLevel.NORMAL
+    val LARGE  = org.ddolib.util.verbosity.VerbosityLevel.LARGE
+    val EXPORT = org.ddolib.util.verbosity.VerbosityLevel.EXPORT
+  }
+
+  type DebugMode = org.ddolib.util.debug.DebugLevel
+  object DebugMode {
+    val OFF      = org.ddolib.util.debug.DebugLevel.OFF
+    val ON       = org.ddolib.util.debug.DebugLevel.ON
+    val EXTENDED = org.ddolib.util.debug.DebugLevel.EXTENDED
+  }
+
 }

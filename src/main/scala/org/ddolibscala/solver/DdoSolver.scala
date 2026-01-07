@@ -29,7 +29,7 @@ object DdoSolver {
     _exportDot: Boolean = false,
     _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
     _verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
-    _debugMode: DebugLevel = DebugLevel.OFF
+    _debugMode: DebugMode = DebugMode.OFF
   ): Solver = {
     val model: DdoModel[T] = new DdoModel[T] {
 

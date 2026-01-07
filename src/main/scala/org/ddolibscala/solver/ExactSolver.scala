@@ -19,7 +19,7 @@ object ExactSolver {
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
     _dominance: DominanceChecker[T] = DefaultDominanceChecker(),
     _verbosityLevel: VerbosityLevel = VerbosityLevel.SILENT,
-    _debugMode: DebugLevel = DebugLevel.OFF,
+    _debugMode: DebugMode = DebugMode.OFF,
     _exportDot: Boolean = false
   ): Solver = {
 
