@@ -5,7 +5,6 @@ import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.frontier.Frontier
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.ddo.core.solver.SequentialSolver
 import org.ddolib.modeling._
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
@@ -20,14 +19,14 @@ trait DdoSolver {
   def apply[T](
     _problem: Problem[T],
     _relaxation: Relaxation[T],
-    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     _ranking: StateRanking[T] = (_: T, _: T) => 0,
-    _widthHeuristic: WidthHeuristic[T] = FixedWidth(10),
+    _widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
     _frontier: FrontierType = FrontierType.LastExactLayer,
     _useCache: Boolean = false,
     _exportDot: Boolean = false,
-    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
     _debugMode: DebugMode = DebugMode.OFF
   ): Solver = {
@@ -43,8 +42,9 @@ trait DdoSolver {
 
       override def frontier(): Frontier[T] = {
         _frontier match {
-          case FrontierType.Frontier       => SimpleFrontier(ranking())
-          case FrontierType.LastExactLayer => SimpleFrontier.lastExactLayer(ranking())
+          case FrontierType.Frontier       => SimpleFrontier[T](ranking())
+          case FrontierType.LastExactLayer => SimpleFrontier.lastExactLayer[T](ranking())
+          case x => throw new IllegalArgumentException(s"Unhandled case: $x")
         }
       }
 
@@ -63,7 +63,7 @@ trait DdoSolver {
       override def debugMode(): DebugLevel = _debugMode
     }
 
-    new SequentialSolver[T](model)
+    new Solver(new org.ddolib.ddo.core.solver.SequentialSolver[T](model))
   }
 
 }

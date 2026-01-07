@@ -1,7 +1,6 @@
 package org.ddolibscala
 package solver
 
-import org.ddolib.acs.core.solver.ACSSolver
 import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.modeling.{AcsModel, FastLowerBound, Problem}
@@ -39,7 +38,7 @@ trait AcsSolver {
       override def debugMode(): DebugLevel = _debugMode
     }
 
-    new ACSSolver[T](model)
+    new Solver(new org.ddolib.acs.core.solver.ACSSolver[T](model))
 
   }
 

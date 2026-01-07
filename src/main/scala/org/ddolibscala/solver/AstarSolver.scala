@@ -1,7 +1,6 @@
 package org.ddolibscala
 package solver
 
-import org.ddolib.astar.core.solver.AStarSolver
 import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.modeling.{FastLowerBound, Model, Problem}
@@ -15,9 +14,9 @@ trait AstarSolver {
 
   def apply[T](
     _problem: Problem[T],
-    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
     _debugMode: DebugMode = DebugMode.OFF
   ): Solver = {
@@ -36,7 +35,7 @@ trait AstarSolver {
       override def debugMode(): DebugLevel = _debugMode
     }
 
-    new AStarSolver[T](model)
+    new Solver(new org.ddolib.astar.core.solver.AStarSolver[T](model))
   }
 
 }

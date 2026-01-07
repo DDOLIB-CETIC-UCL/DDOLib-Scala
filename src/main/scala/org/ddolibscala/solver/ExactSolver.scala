@@ -45,7 +45,7 @@ trait ExactSolver {
       override def debugMode(): DebugLevel = _debugMode
     }
 
-    new ExactSolver[T](model)
+    new Solver(new org.ddolib.ddo.core.solver.ExactSolver[T](model))
 
   }
 
