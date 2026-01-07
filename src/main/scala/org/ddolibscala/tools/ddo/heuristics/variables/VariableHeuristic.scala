@@ -1,4 +1,4 @@
-package org.ddolibscala.ddo.core.heuristics.variables
+package org.ddolibscala.tools.ddo.heuristics.variables
 
 import scala.jdk.CollectionConverters.{IterableHasAsScala, IteratorHasAsScala}
 

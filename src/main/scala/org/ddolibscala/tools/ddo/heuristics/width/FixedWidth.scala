@@ -1,4 +1,4 @@
-package org.ddolibscala.ddo.core.heuristics.width
+package org.ddolibscala.tools.ddo.heuristics.width
 
 object FixedWidth {
   def apply[T](width: Int): FixedWidth[T] = new FixedWidth(width)

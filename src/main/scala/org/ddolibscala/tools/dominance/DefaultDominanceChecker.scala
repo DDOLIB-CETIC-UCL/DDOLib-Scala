@@ -1,4 +1,4 @@
-package org.ddolibscala.common.dominance
+package org.ddolibscala.tools.dominance
 
 import org.ddolibscala.modeling.Dominance
 

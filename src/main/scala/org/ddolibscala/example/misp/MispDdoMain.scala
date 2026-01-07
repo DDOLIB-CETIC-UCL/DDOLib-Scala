@@ -5,9 +5,9 @@ import org.ddolib.common.solver.Solution
 import org.ddolib.ddo.core.frontier.Frontier
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
 import org.ddolib.modeling._
-import org.ddolibscala.common.dominance.SimpleDominanceChecker
-import org.ddolibscala.ddo.core.frontier.SimpleFrontier
-import org.ddolibscala.ddo.core.heuristics.width.FixedWidth
+import org.ddolibscala.tools.ddo.frontier.SimpleFrontier
+import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
+import org.ddolibscala.tools.dominance.SimpleDominanceChecker
 
 object MispDdoMain {
 

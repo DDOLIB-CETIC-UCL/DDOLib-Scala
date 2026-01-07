@@ -1,4 +1,4 @@
-package org.ddolibscala.ddo.core.frontier
+package org.ddolibscala.tools.ddo.frontier
 
 import org.ddolib.modeling.StateRanking
 
