@@ -15,7 +15,7 @@ import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
-object DdoSolver {
+trait DdoSolver {
 
   def apply[T](
     _problem: Problem[T],

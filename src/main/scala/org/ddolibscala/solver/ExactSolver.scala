@@ -3,7 +3,6 @@ package solver
 
 import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.Decision
-import org.ddolib.ddo.core.solver.ExactSolver
 import org.ddolib.modeling._
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
@@ -12,7 +11,7 @@ import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
 import java.util
 
-object ExactSolver {
+trait ExactSolver {
 
   def apply[T](
     _problem: Problem[T],

@@ -1,5 +1,7 @@
 package org
 
+import org.ddolibscala.solver._
+
 package object ddolibscala {
 
   type Solver          = org.ddolib.common.solver.Solver
@@ -27,4 +29,8 @@ package object ddolibscala {
     val EXTENDED = org.ddolib.util.debug.DebugLevel.EXTENDED
   }
 
+  object ddoSolver   extends DdoSolver
+  object exactSolver extends ExactSolver
+  object astarSolver extends AstarSolver
+  object acsSolver   extends AcsSolver
 }

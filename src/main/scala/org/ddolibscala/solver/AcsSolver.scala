@@ -11,7 +11,7 @@ import org.ddolibscala.modeling.DefaultFastLowerBound
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
-object AcsSolver {
+trait AcsSolver {
 
   def apply[T](
     _problem: Problem[T],
