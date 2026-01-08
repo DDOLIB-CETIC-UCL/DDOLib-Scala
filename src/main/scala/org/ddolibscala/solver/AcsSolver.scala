@@ -9,6 +9,8 @@ import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
+import org.ddolibscala.util.VerbosityLvl.SILENT
+import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 
 /** Defines factory for an
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime Column Search (ACS) solver]]
@@ -45,7 +47,7 @@ trait AcsSolver {
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
     dominance: DominanceChecker[T] = DefaultDominanceChecker(),
     variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
-    verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
+    verbosityLvl: VerbosityLvl = SILENT,
     debugMode: DebugMode = DebugMode.OFF
   ): Solver = {
     initSolver(
@@ -65,12 +67,12 @@ trait AcsSolver {
     */
   private def initSolver[T](
     _problem: Problem[T],
-    _columnWidth: Int = 5,
-    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
-    _verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
-    _debugMode: DebugMode = DebugMode.OFF
+    _columnWidth: Int,
+    _lowerBound: FastLowerBound[T],
+    _dominance: DominanceChecker[T],
+    _variableHeuristic: VariableHeuristic[T],
+    _verbosityLvl: VerbosityLvl,
+    _debugMode: DebugMode
   ): Solver = {
 
     val model: AcsModel[T] = new AcsModel[T] {
@@ -84,9 +86,9 @@ trait AcsSolver {
 
       override def variableHeuristic(): VariableHeuristic[T] = _variableHeuristic
 
-      override def verbosityLevel(): VerbosityLevel = _verbosityLvl
+      override def verbosityLevel(): VerbosityLevel = _verbosityLvl.toJava
 
-      override def debugMode(): DebugLevel = _debugMode
+      override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
     new Solver(new org.ddolib.acs.core.solver.ACSSolver[T](model))

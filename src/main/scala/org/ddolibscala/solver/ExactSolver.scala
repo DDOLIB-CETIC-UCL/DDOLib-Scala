@@ -8,6 +8,7 @@ import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
+import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 
 import java.util
 
@@ -45,7 +46,7 @@ trait ExactSolver {
     problem: Problem[T],
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
     dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
+    verbosityLvl: VerbosityLvl = VerbosityLvl.SILENT,
     debugMode: DebugMode = DebugMode.OFF,
     exportDot: Boolean = false
   ): Solver = {
@@ -57,11 +58,11 @@ trait ExactSolver {
     */
   private def initSolver[T](
     _problem: Problem[T],
-    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    _verbosityLevel: VerbosityLevel = VerbosityLevel.SILENT,
-    _debugMode: DebugMode = DebugMode.OFF,
-    _exportDot: Boolean = false
+    _lowerBound: FastLowerBound[T],
+    _dominance: DominanceChecker[T],
+    _verbosityLevel: VerbosityLvl,
+    _debugMode: DebugMode,
+    _exportDot: Boolean
   ): Solver = {
 
     // Relaxation is not used by the exact by asked by the MDD. We can use relaxation that does nothing
@@ -82,9 +83,9 @@ trait ExactSolver {
 
       override def dominance(): DominanceChecker[T] = _dominance
 
-      override def verbosityLevel(): VerbosityLevel = _verbosityLevel
+      override def verbosityLevel(): VerbosityLevel = _verbosityLevel.toJava
 
-      override def debugMode(): DebugLevel = _debugMode
+      override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
     new Solver(new org.ddolib.ddo.core.solver.ExactSolver[T](model))
