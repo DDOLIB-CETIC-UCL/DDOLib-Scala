@@ -196,7 +196,7 @@ object Solver {
 
 }
 
-/** Class packaging a solver
+/** Class packaging a Java solver
   *
   * @param javaSolver
   *   a solver from java version of DDOLib
@@ -205,7 +205,7 @@ class Solver(javaSolver: org.ddolib.common.solver.Solver) {
 
   /** Minimizes the objective function according to the solver strategy.
     *
-    * <p> It converts input and output from java to scala and vice versa </p>
+    * <p> It converts input and output from Java to Scala and vice versa </p>
     *
     * @param limit
     *   a predicate that can limit or stop the search based on current

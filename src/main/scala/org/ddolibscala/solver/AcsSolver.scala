@@ -62,7 +62,7 @@ object AcsSolver {
 
   }
 
-  /** Internal method that initialize the solver allowing simpler parameters' name in the `apply`
+  /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
     * method.
     */
   private def initSolver[T](

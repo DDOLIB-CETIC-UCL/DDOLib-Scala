@@ -50,7 +50,7 @@ object AstarSolver {
     initSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)
   }
 
-  /** Internal method that initialize the solver  allowing simpler parameters' name in the `apply` method. */
+  /** Internal method that initializes the solver  allowing simpler parameters' name in the `apply` method. */
   private def initSolver[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T],
