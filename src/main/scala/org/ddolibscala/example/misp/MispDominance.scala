@@ -2,6 +2,8 @@ package org.ddolibscala.example.misp
 
 import org.ddolibscala.modeling.Dominance
 
+import scala.collection.immutable.BitSet
+
 /** Companion object of the [[MispDominance]] class. */
 object MispDominance {
 
@@ -19,10 +21,10 @@ object MispDominance {
   * vertices selected in `state1` are also selected in `state2`. This allows pruning suboptimal
   * states during the search. </p>
   */
-class MispDominance extends Dominance[Set[Int]] {
+class MispDominance extends Dominance[BitSet] {
 
-  override def key(state: Set[Int]) = 0
+  override def key(state: BitSet) = 0
 
-  override def isDominatedOrEqual(state1: Set[Int], state2: Set[Int]): Boolean =
+  override def isDominatedOrEqual(state1: BitSet, state2: BitSet): Boolean =
     state1.subsetOf(state2)
 }

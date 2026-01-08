@@ -9,6 +9,8 @@ import org.ddolibscala.tools.ddo.frontier.SimpleFrontier
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.SimpleDominanceChecker
 
+import scala.collection.immutable.BitSet
+
 object MispDdoMain {
 
   def main(args: Array[String]): Unit = {
@@ -18,24 +20,24 @@ object MispDdoMain {
     val p = MispProblem("data/MISP/weighted.dot")
     println(p)
 
-    val model: DdoModel[Set[Int]] = new DdoModel[Set[Int]] {
-      override def problem(): Problem[Set[Int]] = p
+    val model: DdoModel[BitSet] = new DdoModel[BitSet] {
+      override def problem(): Problem[BitSet] = p
 
-      override def relaxation(): Relaxation[Set[Int]] = MispRelaxation()
+      override def relaxation(): Relaxation[BitSet] = MispRelaxation()
 
-      override def ranking(): StateRanking[Set[Int]] = MispRanking()
+      override def ranking(): StateRanking[BitSet] = MispRanking()
 
-      override def lowerBound(): FastLowerBound[Set[Int]] = MispFlb(p)
+      override def lowerBound(): FastLowerBound[BitSet] = MispFlb(p)
 
-      override def widthHeuristic(): WidthHeuristic[Set[Int]] = FixedWidth[Set[Int]](2)
+      override def widthHeuristic(): WidthHeuristic[BitSet] = FixedWidth[BitSet](2)
 
-      override def frontier(): Frontier[Set[Int]] =
+      override def frontier(): Frontier[BitSet] =
         SimpleFrontier(ranking()) // or SimpleFrontier.lastExactLayer(ranking())
 
       override def useCache(): Boolean = true
 
-      override def dominance(): DominanceChecker[Set[Int]] =
-        SimpleDominanceChecker[Set[Int]](MispDominance(), p.nbVars())
+      override def dominance(): DominanceChecker[BitSet] =
+        SimpleDominanceChecker[BitSet](MispDominance(), p.nbVars())
 
       override def exportDot(): Boolean = true
     }

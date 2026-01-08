@@ -3,6 +3,7 @@ package org.ddolibscala.example.misp
 import org.ddolib.ddo.core.Decision
 import org.ddolibscala.modeling.Problem
 
+import scala.collection.immutable.BitSet
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 import scala.util.Using
@@ -26,8 +27,8 @@ object MispProblem {
     *   [[org.ddolibscala.modeling.Problem]].
     */
   def apply(
-    nodes: Set[Int],
-    neighbors: Array[Set[Int]],
+    nodes: BitSet,
+    neighbors: Array[BitSet],
     weights: Array[Int],
     optimal: Option[Double] = None
   ): MispProblem = new MispProblem(nodes, neighbors, weights, optimal)
@@ -42,10 +43,10 @@ object MispProblem {
     *   [[org.ddolibscala.modeling.Problem]].
     */
   def apply(fname: String): MispProblem = {
-    val weights: ArrayBuffer[Int]  = ArrayBuffer()
-    var neighbors: Array[Set[Int]] = Array()
-    var opti: Option[Double]       = None
-    var numNodes: Int              = 0
+    val weights: ArrayBuffer[Int] = ArrayBuffer()
+    var neighbors: Array[BitSet]  = Array()
+    var opti: Option[Double]      = None
+    var numNodes: Int             = 0
 
     Using(Source.fromFile(fname)) { source =>
       val (nodesLines, edgesLines) = source.getLines().drop(1).span(!_.contains("--"))
@@ -65,7 +66,7 @@ object MispProblem {
       }
 
       numNodes = weights.length
-      neighbors = Array.fill(numNodes)(Set.empty)
+      neighbors = Array.fill(numNodes)(BitSet())
 
       for (line <- edgesLines.takeWhile(_ != "}") if line.trim.nonEmpty) {
         val tokens: Array[String] = line.trim.replace(" ", "").replace(";", "").split("--")
@@ -76,7 +77,7 @@ object MispProblem {
       }
     }
 
-    MispProblem((0 until numNodes).toSet, neighbors, weights.toArray, opti)
+    MispProblem(BitSet.fromSpecific(0 until numNodes), neighbors, weights.toArray, opti)
 
   }
 }
@@ -99,32 +100,32 @@ object MispProblem {
   *   the value of the optimal solution if known
   */
 class MispProblem(
-  nodes: Set[Int],
-  val neighbors: Array[Set[Int]],
+  nodes: BitSet,
+  val neighbors: Array[BitSet],
   val weights: Array[Int],
   _optimal: Option[Double]
-) extends Problem[Set[Int]] {
+) extends Problem[BitSet] {
 
   override def optimal: Option[Double] = _optimal
 
   override def nbVars(): Int = weights.length
 
-  override def initialState(): Set[Int] = nodes
+  override def initialState(): BitSet = nodes
 
   override def initialValue(): Double = 0.0
 
-  override def domainValues(state: Set[Int], variable: Int): Iterable[Int] = {
+  override def domainValues(state: BitSet, variable: Int): Iterable[Int] = {
     if (state.contains(variable)) List(0, 1)
     else List(0)
   }
 
-  override def transition(state: Set[Int], decision: Decision): Set[Int] = {
+  override def transition(state: BitSet, decision: Decision): BitSet = {
     val variable: Int = decision.`var`()
     if (decision.`val`() == 1) (state - variable) diff neighbors(variable)
     else state - variable
   }
 
-  override def transitionCost(state: Set[Int], decision: Decision): Double =
+  override def transitionCost(state: BitSet, decision: Decision): Double =
     -weights(decision.`var`()) * decision.`val`()
 
   override def evaluate(solution: Array[Int]): Double = {

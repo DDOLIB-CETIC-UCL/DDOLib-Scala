@@ -3,6 +3,8 @@ package org.ddolibscala.example.misp
 import org.ddolib.ddo.core.Decision
 import org.ddolibscala.modeling.Relaxation
 
+import scala.collection.immutable.BitSet
+
 /** Companion object of the [[MispRelaxation]] class.
   */
 object MispRelaxation {
@@ -35,18 +37,18 @@ object MispRelaxation {
   *     available in at least one state are considered available in the merged state.
   *   - The edge relaxation does not modify the transition cost; it returns the original cost.
   */
-class MispRelaxation extends Relaxation[Set[Int]] {
+class MispRelaxation extends Relaxation[BitSet] {
 
-  override def merge(statesToMerge: Iterable[Set[Int]]): Set[Int] = {
-    var merged: Set[Int] = Set.empty
+  override def merge(statesToMerge: Iterable[BitSet]): BitSet = {
+    var merged: BitSet = BitSet()
     for (state <- statesToMerge) merged = merged union state
     merged
   }
 
   override def relaxEdge(
-    from: Set[Int],
-    to: Set[Int],
-    merged: Set[Int],
+    from: BitSet,
+    to: BitSet,
+    merged: BitSet,
     decision: Decision,
     cost: Double
   ): Double = cost

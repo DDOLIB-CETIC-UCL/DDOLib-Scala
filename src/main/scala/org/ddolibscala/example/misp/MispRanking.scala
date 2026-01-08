@@ -2,6 +2,8 @@ package org.ddolibscala.example.misp
 
 import org.ddolibscala.modeling.StateRanking
 
+import scala.collection.immutable.BitSet
+
 /** Companion object of the [[MispRanking]] class. */
 object MispRanking {
 
@@ -21,9 +23,9 @@ object MispRanking {
   * <p> The ranking is based on the number of remaining nodes in the state: a state with more
   * remaining nodes is considered more promising for exploration in a decision diagram. </p>
   */
-class MispRanking extends StateRanking[Set[Int]] {
+class MispRanking extends StateRanking[BitSet] {
 
-  override def rank(state1: Set[Int], state2: Set[Int]): Int = {
+  override def rank(state1: BitSet, state2: BitSet): Int = {
     state1.size.compare(state2.size)
   }
 

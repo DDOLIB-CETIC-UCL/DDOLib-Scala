@@ -2,6 +2,8 @@ package org.ddolibscala.example.misp
 
 import org.ddolibscala.modeling.FastLowerBound
 
+import scala.collection.immutable.BitSet
+
 /** Companion object of the [[MispFlb]] class.
   */
 object MispFlb {
@@ -22,8 +24,8 @@ object MispFlb {
   * @param problem
   *   the associated MISP problem instance
   */
-class MispFlb(problem: MispProblem) extends FastLowerBound[Set[Int]] {
+class MispFlb(problem: MispProblem) extends FastLowerBound[BitSet] {
 
-  override def lowerBound(state: Set[Int], variables: Iterable[Int]): Double =
+  override def lowerBound(state: BitSet, variables: Iterable[Int]): Double =
     -state.map(node => problem.weights(node)).sum
 }
