@@ -65,7 +65,7 @@ object ExactSolver {
     _exportDot: Boolean
   ): Solver = {
 
-    // Relaxation is not used by the exact solver asked by the MDD. We can use relaxation that does nothing
+    // Relaxation is not used by the exact solver but asked by the MDD. We can use relaxation that does nothing
     val dummyRelaxation = new Relaxation[T] {
       override def mergeStates(iterator: util.Iterator[T]): T = ???
 
