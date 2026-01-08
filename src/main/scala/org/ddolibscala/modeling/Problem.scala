@@ -32,7 +32,8 @@ trait Problem[T] extends org.ddolib.modeling.Problem[T] {
     */
   def optimal: Option[Double] = None
 
-  /** The total number of decision variables in this problem.
+  /** Returns the total number of decision variables in this problem.
+      *
     * @return
     *   the total number of decision variables in this problem
     */
