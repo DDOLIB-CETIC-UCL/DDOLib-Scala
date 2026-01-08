@@ -25,5 +25,5 @@ object MispFlb {
 class MispFlb(problem: MispProblem) extends FastLowerBound[Set[Int]] {
 
   override def lowerBound(state: Set[Int], variables: Iterable[Int]): Double =
-    -state.map(node => problem.weight(node)).sum
+    -state.map(node => problem.weights(node)).sum
 }
