@@ -13,7 +13,7 @@ object DefaultStateRanking {
 
 /** Default implementation of the [[StateRanking]] trait where all the states are equals.
   *
-  * <p>his implementation can be used as a placeholder or a fallback when no meaningful ranking is
+  * <p>This implementation can be used as a placeholder or a fallback when no meaningful ranking is
   * available for a given problem.</p>
   *
   * @tparam T

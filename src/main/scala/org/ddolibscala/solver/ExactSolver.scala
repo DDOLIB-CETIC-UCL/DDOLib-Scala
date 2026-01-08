@@ -16,7 +16,7 @@ import java.util
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
   *
   * @note
-  *   This solver generate a complete decision diagram. It must be used on small instances for debug
+  *   This solver generate a complete decision diagram. It must only be used on small instances for debug
   *   purpose.
   */
 object ExactSolver {
@@ -65,7 +65,7 @@ object ExactSolver {
     _exportDot: Boolean
   ): Solver = {
 
-    // Relaxation is not used by the exact by asked by the MDD. We can use relaxation that does nothing
+    // Relaxation is not used by the exact solver asked by the MDD. We can use relaxation that does nothing
     val dummyRelaxation = new Relaxation[T] {
       override def mergeStates(iterator: util.Iterator[T]): T = ???
 
