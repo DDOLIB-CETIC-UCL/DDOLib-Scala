@@ -56,18 +56,18 @@ trait DdoSolver {
     *   a solver based on the DDO algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    relaxation: Relaxation[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    ranking: StateRanking[T] = DefaultStateRanking[T](),
-    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-    frontier: FrontierType = FrontierType.LastExactLayer,
-    useCache: Boolean = false,
-    exportDot: Boolean = false,
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
-    debugMode: DebugMode = DebugMode.OFF
+                problem: Problem[T],
+                relaxation: Relaxation[T],
+                lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+                dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+                ranking: StateRanking[T] = DefaultStateRanking[T](),
+                widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+                frontier: CutSetType = CutSetType.LastExactLayer,
+                useCache: Boolean = false,
+                exportDot: Boolean = false,
+                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+                verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
+                debugMode: DebugMode = DebugMode.OFF
   ): Solver = {
     initSolver(
       problem,
@@ -87,18 +87,18 @@ trait DdoSolver {
 
   /** Internal method that initialize the solver  allowing simpler parameters' name in the `apply` method. */
   private def initSolver[T](
-    _problem: Problem[T],
-    _relaxation: Relaxation[T],
-    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    _ranking: StateRanking[T] = DefaultStateRanking[T](),
-    _widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-    _frontier: FrontierType = FrontierType.LastExactLayer,
-    _useCache: Boolean = false,
-    _exportDot: Boolean = false,
-    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    _verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
-    _debugMode: DebugMode = DebugMode.OFF
+                             _problem: Problem[T],
+                             _relaxation: Relaxation[T],
+                             _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+                             _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+                             _ranking: StateRanking[T] = DefaultStateRanking[T](),
+                             _widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+                             _frontier: CutSetType = CutSetType.LastExactLayer,
+                             _useCache: Boolean = false,
+                             _exportDot: Boolean = false,
+                             _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+                             _verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
+                             _debugMode: DebugMode = DebugMode.OFF
   ): Solver = {
     val model: DdoModel[T] = new DdoModel[T] {
 
@@ -112,8 +112,8 @@ trait DdoSolver {
 
       override def frontier(): Frontier[T] = {
         _frontier match {
-          case FrontierType.Frontier       => SimpleFrontier[T](ranking())
-          case FrontierType.LastExactLayer => SimpleFrontier.lastExactLayer[T](ranking())
+          case CutSetType.Frontier       => SimpleFrontier[T](ranking())
+          case CutSetType.LastExactLayer => SimpleFrontier.lastExactLayer[T](ranking())
           case x => throw new IllegalArgumentException(s"Unhandled case: $x")
         }
       }
