@@ -5,7 +5,7 @@ import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.frontier.Frontier
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling._
+import org.ddolib.modeling.*
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
@@ -14,8 +14,47 @@ import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
+/** Defines factory for a
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
+  */
 trait DdoSolver {
 
+  /** Instantiates and returns a
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
+    *
+    * @param problem
+    *   the structure defining the structure, transitions, and objective function of the
+    *   optimization task
+    * @param relaxation
+    *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram.
+    * @param lowerBound
+    *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param dominance
+    *   the dominance checker used to prune dominated states from the search space
+    * @param ranking
+    *   the heuristic used to determine the next variable to branch on during decision diagram
+    *   compilation
+    * @param widthHeuristic
+    *   heuristic controlling the maximum number of nodes per layer
+    * @param frontier
+    *   type of frontier management strategy used to store and expand the current layer of the
+    *   decision diagram.
+    * @param useCache
+    *   whether caching mechanism must be used
+    * @param exportDot
+    *   whether the generated diagram must be exported to DOT file
+    * @param variableHeuristic
+    *   the heuristic used to determine the next variable to branch on during decision diagram
+    *   compilation
+    * @param verbosityLvl
+    *   the verbosity level of the solver when this model is executed
+    * @param debugMode
+    *   the debugging level to apply during the compilation and solving phases
+    * @tparam T
+    *   the type representing a state in the problem
+    * @return
+    *   a solver based on the DDO algorithm
+    */
   def apply[T](
     problem: Problem[T],
     relaxation: Relaxation[T],
@@ -46,6 +85,7 @@ trait DdoSolver {
     )
   }
 
+  /** Internal method that initialize the solver  allowing simpler parameters' name in the `apply` method. */
   private def initSolver[T](
     _problem: Problem[T],
     _relaxation: Relaxation[T],

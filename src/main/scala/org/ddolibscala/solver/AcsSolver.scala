@@ -10,8 +10,35 @@ import org.ddolibscala.modeling.DefaultFastLowerBound
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
+/** Defines factory for an
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime Column Search (ACS) solver]]
+  */
 trait AcsSolver {
 
+  /** Instantiates and returns an
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime column search (ACS) solver]]
+    *
+    * @param problem
+    *   the structure defining the structure, transitions, and objective function of the
+    *   optimization task
+    * @param columnWidth
+    *   column width used for formatted output during the Anytime Column Search process.
+    * @param lowerBound
+    *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param dominance
+    *   the dominance checker used to prune dominated states from the search space
+    * @param variableHeuristic
+    *   the heuristic used to determine the next variable to branch on during decision diagram
+    *   compilation
+    * @param verbosityLvl
+    *   the verbosity level of the solver when this model is executed
+    * @param debugMode
+    *   the debugging level to apply during the compilation and solving phases
+    * @tparam T
+    *   the type representing a state in the problem
+    * @return
+    *   a solver based on the ACS algorithm
+    */
   def apply[T](
     problem: Problem[T],
     columnWidth: Int = 5,
@@ -33,6 +60,9 @@ trait AcsSolver {
 
   }
 
+  /** Internal method that initialize the solver allowing simpler parameters' name in the `apply`
+    * method.
+    */
   private def initSolver[T](
     _problem: Problem[T],
     _columnWidth: Int = 5,
