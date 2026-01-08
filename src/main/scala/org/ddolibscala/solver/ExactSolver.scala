@@ -16,8 +16,8 @@ import java.util
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
   *
   * @note
-  *   This solver generate a complete decision diagram. It must only be used on small instances for debug
-  *   purpose.
+  *   This solver generate a complete decision diagram. It must only be used on small instances for
+  *   debug purpose.
   */
 object ExactSolver {
 
@@ -43,12 +43,12 @@ object ExactSolver {
     *   a solver that generate a complete decision diagram to solve the problem
     */
   def apply[T](
-                problem: Problem[T],
-                lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-                dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-                debugMode: DebugMode = DebugMode.Off,
-                exportDot: Boolean = false
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    debugMode: DebugMode = DebugMode.Off,
+    exportDot: Boolean = false
   ): Solver = {
     initSolver(problem, lowerBound, dominance, verbosityLvl, debugMode, exportDot)
   }

@@ -55,18 +55,18 @@ object Solver {
     *   a solver based on the DDO algorithm
     */
   def ddo[T](
-              problem: Problem[T],
-              relaxation: Relaxation[T],
-              lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-              dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-              ranking: StateRanking[T] = DefaultStateRanking[T](),
-              widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-              frontier: CutSetType = CutSetType.LastExactLayer,
-              useCache: Boolean = false,
-              exportDot: Boolean = false,
-              variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-              verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-              debugMode: DebugMode = DebugMode.Off
+    problem: Problem[T],
+    relaxation: Relaxation[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    ranking: StateRanking[T] = DefaultStateRanking[T](),
+    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+    frontier: CutSetType = CutSetType.LastExactLayer,
+    useCache: Boolean = false,
+    exportDot: Boolean = false,
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     DdoSolver(
       problem,
@@ -106,12 +106,12 @@ object Solver {
     *   a solver that generate a complete decision diagram to solve the problem
     */
   def exact[T](
-                problem: Problem[T],
-                lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-                dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-                debugMode: DebugMode = DebugMode.Off,
-                exportDot: Boolean = false
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    debugMode: DebugMode = DebugMode.Off,
+    exportDot: Boolean = false
   ): Solver = {
     ExactSolver(problem, lowerBound, dominance, verbosityLvl, debugMode, exportDot)
 
@@ -140,12 +140,12 @@ object Solver {
     *   a solver based on the A* algorithm
     */
   def astar[T](
-                problem: Problem[T],
-                lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-                dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-                debugMode: DebugMode = DebugMode.Off
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     AstarSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)
   }
@@ -175,13 +175,13 @@ object Solver {
     *   a solver based on the ACS algorithm
     */
   def acs[T](
-              problem: Problem[T],
-              columnWidth: Int = 5,
-              lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-              dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-              variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
-              verbosityLvl: VerbosityLvl = Silent,
-              debugMode: DebugMode = DebugMode.Off
+    problem: Problem[T],
+    columnWidth: Int = 5,
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+    verbosityLvl: VerbosityLvl = Silent,
+    debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     AcsSolver(
       problem,

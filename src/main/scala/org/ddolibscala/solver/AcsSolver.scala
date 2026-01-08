@@ -42,13 +42,13 @@ object AcsSolver {
     *   a solver based on the ACS algorithm
     */
   def apply[T](
-                problem: Problem[T],
-                columnWidth: Int = 5,
-                lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-                dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
-                verbosityLvl: VerbosityLvl = Silent,
-                debugMode: DebugMode = DebugMode.Off
+    problem: Problem[T],
+    columnWidth: Int = 5,
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+    verbosityLvl: VerbosityLvl = Silent,
+    debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     initSolver(
       problem,

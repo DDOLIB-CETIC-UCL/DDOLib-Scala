@@ -9,7 +9,6 @@ import org.ddolib.modeling.*
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
-import org.ddolibscala.tools.ddo.frontier.CutSetType.LastExactLayer
 import org.ddolibscala.tools.ddo.frontier.{CutSetType, SimpleFrontier}
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
@@ -58,18 +57,18 @@ object DdoSolver {
     *   a solver based on the DDO algorithm
     */
   def apply[T](
-                problem: Problem[T],
-                relaxation: Relaxation[T],
-                lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-                dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-                ranking: StateRanking[T] = DefaultStateRanking[T](),
-                widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-                frontier: CutSetType = CutSetType.LastExactLayer,
-                useCache: Boolean = false,
-                exportDot: Boolean = false,
-                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-                debugMode: DebugMode = DebugMode.Off
+    problem: Problem[T],
+    relaxation: Relaxation[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    ranking: StateRanking[T] = DefaultStateRanking[T](),
+    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+    frontier: CutSetType = CutSetType.LastExactLayer,
+    useCache: Boolean = false,
+    exportDot: Boolean = false,
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     initSolver(
       problem,

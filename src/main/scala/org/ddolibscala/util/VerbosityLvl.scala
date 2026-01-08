@@ -36,7 +36,7 @@ enum VerbosityLvl {
   /** Same that [[Large]] but saves the logs into `logs.txt` file. */
   case Export
 
-  /** Converts this enum into Java enum.*/
+  /** Converts this enum into Java enum. */
   def toJava: JavaVerbosityLvl = {
     this match {
       case Silent => JavaVerbosityLvl.SILENT

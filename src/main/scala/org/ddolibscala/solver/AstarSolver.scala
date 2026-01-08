@@ -39,24 +39,26 @@ object AstarSolver {
     *   a solver based on the A* algorithm
     */
   def apply[T](
-                problem: Problem[T],
-                lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-                dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-                debugMode: DebugMode = DebugMode.Off
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    debugMode: DebugMode = DebugMode.Off
   ): Solver = {
 
     initSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)
   }
 
-  /** Internal method that initializes the solver  allowing simpler parameters' name in the `apply` method. */
+  /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
+    * method.
+    */
   private def initSolver[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T],
     _dominance: DominanceChecker[T],
-    _variableHeuristic: VariableHeuristic[T] ,
-    _verbosityLvl: VerbosityLvl ,
+    _variableHeuristic: VariableHeuristic[T],
+    _verbosityLvl: VerbosityLvl,
     _debugMode: DebugMode
   ): Solver = {
 

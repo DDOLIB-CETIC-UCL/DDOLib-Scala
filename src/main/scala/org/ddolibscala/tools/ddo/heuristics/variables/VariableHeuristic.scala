@@ -4,8 +4,6 @@ import scala.jdk.CollectionConverters.{IterableHasAsScala, IteratorHasAsScala}
 
 trait VariableHeuristic[T] extends org.ddolib.ddo.core.heuristics.variable.VariableHeuristic[T] {
 
-  def next(variables: Iterable[Int], states: Iterable[T]): Int
-
   final override def nextVariable(
     variables: java.util.Set[java.lang.Integer],
     states: java.util.Iterator[T]
@@ -14,4 +12,6 @@ trait VariableHeuristic[T] extends org.ddolib.ddo.core.heuristics.variable.Varia
     val scalaStates: Iterable[T] = states.asScala.to(Iterable)
     java.lang.Integer.valueOf(next(scalaVar, scalaStates))
   }
+
+  def next(variables: Iterable[Int], states: Iterable[T]): Int
 }
