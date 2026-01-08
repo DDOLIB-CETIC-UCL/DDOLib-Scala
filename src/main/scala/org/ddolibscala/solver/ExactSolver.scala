@@ -14,6 +14,17 @@ import java.util
 trait ExactSolver {
 
   def apply[T](
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    verbosityLevel: VerbosityLevel = VerbosityLevel.SILENT,
+    debugMode: DebugMode = DebugMode.OFF,
+    exportDot: Boolean = false
+  ): Solver = {
+    initSolver(problem, lowerBound, dominance, verbosityLevel, debugMode, exportDot)
+  }
+
+  private def initSolver[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
     _dominance: DominanceChecker[T] = DefaultDominanceChecker(),
@@ -46,7 +57,6 @@ trait ExactSolver {
     }
 
     new Solver(new org.ddolib.ddo.core.solver.ExactSolver[T](model))
-
   }
 
 }

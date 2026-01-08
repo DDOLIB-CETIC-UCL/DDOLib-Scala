@@ -1,48 +1,29 @@
-package org.ddolibscala.example.misp
+package org.ddolibscala
+package example.misp
 
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.common.solver.Solution
-import org.ddolib.ddo.core.frontier.Frontier
-import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling._
-import org.ddolibscala.tools.ddo.frontier.SimpleFrontier
+import org.ddolib.util.io.SolutionPrinter
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
-import org.ddolibscala.tools.dominance.SimpleDominanceChecker
 
 object MispDdoMain {
 
   def main(args: Array[String]): Unit = {
 
-    // Just an example to test if all is working. This is not the final user api
+    val problem = MispProblem("data/MISP/weighted.dot")
+    val solver: Solver =
+      DdoSolver(
+        problem = problem,
+        relaxation = MispRelaxation(),
+        lowerBound = MispFlb(problem),
+        widthHeuristic = FixedWidth(2),
+        ranking = MispRanking()
+      )
 
-    val p = MispProblem("data/MISP/weighted.dot")
-    println(p)
-
-    val model: DdoModel[Set[Int]] = new DdoModel[Set[Int]] {
-      override def problem(): Problem[Set[Int]] = p
-
-      override def relaxation(): Relaxation[Set[Int]] = MispRelaxation()
-
-      override def ranking(): StateRanking[Set[Int]] = MispRanking()
-
-      override def lowerBound(): FastLowerBound[Set[Int]] = MispFlb(p)
-
-      override def widthHeuristic(): WidthHeuristic[Set[Int]] = FixedWidth[Set[Int]](2)
-
-      override def frontier(): Frontier[Set[Int]] =
-        SimpleFrontier(ranking()) // or SimpleFrontier.lastExactLayer(ranking())
-
-      override def useCache(): Boolean = true
-
-      override def dominance(): DominanceChecker[Set[Int]] =
-        SimpleDominanceChecker[Set[Int]](MispDominance(), p.nbVars())
-
-      override def exportDot(): Boolean = true
-    }
-
-    val solution: Solution = Solvers.minimizeDdo(model)
+    val solution: Solution = solver.minimize(onSolution =
+      (sol: Array[Int], stats: SearchStatistic) => SolutionPrinter.printSolution(stats, sol)
+    )
 
     println(solution)
+    println(s"Seach time: ${solution.statistics().runTimeMs()} ms")
 
   }
 

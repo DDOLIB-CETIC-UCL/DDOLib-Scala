@@ -13,6 +13,27 @@ import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 trait AcsSolver {
 
   def apply[T](
+    problem: Problem[T],
+    columnWidth: Int = 5,
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+    verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
+    debugMode: DebugMode = DebugMode.OFF
+  ): Solver = {
+    initSolver(
+      problem,
+      columnWidth,
+      lowerBound,
+      dominance,
+      variableHeuristic,
+      verbosityLvl,
+      debugMode
+    )
+
+  }
+
+  private def initSolver[T](
     _problem: Problem[T],
     _columnWidth: Int = 5,
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),

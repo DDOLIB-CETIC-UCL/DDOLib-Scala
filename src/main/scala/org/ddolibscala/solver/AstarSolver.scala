@@ -13,6 +13,18 @@ import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 trait AstarSolver {
 
   def apply[T](
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLevel = VerbosityLevel.SILENT,
+    debugMode: DebugMode = DebugMode.OFF
+  ): Solver = {
+
+    initSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)
+  }
+
+  private def initSolver[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
