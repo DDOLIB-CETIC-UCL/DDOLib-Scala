@@ -9,7 +9,7 @@ import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
-import org.ddolibscala.util.VerbosityLvl.SILENT
+import org.ddolibscala.util.VerbosityLvl.Silent
 import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 
 /** Defines factory for an
@@ -42,13 +42,13 @@ object AcsSolver {
     *   a solver based on the ACS algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    columnWidth: Int = 5,
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
-    verbosityLvl: VerbosityLvl = SILENT,
-    debugMode: DebugMode = DebugMode.OFF
+                problem: Problem[T],
+                columnWidth: Int = 5,
+                lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+                dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+                verbosityLvl: VerbosityLvl = Silent,
+                debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     initSolver(
       problem,

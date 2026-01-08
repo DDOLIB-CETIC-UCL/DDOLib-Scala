@@ -58,18 +58,18 @@ object DdoSolver {
     *   a solver based on the DDO algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    relaxation: Relaxation[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    ranking: StateRanking[T] = DefaultStateRanking[T](),
-    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-    frontier: CutSetType = CutSetType.LastExactLayer,
-    useCache: Boolean = false,
-    exportDot: Boolean = false,
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.SILENT,
-    debugMode: DebugMode = DebugMode.OFF
+                problem: Problem[T],
+                relaxation: Relaxation[T],
+                lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+                dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+                ranking: StateRanking[T] = DefaultStateRanking[T](),
+                widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+                frontier: CutSetType = CutSetType.LastExactLayer,
+                useCache: Boolean = false,
+                exportDot: Boolean = false,
+                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+                debugMode: DebugMode = DebugMode.Off
   ): Solver = {
     initSolver(
       problem,

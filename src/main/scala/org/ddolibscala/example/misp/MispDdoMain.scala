@@ -8,7 +8,7 @@ import org.ddolibscala.*
 
 import org.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
-import org.ddolibscala.util.VerbosityLvl.LARGE
+import org.ddolibscala.util.VerbosityLvl.Large
 
 /** Example of MISP resolution with DDO Solver. */
 object MispDdoMain {
@@ -24,7 +24,7 @@ object MispDdoMain {
         widthHeuristic = FixedWidth(2),
         ranking = MispRanking(),
         frontier = Frontier,
-        verbosityLvl = LARGE,
+        verbosityLvl = Large,
         useCache = true
       )
 

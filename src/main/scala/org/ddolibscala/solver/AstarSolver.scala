@@ -39,12 +39,12 @@ object AstarSolver {
     *   a solver based on the A* algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.SILENT,
-    debugMode: DebugMode = DebugMode.OFF
+                problem: Problem[T],
+                lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+                dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+                variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+                debugMode: DebugMode = DebugMode.Off
   ): Solver = {
 
     initSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)

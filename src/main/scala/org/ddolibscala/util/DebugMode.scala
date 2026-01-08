@@ -12,7 +12,7 @@ enum DebugMode {
     * <p> This mode is intended for production runs or benchmarking, where performance is
     * prioritized and no additional checks or debug information are generated. </p>
     */
-  case ON
+  case On
 
   /** Enables extended debugging and diagnostic tools.
     *
@@ -25,7 +25,7 @@ enum DebugMode {
     * This mode is recommended when investigating unexpected solver behavior or validating complex
     * model implementations.
     */
-  case OFF
+  case Off
 
   /** Enables extended debugging and diagnostic tools.
     *
@@ -38,14 +38,14 @@ enum DebugMode {
     * This mode is recommended when investigating unexpected solver behavior or validating complex
     * model implementations.
     */
-  case EXTENDED
+  case Extended
 
   /** Converts this enum into Java enum.*/
   def toJava: JavaDebugLvl = {
     this match {
-      case ON       => JavaDebugLvl.ON
-      case OFF      => JavaDebugLvl.OFF
-      case EXTENDED => JavaDebugLvl.EXTENDED
+      case On       => JavaDebugLvl.ON
+      case Off      => JavaDebugLvl.OFF
+      case Extended => JavaDebugLvl.EXTENDED
     }
   }
 

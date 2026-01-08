@@ -12,14 +12,14 @@ enum VerbosityLvl {
     * <p> This mode is intended for fully silent execution, where performance measurements or logs
     * are not required. </p>
     */
-  case SILENT
+  case Silent
 
   /** Displays important progress updates.
     *
     * <p> In this mode, the solver prints a message each time a new best objective value is found
     * during the search. </p>
     */
-  case NORMAL
+  case Normal
 
   /** Displays detailed runtime information for debugging or analysis purposes.
     *
@@ -31,18 +31,18 @@ enum VerbosityLvl {
     * This mode provides the highest level of detail and is useful for performance analysis and
     * algorithmic tuning.
     */
-  case LARGE
+  case Large
 
-  /** Same that [[LARGE]] but saves the logs into `logs.txt` file. */
-  case EXPORT
+  /** Same that [[Large]] but saves the logs into `logs.txt` file. */
+  case Export
 
   /** Converts this enum into Java enum.*/
   def toJava: JavaVerbosityLvl = {
     this match {
-      case SILENT => JavaVerbosityLvl.SILENT
-      case NORMAL => JavaVerbosityLvl.NORMAL
-      case LARGE  => JavaVerbosityLvl.LARGE
-      case EXPORT => JavaVerbosityLvl.EXPORT
+      case Silent => JavaVerbosityLvl.SILENT
+      case Normal => JavaVerbosityLvl.NORMAL
+      case Large  => JavaVerbosityLvl.LARGE
+      case Export => JavaVerbosityLvl.EXPORT
     }
   }
 }

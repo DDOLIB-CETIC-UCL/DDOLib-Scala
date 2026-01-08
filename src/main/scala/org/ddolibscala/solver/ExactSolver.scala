@@ -43,12 +43,12 @@ object ExactSolver {
     *   a solver that generate a complete decision diagram to solve the problem
     */
   def apply[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.SILENT,
-    debugMode: DebugMode = DebugMode.OFF,
-    exportDot: Boolean = false
+                problem: Problem[T],
+                lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
+                dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+                verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+                debugMode: DebugMode = DebugMode.Off,
+                exportDot: Boolean = false
   ): Solver = {
     initSolver(problem, lowerBound, dominance, verbosityLvl, debugMode, exportDot)
   }
