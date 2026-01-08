@@ -1,0 +1,30 @@
+package org.ddolibscala.example.misp
+
+import org.ddolibscala.modeling.Dominance
+
+import scala.collection.immutable.BitSet
+
+/** Companion object of the [[MispDominance]] class. */
+object MispDominance {
+
+  /** Returns a dominance rule for the MISP.
+    *
+    * @return
+    *   a dominance rule for the MISP
+    */
+  def apply(): MispDominance = new MispDominance()
+}
+
+/** Implementation of a dominance relation for the Maximum Independent Set Problem (MISP).
+  *
+  * <p> In this context, one state `state1` is considered dominated by another state `state2` if all
+  * vertices selected in `state1` are also selected in `state2`. This allows pruning suboptimal
+  * states during the search. </p>
+  */
+class MispDominance extends Dominance[BitSet] {
+
+  override def key(state: BitSet) = 0
+
+  override def isDominatedOrEqual(state1: BitSet, state2: BitSet): Boolean =
+    state1.subsetOf(state2)
+}
