@@ -15,7 +15,7 @@ import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 /** Defines factory for an
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime Column Search (ACS) solver]]
   */
-trait AcsSolver {
+object AcsSolver {
 
   /** Instantiates and returns an
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime column search (ACS) solver]]

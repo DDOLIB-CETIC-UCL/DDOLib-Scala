@@ -19,7 +19,7 @@ import java.util
   *   This solver generate a complete decision diagram. It must be used on small instances for debug
   *   purpose.
   */
-trait ExactSolver {
+object ExactSolver {
 
   /** Instantiates and returns an
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]

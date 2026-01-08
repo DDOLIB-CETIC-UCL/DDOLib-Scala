@@ -1,4 +1,4 @@
 package org.ddolibscala
 
-/** This package contains traits defining factories for solvers. */
+/** This package contain factories for solvers. */
 package object solver {}

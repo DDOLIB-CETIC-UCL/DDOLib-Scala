@@ -3,7 +3,7 @@ package example.misp
 
 /* OR
 package org.ddolibscala.example.misp
-import org.ddoliscala.*
+import org.ddolibscala.*
  */
 
 /** Example of MISP resolution with A* solver */
@@ -12,7 +12,7 @@ object MispAstarMain {
   def main(args: Array[String]): Unit = {
     val problem = MispProblem("data/MISP/weighted.dot")
 
-    val solver: Solver = AstarSolver(problem = problem, lowerBound = MispFlb(problem))
+    val solver: Solver = Solver.astar(problem = problem, lowerBound = MispFlb(problem))
 
     val solution: Solution = solver.minimize()
     println(solution)

@@ -19,7 +19,7 @@ import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 /** Defines factory for a
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
   */
-trait DdoSolver {
+object DdoSolver {
 
   /** Instantiates and returns a
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].

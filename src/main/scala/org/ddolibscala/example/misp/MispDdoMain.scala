@@ -3,7 +3,7 @@ package example.misp
 
 /* OR
 package org.ddolibscala.example.misp
-import org.ddoliscala.*
+import org.ddolibscala.*
  */
 
 import org.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
@@ -17,7 +17,7 @@ object MispDdoMain {
 
     val problem        = MispProblem("data/MISP/50_nodes_1.dot")
     val solver: Solver =
-      DdoSolver(
+      Solver.ddo(
         problem = problem,
         relaxation = MispRelaxation(),
         lowerBound = MispFlb(problem),
