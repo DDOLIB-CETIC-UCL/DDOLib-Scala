@@ -1,16 +1,21 @@
-package org.ddolibscala
+package org.ddolibscala // to get access to the api
 package example.misp
 
-import org.ddolib.util.io.SolutionPrinter
+/* OR
+package org.ddolibscala.example.misp
+import org.ddoliscala.*
+ */
+
 import org.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.util.VerbosityLvl.LARGE
 
+/** Example of MISP resolution with DDO Solver. */
 object MispDdoMain {
 
   def main(args: Array[String]): Unit = {
 
-    val problem        = MispProblem("data/MISP/weighted.dot")
+    val problem        = MispProblem("data/MISP/50_nodes_1.dot")
     val solver: Solver =
       DdoSolver(
         problem = problem,
@@ -19,15 +24,19 @@ object MispDdoMain {
         widthHeuristic = FixedWidth(2),
         ranking = MispRanking(),
         frontier = Frontier,
-        verbosityLvl = LARGE
+        verbosityLvl = LARGE,
+        useCache = true
       )
 
-    val solution: Solution = solver.minimize(onSolution =
-      (sol: Array[Int], stats: SearchStatistic) => SolutionPrinter.printSolution(stats, sol)
-    )
+    val solution: Solution =
+      solver.minimize(onSolution = (sol: Array[Int], stats: SearchStatistic) => {
+        println("------ NEW BEST ------")
+        println(stats)
+        println(sol.mkString("[", ", ", "]"))
+      })
 
     println(solution)
-    println(s"Seach time: ${solution.statistics().runTimeMs()} ms")
+    println(s"Search time: ${solution.statistics().runTimeMs()} ms")
 
   }
 

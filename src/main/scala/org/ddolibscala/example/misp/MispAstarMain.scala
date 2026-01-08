@@ -1,6 +1,12 @@
-package org.ddolibscala
+package org.ddolibscala // to get access to the API
 package example.misp
 
+/* OR
+package org.ddolibscala.example.misp
+import org.ddoliscala.*
+ */
+
+/** Example of MISP resolution with A* solver */
 object MispAstarMain {
 
   def main(args: Array[String]): Unit = {
