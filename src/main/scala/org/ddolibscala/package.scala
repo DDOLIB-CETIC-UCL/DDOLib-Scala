@@ -90,10 +90,14 @@ package object ddolibscala {
       */
     val OFF = org.ddolib.util.debug.DebugLevel.OFF
 
-    /** Enables basic debugging checks. <p> This mode verifies fundamental properties of the model
-      * components, such as: </p> <ul> <li>Equality and correctness of state representations.</li>
-      * <li>Proper definition and consistency of lower bounds.</li> </ul> These checks help detect
-      * common modeling or implementation errors early in the solving process.
+    /** Enables basic debugging checks.
+      *
+      * <p> This mode verifies fundamental properties of the model components, such as: </p>
+      *   - Equality and correctness of state representations.
+      *   - Proper definition and consistency of lower bounds.
+      *
+      * These checks help detect common modeling or implementation errors early in the solving
+      * process.
       */
     val ON = org.ddolib.util.debug.DebugLevel.ON
 
