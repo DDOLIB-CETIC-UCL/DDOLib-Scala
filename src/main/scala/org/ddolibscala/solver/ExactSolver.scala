@@ -39,7 +39,7 @@ trait ExactSolver {
     * @tparam T
     *   the type representing a state in the problem
     * @return
-    *   a solver that generate a complete decision diagram to solver the problem
+    *   a solver that generate a complete decision diagram to solve the problem
     */
   def apply[T](
     problem: Problem[T],
