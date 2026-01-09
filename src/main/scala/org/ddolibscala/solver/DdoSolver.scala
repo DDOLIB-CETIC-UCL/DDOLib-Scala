@@ -3,6 +3,7 @@ package solver
 
 import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.frontier.Frontier
+import org.ddolib.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
 import org.ddolib.modeling.*
@@ -133,6 +134,12 @@ object DdoSolver {
       override def verbosityLevel(): VerbosityLevel = _verbosityLvl.toJava
 
       override def debugMode(): DebugLevel = _debugMode.toJava
+
+      override def relaxStrategy(): ReductionStrategy[T] = super.relaxStrategy()
+
+      override def restrictStrategy(): ReductionStrategy[T] = super.restrictStrategy()
+
+      override def stateDistance(): StateDistance[T] = super.stateDistance()
     }
 
     new Solver(new org.ddolib.ddo.core.solver.SequentialSolver[T](model))
