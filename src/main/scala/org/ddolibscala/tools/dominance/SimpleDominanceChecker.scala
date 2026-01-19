@@ -2,6 +2,9 @@ package org.ddolibscala.tools.dominance
 
 import org.ddolib.modeling.Dominance
 
+/** 
+ * 
+ */
 object SimpleDominanceChecker {
   def apply[T](
     dominance: Dominance[T],
