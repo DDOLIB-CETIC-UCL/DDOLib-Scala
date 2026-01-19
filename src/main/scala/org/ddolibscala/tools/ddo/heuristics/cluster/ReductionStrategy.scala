@@ -1,4 +1,4 @@
-package org.ddolibscala.tools.ddo.heuristics
+package org.ddolibscala.tools.ddo.heuristics.cluster
 
 import org.ddolib.ddo.core.mdd.NodeSubProblem
 

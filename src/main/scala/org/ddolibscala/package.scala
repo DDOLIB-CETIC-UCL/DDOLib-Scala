@@ -5,7 +5,7 @@ package org
   */
 package object ddolibscala {
 
-  // Allow to get access to the Soler factory without any import.
+  // Allows to get access to the Solver factory without any import.
   import org.ddolibscala.solver.Solver
   export org.ddolibscala.solver.Solver
 
