@@ -11,6 +11,7 @@ import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
 import org.ddolibscala.tools.ddo.frontier.{CutSetType, SimpleFrontier}
+import org.ddolibscala.tools.ddo.heuristics.cluster.CostBased
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
@@ -52,6 +53,13 @@ object DdoSolver {
     *   the verbosity level of the solver when this model is executed
     * @param debugMode
     *   the debugging level to apply during the compilation and solving phases
+    * @param relaxStrategy
+    *   strategy to select which nodes should be merged together on a relaxed DD
+    * @param restrictStrategy
+    *   strategy to select which nodes should be dropped on a restricted DD
+    * @param stateDistance
+    *   distance function between states, used to form clusters when deciding which nodes on a layer
+    *   of a decision diagram should be merged.
     * @tparam T
     *   the type representing a state in the problem
     * @return
@@ -69,7 +77,12 @@ object DdoSolver {
     exportDot: Boolean = false,
     variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off
+    debugMode: DebugMode = DebugMode.Off,
+    relaxStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
+    restrictStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
+    stateDistance: StateDistance[T] = new StateDistance[T] {
+      override def distance(t: T, t1: T): Double = 0.0
+    }
   ): Solver = {
     initSolver(
       problem,
@@ -83,7 +96,10 @@ object DdoSolver {
       exportDot,
       variableHeuristic,
       verbosityLvl,
-      debugMode
+      debugMode,
+      relaxStrategy,
+      restrictStrategy,
+      stateDistance
     )
   }
 
@@ -102,7 +118,10 @@ object DdoSolver {
     _exportDot: Boolean,
     _variableHeuristic: VariableHeuristic[T],
     _verbosityLvl: VerbosityLvl,
-    _debugMode: DebugMode
+    _debugMode: DebugMode,
+    _relaxStrategy: ReductionStrategy[T],
+    _restrictStrategy: ReductionStrategy[T],
+    _stateDistance: StateDistance[T]
   ): Solver = {
     val model: DdoModel[T] = new DdoModel[T] {
 
@@ -135,11 +154,11 @@ object DdoSolver {
 
       override def debugMode(): DebugLevel = _debugMode.toJava
 
-      override def relaxStrategy(): ReductionStrategy[T] = super.relaxStrategy()
+      override def relaxStrategy(): ReductionStrategy[T] = _relaxStrategy
 
-      override def restrictStrategy(): ReductionStrategy[T] = super.restrictStrategy()
+      override def restrictStrategy(): ReductionStrategy[T] = _restrictStrategy
 
-      override def stateDistance(): StateDistance[T] = super.stateDistance()
+      override def stateDistance(): StateDistance[T] = _stateDistance
     }
 
     new Solver(new org.ddolib.ddo.core.solver.SequentialSolver[T](model))
