@@ -2,15 +2,12 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.ddo.core.Decision
 import org.ddolib.modeling.*
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 import org.ddolibscala.util.{DebugMode, VerbosityLvl}
-
-import java.util
 
 /** Defines factory for an
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
@@ -65,17 +62,8 @@ object ExactSolver {
     _exportDot: Boolean
   ): Solver = {
 
-    // Relaxation is not used by the exact solver but asked by the MDD. We can use relaxation that does nothing
-    val dummyRelaxation = new Relaxation[T] {
-      override def mergeStates(iterator: util.Iterator[T]): T = ???
-
-      override def relaxEdge(t: T, t1: T, t2: T, decision: Decision, v: Double): Double = ???
-    }
-
-    val model: DdoModel[T] = new DdoModel[T] {
+    val model: ExactModel[T] = new ExactModel[T] {
       override def problem(): Problem[T] = _problem
-
-      override def relaxation(): Relaxation[T] = dummyRelaxation
 
       override def exportDot(): Boolean = _exportDot
 
