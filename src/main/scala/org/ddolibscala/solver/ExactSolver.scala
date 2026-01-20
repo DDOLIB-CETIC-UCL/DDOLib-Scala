@@ -41,8 +41,8 @@ object ExactSolver {
     */
   def apply[T](
     problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     debugMode: DebugMode = DebugMode.Off,
     exportDot: Boolean = false

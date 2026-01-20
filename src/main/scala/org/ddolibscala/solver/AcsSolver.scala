@@ -44,9 +44,9 @@ object AcsSolver {
   def apply[T](
     problem: Problem[T],
     columnWidth: Int = 5,
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound(),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker(),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic(),
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     verbosityLvl: VerbosityLvl = Silent,
     debugMode: DebugMode = DebugMode.Off
   ): Solver = {
