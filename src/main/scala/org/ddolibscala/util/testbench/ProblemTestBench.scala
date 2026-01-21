@@ -8,28 +8,41 @@ import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.must.Matchers
 
-abstract class ProblemTestBench[T, P <: Problem[T]]() extends AnyFunSuite with Matchers {
+import java.nio.file.{Files, Paths}
+import scala.jdk.CollectionConverters.ListHasAsScala
+import scala.util.{Try, Using}
 
-  private val problems: List[P] = generateProblem()
+abstract class ProblemTestBench[T, P <: Problem[T]] extends AnyFunSuite with Matchers {
 
-  protected var minWidth: Int = 2
-  protected var maxWidth: Int = 20
+  protected def minWidth: Int = 2
+  protected def maxWidth: Int = 20
 
   protected def generateProblem(): List[P]
 
-  protected def model(problem: P): TestModel[T, P]
+  protected def solverConfig(problem: P): SolverTestConfig[T]
 
-  private def testSolution(bestSolution: Solution, problem: P, width: Int = -1): Unit = {
+  protected def loadProblemsFromDir(pathToDir: String)(factory: String => P): List[P] = {
+    val path                        = Paths.get(pathToDir)
+    val allFiles: Try[List[String]] = Using(Files.list(path)) { stream =>
+      stream.filter(Files.isRegularFile(_)).map(_.toString).toList.asScala.toList
+    }
+
+    allFiles.getOrElse(Nil).map(factory)
+  }
+
+  private def assertSolution(bestSolution: Solution, problem: P, width: Int = -1): Unit = {
     val bestValue                       = bestSolution.value()
     val optBestVal: Option[Double]      = if (bestValue.isInfinite) None else Some(bestValue)
     val expectedOptimal: Option[Double] = problem.optimal
-    withClue({ if (width != -1) s"Max width of MDD: $width" else "" }) {
+    val clueMsg: String                 = if (width != -1) s"Max width of MDD: $width" else ""
+
+    withClue(clueMsg) {
+
       if (optBestVal.isDefined && expectedOptimal.isDefined) {
         optBestVal.get must ===(expectedOptimal.get +- 1e-10)
       } else {
         optBestVal must equal(expectedOptimal)
       }
-
       if (expectedOptimal.isDefined) {
         problem.evaluate(bestSolution.solution()) must ===(expectedOptimal.get +- 1e-10)
       }
@@ -37,130 +50,88 @@ abstract class ProblemTestBench[T, P <: Problem[T]]() extends AnyFunSuite with M
     }
   }
 
-  private def testTransitionModel(problem: P): Unit = {
-    val m              = model(problem)
-    val solver: Solver = Solver.exact(problem)
+  private def generateTests(problem: P): Unit = {
+    val config = solverConfig(problem)
 
-    test(s"Model for $problem") {
-      val sol = solver.minimize()
-      testSolution(sol, problem)
+    def check(name: String)(testBody: => Unit): Unit = test(s"$name for $problem") { testBody }
+
+    check("Transition Model") {
+      val solver = Solver.exact(problem)
+      assertSolution(solver.minimize(), problem)
     }
-  }
 
-  private def testFlb(problem: P): Unit = {
-    val m = model(problem)
-
-    m.flb match {
-      case _: DefaultFastLowerBound[T] => ()
-      case _                           =>
-        val solver = Solver.exact(problem, lowerBound = m.flb)
-        test(s"FLB for $problem") {
-          testSolution(solver.minimize(), problem)
-        }
+    if (!config.flb.isInstanceOf[DefaultFastLowerBound[?]]) {
+      check("FLB") {
+        val solver = Solver.exact(problem, lowerBound = config.flb)
+        assertSolution(solver.minimize(), problem)
+      }
     }
-  }
 
-  private def testDominance(problem: P): Unit = {
-    val m = model(problem)
-
-    m.dominance match {
-      case _: DefaultDominanceChecker[T] => ()
-      case _                             =>
-        val solver = Solver.exact(problem, dominance = m.dominance)
-        test(s"Dominance for $problem") {
-          testSolution(solver.minimize(), problem)
-        }
+    if (!config.dominance.isInstanceOf[DefaultDominanceChecker[?]]) {
+      check("Dominance") {
+        val solver = Solver.exact(problem, dominance = config.dominance)
+        assertSolution(solver.minimize(), problem)
+      }
     }
-  }
 
-  private def testRelaxation(problem: P): Unit = {
-    val m = model(problem)
-    m.relaxation match {
-      case None        => ()
-      case Some(relax) =>
-        test(s"Relaxation for $problem") {
-          for (w <- minWidth to maxWidth) {
-            val solver = Solver.ddo(
+    config.relaxation.foreach { relax =>
+      check("Relaxation") {
+        for (w <- minWidth to maxWidth) {
+          val solver =
+            Solver.ddo(
               problem,
               relaxation = relax,
-              widthHeuristic = FixedWidth[T](w),
-              ranking = m.ranking
-            )
-            testSolution(solver.minimize(), problem, width = w)
-          }
-        }
-    }
-  }
-
-  private def testFlbOnRelaxation(problem: P): Unit = {
-    val m = model(problem)
-    (m.relaxation, m.flb) match {
-      case (Some(relax), d) if !d.isInstanceOf[DefaultFastLowerBound[T]] =>
-        test(s"Relax and Flb for $problem") {
-          for (w <- minWidth to maxWidth) {
-            val solver = Solver.ddo(
-              problem,
-              relaxation = relax,
-              lowerBound = d,
               widthHeuristic = FixedWidth(w),
-              ranking = m.ranking
+              ranking = config.ranking
             )
-            testSolution(solver.minimize(), problem, width = w)
-          }
+          assertSolution(solver.minimize(), problem, width = w)
         }
-      case _ => ()
-    }
-  }
+      }
 
-  private def testCache(problem: P): Unit = {
-    val m = model(problem)
-
-    m.relaxation match {
-      case None        => ()
-      case Some(relax) =>
-        test(s"Cache for $problem") {
+      if (!config.flb.isInstanceOf[DefaultFastLowerBound[?]]) {
+        check("Relax & Flb") {
           for (w <- minWidth to maxWidth) {
             val solver = Solver.ddo(
               problem,
               relaxation = relax,
-              lowerBound = m.flb,
-              dominance = m.dominance,
-              ranking = m.ranking,
+              lowerBound = config.flb,
               widthHeuristic = FixedWidth(w),
-              frontier = Frontier,
-              useCache = true
+              ranking = config.ranking
             )
-
-            testSolution(solver.minimize(), problem, width = w)
+            assertSolution(solver.minimize(), problem, width = w)
           }
         }
+      }
+
+      check("Cache") {
+        for (w <- minWidth to maxWidth) {
+          val solver = Solver.ddo(
+            problem,
+            relaxation = relax,
+            lowerBound = config.flb,
+            dominance = config.dominance,
+            ranking = config.ranking,
+            widthHeuristic = FixedWidth(w),
+            frontier = Frontier,
+            useCache = true
+          )
+          assertSolution(solver.minimize(), problem, width = w)
+        }
+      }
+
     }
+
+    check("A*") {
+      val m      = solverConfig(problem)
+      val solver = Solver.astar(problem, lowerBound = m.flb, dominance = m.dominance)
+    }
+
+    check("ACS") {
+      val m      = solverConfig(problem)
+      val solver = Solver.acs(problem, lowerBound = m.flb, dominance = m.dominance)
+    }
+
   }
 
-  private def testAstar(problem: P): Unit = {
-    val m      = model(problem)
-    val solver = Solver.astar(problem, lowerBound = m.flb, dominance = m.dominance)
-    test(s"A* for $problem") {
-      testSolution(solver.minimize(), problem)
-    }
-  }
-
-  private def testAcs(problem: P): Unit = {
-    val m      = model(problem)
-    val solver = Solver.acs(problem, lowerBound = m.flb, dominance = m.dominance)
-    test(s"ACS for $problem") {
-      testSolution(solver.minimize(), problem)
-    }
-  }
-
-  for (p <- problems) {
-    testTransitionModel(p)
-    testFlb(p)
-    testDominance(p)
-    testRelaxation(p)
-    testFlbOnRelaxation(p)
-    testCache(p)
-    testAstar(p)
-    testAcs(p)
-  }
+  generateProblem().foreach(generateTests)
 }

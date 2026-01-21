@@ -4,11 +4,8 @@ import org.ddolib.common.dominance.DominanceChecker
 import org.ddolibscala.modeling.*
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
+trait SolverTestConfig[T]() {
 
-trait TestModel[T, P <: Problem[T]]() {
-
-  def problem: P
-  
   def flb: FastLowerBound[T] = DefaultFastLowerBound()
 
   def relaxation: Option[Relaxation[T]] = None
@@ -16,6 +13,5 @@ trait TestModel[T, P <: Problem[T]]() {
   def ranking: StateRanking[T] = DefaultStateRanking()
 
   def dominance: DominanceChecker[T] = DefaultDominanceChecker[T]()
-  
 
 }
