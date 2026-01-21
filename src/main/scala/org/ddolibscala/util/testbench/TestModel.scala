@@ -1,10 +1,14 @@
 package org.ddolibscala.util.testbench
 
+import org.ddolib.common.dominance.DominanceChecker
 import org.ddolibscala.modeling.*
-import org.ddolibscala.tools.dominance.{DefaultDominanceChecker, DominanceChecker}
+import org.ddolibscala.tools.dominance.DefaultDominanceChecker
 
-class TestModel[T, P <: Problem[T]](val problem: P) {
 
+trait TestModel[T, P <: Problem[T]]() {
+
+  def problem: P
+  
   def flb: FastLowerBound[T] = DefaultFastLowerBound()
 
   def relaxation: Option[Relaxation[T]] = None
