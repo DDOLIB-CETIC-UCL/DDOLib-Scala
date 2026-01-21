@@ -3,27 +3,30 @@ package org.ddolibscala.example.misp
 import org.ddolib.common.dominance.DominanceChecker
 import org.ddolibscala.modeling.{FastLowerBound, Relaxation, StateRanking}
 import org.ddolibscala.tools.dominance.SimpleDominanceChecker
-import org.ddolibscala.util.testbench.{ProblemTestBench, TestModel}
+import org.ddolibscala.util.testbench.{ProblemLoader, ProblemTestBench, TestModel}
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.collection.immutable.BitSet
 
-class MispTest extends ProblemTestBench[BitSet, MispProblem] {
+class MispTest extends AnyFunSuite {
 
-  override protected def generateProblem(): List[MispProblem] = {
-    loadProblemsFromDir("src/test/resources/MISP")(MispProblem(_))
-  }
+  val problems: List[MispProblem] =
+    ProblemLoader.loadFromDir("src/test/resources/MISP")(MispProblem(_))
 
-  override protected def model(problem: MispProblem): TestModel[BitSet] = {
-    new TestModel[BitSet]() {
-
-      override def flb: FastLowerBound[BitSet] = MispFlb(problem)
-
+  val configFactory: MispProblem => TestModel[BitSet] = (problem: MispProblem) =>
+    new TestModel[BitSet] {
+      override def flb: FastLowerBound[BitSet]            = MispFlb(problem)
       override def relaxation: Option[Relaxation[BitSet]] = Some(MispRelaxation())
-
-      override def ranking: StateRanking[BitSet] = MispRanking()
-
-      override def dominance: DominanceChecker[BitSet] =
+      override def ranking: StateRanking[BitSet]          = MispRanking()
+      override def dominance: DominanceChecker[BitSet]    =
         SimpleDominanceChecker(MispDominance(), problem.nbVars())
+    }
+
+  val bench = new ProblemTestBench(problems, configFactory)
+
+  bench.generateTests().foreach { testCase =>
+    test(testCase.name) {
+      testCase.action()
     }
   }
 }
