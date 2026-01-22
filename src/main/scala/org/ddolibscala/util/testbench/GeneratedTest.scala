@@ -4,6 +4,6 @@ package org.ddolibscala.util.testbench
   * @param name
   *   the descriptive name of the test
   * @param action
-  *   the executable code of the test (thunk)
+  *   the executable code of the test
   */
 case class GeneratedTest(name: String, action: () => Unit)
