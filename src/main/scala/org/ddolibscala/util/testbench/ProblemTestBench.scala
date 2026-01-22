@@ -5,6 +5,7 @@ import org.ddolibscala.modeling.*
 import org.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
+import org.ddolibscala.util.DebugMode.On
 
 import scala.collection.mutable.ListBuffer
 
@@ -66,20 +67,20 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
       }
 
       add("Transition Model") {
-        val solver = Solver.exact(p)
+        val solver = Solver.exact(p, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 
       if (!config.flb.isInstanceOf[DefaultFastLowerBound[?]]) {
         add("FLB") {
-          val solver = Solver.exact(p, lowerBound = config.flb)
+          val solver = Solver.exact(p, lowerBound = config.flb, debugMode = On)
           assertSolution(solver.minimize(), p)
         }
       }
 
       if (!config.dominance.isInstanceOf[DefaultDominanceChecker[?]]) {
         add("Dominance") {
-          val solver = Solver.exact(p, dominance = config.dominance)
+          val solver = Solver.exact(p, dominance = config.dominance, debugMode = On)
           assertSolution(solver.minimize(), p)
         }
       }
@@ -91,7 +92,8 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
               p,
               relaxation = relax,
               widthHeuristic = FixedWidth(w),
-              ranking = config.ranking
+              ranking = config.ranking,
+              debugMode = On
             )
             assertSolution(solver.minimize(), p, width = w)
           }
@@ -105,7 +107,8 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
                 relaxation = relax,
                 lowerBound = config.flb,
                 widthHeuristic = FixedWidth(w),
-                ranking = config.ranking
+                ranking = config.ranking,
+                debugMode = On
               )
               assertSolution(solver.minimize(), p, width = w)
             }
@@ -122,7 +125,8 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
               ranking = config.ranking,
               widthHeuristic = FixedWidth(w),
               frontier = Frontier,
-              useCache = true
+              useCache = true,
+              debugMode = On
             )
             assertSolution(solver.minimize(), p, width = w)
           }
@@ -130,12 +134,14 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
       }
 
       add("A*") {
-        val solver = Solver.astar(p, lowerBound = config.flb, dominance = config.dominance)
+        val solver =
+          Solver.astar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 
       add("ACS") {
-        val solver = Solver.acs(p, lowerBound = config.flb, dominance = config.dominance)
+        val solver =
+          Solver.acs(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 
