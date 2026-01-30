@@ -47,9 +47,11 @@ object ProblemTestBench {
   */
 class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P => TestModel[T]) {
 
-  var minWidth: Int   = 2
-  var maxWidth: Int   = 20
-  var epsilon: Double = 1e-10
+  /** The minimal width of the MDD to test. */
+  var minWidth: Int = 2
+
+  /** The maximal width of the MDD to tests. */
+  var maxWidth: Int = 20
 
   /** Generates all the test cases based on the provided problems and configuration.
     *
@@ -159,7 +161,7 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
     val contextMsg = if (width != -1) s" [Max width: $width]" else ""
 
     // Helper for double comparison with tolerance
-    def isEqual(a: Double, b: Double): Boolean = Math.abs(a - b) < epsilon
+    def isEqual(a: Double, b: Double): Boolean = Math.abs(a - b) < 1e-10
 
     (optBestVal, expectedOptimal) match {
       case (Some(v), Some(e)) =>
@@ -172,7 +174,7 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
       val calculatedVal = problem.evaluate(bestSolution.solution())
       assert(
         isEqual(calculatedVal, expectedOptimal.get),
-        s"Solution path evaluation failed. Expected ${expectedOptimal.get}, got $calculatedVal$contextMsg"
+        s"Solution evaluation failed. Expected ${expectedOptimal.get}, got $calculatedVal$contextMsg"
       )
     }
   }
