@@ -75,7 +75,7 @@ object MispProblem {
         neighbors(source) = neighbors(source) + target
         neighbors(target) = neighbors(target) + source
       }
-    }
+    }.get //to catch errors
 
     MispProblem(BitSet.fromSpecific(0 until numNodes), neighbors, weights.toArray, opti)
 
