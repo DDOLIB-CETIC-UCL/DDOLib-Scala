@@ -27,5 +27,5 @@ object MispFlb {
 class MispFlb(problem: MispProblem) extends FastLowerBound[BitSet] {
 
   override def lowerBound(state: BitSet, variables: Iterable[Int]): Double =
-    -state.map(node => problem.weights(node)).sum
+    -state.foldLeft(0)((acc, node) => acc + problem.weights(node))
 }
