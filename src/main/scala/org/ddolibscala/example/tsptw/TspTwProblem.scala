@@ -5,7 +5,16 @@ import org.ddolibscala.modeling.Problem
 
 import scala.collection.immutable.BitSet
 
-private class TspTwProblem(
+object TspTwProblem {
+  def apply(
+    numNodes: Int,
+    time: Int => Int => Int,
+    timeWindows: Array[TimeWindow],
+    optimal: Option[Double] = None
+  ): TspTwProblem = new TspTwProblem(numNodes, time, timeWindows, optimal)
+}
+
+class TspTwProblem(
   numNodes: Int,
   val time: Int => Int => Int,
   val timeWindows: Array[TimeWindow],
@@ -72,36 +81,34 @@ private class TspTwProblem(
       s"Solution $solutionStr has duplicated nodes and does not reach each node"
     )
 
-    val value =
-      solution.iterator
-        .sliding(2)
-        .foldLeft(time(0)(solution(0)) max timeWindows(solution(0)).start) {
-          case (currentTime, Seq(from, to)) =>
-            val arrivalTime = currentTime + time(from)(to)
-            require(
-              arrivalTime <= timeWindows(to).end,
-              s""" This solution does respect time windows
-                 | You arrive at node $to at time $arrivalTime. Its time window is ${timeWindows(to)}
-                 |""".stripMargin
-            )
-            arrivalTime max timeWindows(to).start
+    var currentTime: Int = time(0)(solution(0)) max timeWindows(solution(0)).start
+    for (i <- 1 until nbVars()) {
+      val from: Int        = solution(i - 1)
+      val to: Int          = solution(i)
+      val arrivalTime: Int = currentTime + time(from)(to)
+      require(
+        arrivalTime <= timeWindows(to).end,
+        s""" This solution does respect time windows
+           | You arrive at node $to at time $arrivalTime. Its time window is ${timeWindows(to)}
+           |""".stripMargin
+      )
+      currentTime = arrivalTime max timeWindows(to).start
+    }
 
-          case (arrivalTime, _) => arrivalTime
-        }
-    value
+    currentTime
 
   }
 
   override def optimal: Option[Double] = _optimal
 
-  private def minDuration(from: TspTwState, to: Int): Int = {
+  private[tsptw] def minDuration(from: TspTwState, to: Int): Int = {
     from.position match {
       case TspNode(pos)        => time(pos)(to)
       case VirtualNodes(nodes) => nodes.map(time(_)(to)).min
     }
   }
 
-  private def reachable(from: TspTwState, to: Int): Boolean = {
+  private[tsptw] def reachable(from: TspTwState, to: Int): Boolean = {
     val duration = minDuration(from, to)
     from.time + duration <= timeWindows(to).end
   }
