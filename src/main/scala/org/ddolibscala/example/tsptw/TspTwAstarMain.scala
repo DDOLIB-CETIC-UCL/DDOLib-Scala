@@ -1,27 +1,18 @@
 package org.ddolibscala
 package example.tsptw
 
-import org.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
-import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.SimpleDominanceChecker
-import org.ddolibscala.util.DebugMode.On
 
 import java.nio.file.Paths
 
-object TspTwDdoMain {
+object TspTwAstarMain {
 
   def main(args: Array[String]): Unit = {
     val problem = TspTwProblem(Paths.get("data", "TSPTW", "AFG", "rbg010a.tw").toString)
-    val solver  = Solver.ddo(
+    val solver  = Solver.astar(
       problem,
-      relaxation = TspTwRelax(problem.nbVars()),
       lowerBound = TspTwFlb(problem),
-      dominance = SimpleDominanceChecker(TspTwDominance(), problem.nbVars()),
-      ranking = TspTwRanking(),
-      widthHeuristic = FixedWidth(100),
-      frontier = Frontier,
-      useCache = true,
-      debugMode = On
+      dominance = SimpleDominanceChecker(TspTwDominance(), problem.nbVars())
     )
 
     val solution = solver.minimize(onSolution = (sol, stats) => {
@@ -34,6 +25,7 @@ object TspTwDdoMain {
     println(s"0 -> ${solution.solution().mkString(" -> ")}")
     println(s"Value: ${solution.value()}")
     println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+
   }
 
 }
