@@ -35,7 +35,7 @@ object TspTwProblem {
         }
         .toArray
 
-      new TspTwProblem(numVar, i => j => timeMatrix(i)(j), tw, optimalValue, None)
+      new TspTwProblem(numVar, i => j => timeMatrix(i)(j), tw, optimalValue, Some(fname))
     }
 
   }
@@ -54,7 +54,7 @@ class TspTwProblem(
   override def initialState(): TspTwState = {
     val pos: Position = TspNode(0)
     val time: Int     = 0
-    val must: BitSet  = BitSet.fromSpecific(0 until numNodes)
+    val must: BitSet  = BitSet.fromSpecific(1 until numNodes)
     val maybe: BitSet = BitSet.empty
     TspTwState(pos, time, must, maybe, 0)
   }

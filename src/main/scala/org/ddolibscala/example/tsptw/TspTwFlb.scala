@@ -2,6 +2,8 @@ package org.ddolibscala.example.tsptw
 
 import org.ddolibscala.modeling.FastLowerBound
 
+import scala.collection.immutable.BitSet
+
 object TspTwFlb {
   def apply(problem: TspTwProblem): TspTwFlb = new TspTwFlb(problem)
 }
@@ -12,7 +14,7 @@ class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
   private val numVar: Int               = problem.nbVars()
   private val cheapestEdges: Array[Int] =
     Array.tabulate(numVar)(i => (0 until numVar).iterator.filter(_ != i).map(problem.time(i)).min)
-
+  
   override def lowerBound(state: TspTwState, variables: Iterable[Int]): Double = {
     if (state.mustVisit.exists(!problem.reachable(state, _))) Infinity.toDouble
     else {
@@ -22,7 +24,7 @@ class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
       costsFromMaybe(state, completeTour) match {
         case None                  => Infinity.toDouble
         case Some(maybeTravelCost) =>
-          computeFinalCost(state, mustTravelCost + maybeTravelCost)
+          computeFinalCost(state, mustTravelCost + maybeTravelCost, completeTour)
       }
     }
   }
@@ -36,24 +38,17 @@ class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
     }
   }
 
-  private def computeFinalCost(state: TspTwState, travelCost: Int): Int = {
-    val backToDepot = (state.mustVisit union state.maybeVisit).iterator
+  private def computeFinalCost(state: TspTwState, travelCost: Int, numToCompleteTour: Int): Int = {
+
+    val nodesToRoute: BitSet =
+      if (numToCompleteTour <= 0) state.mustVisit else state.mustVisit union state.maybeVisit
+
+    val backToDepot = nodesToRoute.iterator
       .map(problem.time(_)(0))
       .minOption
-      .getOrElse(Infinity)
+      .getOrElse(problem.minDuration(state, 0))
 
-    val (startCost, backCost) = {
-      if (travelCost == 0) (0, problem.minDuration(state, 0))
-      else {
-        val s = state.position match {
-          case TspNode(node)       => cheapestEdges(node)
-          case VirtualNodes(nodes) => nodes.iterator.map(n => cheapestEdges(n)).min
-        }
-        (s, backToDepot)
-      }
-    }
-
-    val total = startCost + travelCost + backCost
+    val total = travelCost + backToDepot
     if (state.time + total > problem.timeWindows(0).end) Infinity
     else total
   }

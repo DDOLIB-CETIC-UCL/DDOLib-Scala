@@ -11,6 +11,6 @@ case class TspTwState(
 ) {
   override def toString: String = {
     s"position: $position - time: $time - must visit: ${mustVisit.mkString("{", ", ", "}")}" +
-      s"maybe visit: ${maybeVisit.mkString("{", ",", "}")} - depth: $depth"
+      s" - maybe visit: ${maybeVisit.mkString("{", ",", "}")} - depth: $depth"
   }
 }

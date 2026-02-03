@@ -10,8 +10,7 @@ object TspTwDdoMain {
 
   def main(args: Array[String]): Unit = {
     val problem = TspTwProblem("data/TSPTW/nbNodes_4_1.txt")
-    println(problem)
-    val solver = Solver.ddo(
+    val solver  = Solver.ddo(
       problem,
       relaxation = TspTwRelax(problem.nbVars()),
       lowerBound = TspTwFlb(problem),
@@ -29,9 +28,9 @@ object TspTwDdoMain {
       println(s"0 -> ${sol.mkString(" -> ")}")
     })
 
+    println("\n")
     println(solution)
     println(s"Search time: ${solution.statistics().runTimeMs()} ms")
-
   }
 
 }
