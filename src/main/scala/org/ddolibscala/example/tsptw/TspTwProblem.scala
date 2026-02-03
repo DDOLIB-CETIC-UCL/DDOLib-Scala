@@ -7,14 +7,46 @@ import scala.collection.immutable.BitSet
 import scala.io.Source
 import scala.util.Using
 
+/** Companion object of the [[TspTwProblem]] class.
+  */
 object TspTwProblem {
-  def apply(
-    numNodes: Int,
-    time: Int => Int => Int,
-    timeWindows: Array[TimeWindow],
-    optimal: Option[Double] = None
-  ): TspTwProblem = new TspTwProblem(numNodes, time, timeWindows, optimal, None)
 
+  /** Returns a representation of the TSPTW given a time matrix
+    *
+    * @param timeMatrix
+    *   matrix such that `timeMatrix(i)(j)` is the travel time between nodes `i` and `j`
+    * @param timeWindows
+    *   for each node, contains the associated time window
+    * @param optimal
+    *   if known, the optimal solution of this problem. Useful for tests
+    * @param name
+    *   an optional name to override the default `toString`
+    * @return
+    *   a representation of the TSPTW
+    */
+  def apply(
+    timeMatrix: Array[Array[Int]],
+    timeWindows: Array[TimeWindow],
+    optimal: Option[Double] = None,
+    name: Option[String] = None
+  ): TspTwProblem = {
+    new TspTwProblem(timeMatrix.length, i => j => timeMatrix(i)(j), timeWindows, optimal, name)
+  }
+
+  /** Returns a representation of the TSPTW given the path to a data file.
+    *
+    * ===Data file format===
+    *   - First line: number of nodes (variables). Optionally, a second value may be provided for
+    *     the optimal objective.
+    *   - Next lines: the distance matrix, one row per node.
+    *   - Following lines: time windows for each node, specified as two integers (start and end) per
+    *     line.
+    *
+    * @param fname
+    *   the path to the data file
+    * @return
+    *   a representation of the TSPTW
+    */
   def apply(fname: String): TspTwProblem = {
     Using.resource(Source.fromFile(fname)) { reader =>
       val lines = reader.getLines().map(_.trim).filter(l => l.nonEmpty && !l.startsWith("#")).toList
@@ -35,18 +67,37 @@ object TspTwProblem {
         }
         .toArray
 
-      new TspTwProblem(numVar, i => j => timeMatrix(i)(j), tw, optimalValue, Some(fname))
+      TspTwProblem(timeMatrix, tw, optimalValue, Some(fname))
     }
 
   }
 }
 
+/** Class representing an instance of the Traveling Salesman Problem with Time Windows (TSPTW).
+  *
+  * <p> Each node has a time window during which it must be visited, and travel between nodes is
+  * defined by a distance matrix. This class implements the [[org.ddolibscala.modeling.Problem]]
+  * trait for use in decision diagram solvers. </p>
+  *
+  * <p> The problem instance can optionally provide the known optimal solution. </p>
+  *
+  * @param numNodes
+  *   the number of nodes to route (including the start point)
+  * @param time
+  *   function such that `time(i)(j)` returns the travel time between node `i` and node `j`
+  * @param timeWindows
+  *   for each node, contains the associated time window
+  * @param _optimal
+  *   if known, the optimal solution of this problem. Useful for tests
+  * @param name
+  *   an optional name to override the default `toString`
+  */
 class TspTwProblem(
   numNodes: Int,
   val time: Int => Int => Int,
   val timeWindows: Array[TimeWindow],
-  _optimal: Option[Double],
-  name: Option[String]
+  _optimal: Option[Double] = None,
+  name: Option[String] = None
 ) extends Problem[TspTwState] {
 
   override def nbVars(): Int = numNodes
