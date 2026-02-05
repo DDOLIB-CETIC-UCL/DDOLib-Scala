@@ -73,7 +73,7 @@ object TspTwProblem {
   }
 }
 
-/** Class representing an instance of the Traveling Salesman Problem with Time Windows (TSPTW).
+/** Class representing an instance of the Traveling Salesperson Problem with Time Windows (TSPTW).
   *
   * <p> Each node has a time window during which it must be visited, and travel between nodes is
   * defined by a distance matrix. This class implements the [[org.ddolibscala.modeling.Problem]]
@@ -113,16 +113,15 @@ class TspTwProblem(
   override def initialValue(): Double = 0
 
   override def domainValues(state: TspTwState, variable: Int): Iterable[Int] = {
-    if (state.depth == nbVars() - 1 && reachable(state, 0)) return BitSet(0)
+    if (state.depth == nbVars() - 1 && reachable(state, 0)) BitSet(0)
+    else if (state.mustVisit.forall(node => reachable(state, node))) {
+      var toReturn: BitSet = BitSet.fromSpecific(state.mustVisit)
 
-    if (state.mustVisit.exists(node => !reachable(state, node))) return Nil
+      if (state.mustVisit.size < nbVars() - state.depth)
+        toReturn = toReturn union state.maybeVisit.filter(node => reachable(state, node))
 
-    var toReturn: BitSet = BitSet.fromSpecific(state.mustVisit)
-
-    if (state.mustVisit.size < nbVars() - state.depth)
-      toReturn = toReturn union state.maybeVisit.filter(node => reachable(state, node))
-
-    toReturn
+      toReturn
+    } else Nil
 
   }
 
@@ -178,6 +177,7 @@ class TspTwProblem(
 
   override def optimal: Option[Double] = _optimal
 
+  /** Returns the travel time between this node */
   private[tsptw] def minDuration(from: TspTwState, to: Int): Int = {
     from.position match {
       case TspNode(pos)        => time(pos)(to)
@@ -185,14 +185,18 @@ class TspTwProblem(
     }
   }
 
+  /** Returns whether the node `to` is reachable from node `from` according its time window. */
   private[tsptw] def reachable(from: TspTwState, to: Int): Boolean = {
     val duration = minDuration(from, to)
     from.time + duration <= timeWindows(to).end
   }
 
+  /** Returns the maximum between the arrival time at node `to` from node `from` and the start
+    * of `to`'s time window.
+    */
   private def arrivalTime(from: TspTwState, to: Int): Int = {
-    val time: Int = from.time + minDuration(from, to)
-    time max timeWindows(to).start
+    val arrival: Int = from.time + minDuration(from, to)
+    arrival max timeWindows(to).start
   }
 
   override def toString: String = {

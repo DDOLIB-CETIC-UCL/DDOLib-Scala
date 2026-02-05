@@ -5,6 +5,7 @@ import org.ddolibscala.tools.dominance.SimpleDominanceChecker
 
 import java.nio.file.Paths
 
+/** Example of TSPTW resolution with an A* solver. */
 object TspTwAstarMain {
 
   def main(args: Array[String]): Unit = {

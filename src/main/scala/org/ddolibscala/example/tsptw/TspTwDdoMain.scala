@@ -8,6 +8,7 @@ import org.ddolibscala.util.DebugMode.On
 
 import java.nio.file.Paths
 
+/** Example of TSPTW resolution with a DDO solver. */
 object TspTwDdoMain {
 
   def main(args: Array[String]): Unit = {
