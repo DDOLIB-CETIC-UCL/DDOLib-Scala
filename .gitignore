@@ -2,3 +2,6 @@
 .idea
 target
 output
+
+bench/*/results/
+bench/*/logs/
