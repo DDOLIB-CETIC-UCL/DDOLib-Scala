@@ -48,7 +48,7 @@ object MispProblem {
     var opti: Option[Double]      = None
     var numNodes: Int             = 0
 
-    Using(Source.fromFile(fname)) { source =>
+    Using.resource(Source.fromFile(fname)) { source =>
       val (nodesLines, edgesLines) = source.getLines().drop(1).span(!_.contains("--"))
 
       for (line <- nodesLines if line.trim.nonEmpty) {
@@ -75,7 +75,7 @@ object MispProblem {
         neighbors(source) = neighbors(source) + target
         neighbors(target) = neighbors(target) + source
       }
-    }.get //to catch errors
+    }
 
     MispProblem(BitSet.fromSpecific(0 until numNodes), neighbors, weights.toArray, opti)
 
