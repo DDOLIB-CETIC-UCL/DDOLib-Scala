@@ -83,8 +83,8 @@ object TspTwProblem {
   *
   * @param numNodes
   *   the number of nodes to route (including the start point)
-  * @param time
-  *   function such that `time(i)(j)` returns the travel time between node `i` and node `j`
+  * @param timeMatrix
+  *   function such that `timeMatrix(i)(j)` returns the travel time between node `i` and node `j`
   * @param timeWindows
   *   for each node, contains the associated time window
   * @param _optimal
@@ -94,7 +94,7 @@ object TspTwProblem {
   */
 class TspTwProblem(
   numNodes: Int,
-  val time: Int => Int => Int,
+  val timeMatrix: Int => Int => Int,
   val timeWindows: Array[TimeWindow],
   _optimal: Option[Double] = None,
   name: Option[String] = None
@@ -157,11 +157,11 @@ class TspTwProblem(
       s"Solution $solutionStr has duplicated nodes and does not reach each node"
     )
 
-    var currentTime: Int = time(0)(solution(0)) max timeWindows(solution(0)).start
+    var currentTime: Int = timeMatrix(0)(solution(0)) max timeWindows(solution(0)).start
     for (i <- 1 until nbVars()) {
       val from: Int        = solution(i - 1)
       val to: Int          = solution(i)
-      val arrivalTime: Int = currentTime + time(from)(to)
+      val arrivalTime: Int = currentTime + timeMatrix(from)(to)
       require(
         arrivalTime <= timeWindows(to).end,
         s""" This solution does respect time windows
@@ -180,8 +180,8 @@ class TspTwProblem(
   /** Returns the travel time between this node */
   private[tsptw] def minDuration(from: TspTwState, to: Int): Int = {
     from.position match {
-      case TspNode(pos)        => time(pos)(to)
-      case VirtualNodes(nodes) => nodes.map(time(_)(to)).min
+      case TspNode(pos)        => timeMatrix(pos)(to)
+      case VirtualNodes(nodes) => nodes.map(timeMatrix(_)(to)).min
     }
   }
 
@@ -191,8 +191,8 @@ class TspTwProblem(
     from.time + duration <= timeWindows(to).end
   }
 
-  /** Returns the maximum between the arrival time at node `to` from node `from` and the start
-    * of `to`'s time window.
+  /** Returns the maximum between the arrival time at node `to` from node `from` and the start of
+    * `to`'s time window.
     */
   private def arrivalTime(from: TspTwState, to: Int): Int = {
     val arrival: Int = from.time + minDuration(from, to)
@@ -200,8 +200,8 @@ class TspTwProblem(
   }
 
   override def toString: String = {
-    val timeMatrixStr = Array
-      .tabulate(nbVars(), nbVars())((i, j) => time(i)(j))
+    val timeMatrixStr: String = Array
+      .tabulate(nbVars(), nbVars())((i, j) => timeMatrix(i)(j))
       .map(_.map(x => f"$x%3s").mkString(" "))
       .mkString("\n")
     val str =

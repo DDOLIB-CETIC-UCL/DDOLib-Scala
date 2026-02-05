@@ -5,15 +5,24 @@ import org.ddolibscala.modeling.Relaxation
 
 import scala.collection.mutable
 
+/** Companion object of the [[TspTwRelax]] class. */
 object TspTwRelax {
 
+  /** Returns an object that computes relaxation for [[TspTwState]].s
+    *
+    * @param numVar
+    *   number of variables/nodes in the associated TSPTW problem
+    * @return
+    *   an object that computes relaxation for [[TspTwState]]
+    */
   def apply(numVar: Int): TspTwRelax = new TspTwRelax(numVar)
 }
 
-/** Relaxation class for the Traveling Salesman Problem with Time Windows (TSPTW). <p> This class
-  * implements the [[org.ddolibscala.modeling.Relaxation]] interface for [[TspTwState]]. It provides
-  * methods to merge multiple states into a relaxed state and to relax the cost of transitions
-  * (edges) between states. </p>
+/** Relaxation class for the Traveling Salesman Problem with Time Windows (TSPTW).
+  *
+  * <p> This class implements the [[org.ddolibscala.modeling.Relaxation]] interface for
+  * [[TspTwState]]. It provides methods to merge multiple states into a relaxed state and to relax
+  * the cost of transitions (edges) between states. </p>
   *
   * @param numVar
   *   number of variables/nodes in the associated TSPTW problem
@@ -21,7 +30,7 @@ object TspTwRelax {
 class TspTwRelax(numVar: Int) extends Relaxation[TspTwState] {
 
   /** Represents infinity for arrival time. */
-  private val Infinity = Int.MaxValue
+  private val Infinity: Int = Int.MaxValue
 
   /** Merges multiple TSPTW states into a single relaxed state.
     *

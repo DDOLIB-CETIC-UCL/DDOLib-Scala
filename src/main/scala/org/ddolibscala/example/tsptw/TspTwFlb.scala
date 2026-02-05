@@ -2,6 +2,8 @@ package org.ddolibscala.example.tsptw
 
 import org.ddolibscala.modeling.FastLowerBound
 
+import scala.collection.immutable.BitSet
+
 /** Companion object of the [[TspTwFlb]] class. */
 object TspTwFlb {
 
@@ -37,17 +39,19 @@ object TspTwFlb {
   */
 class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
 
-  private val Infinity      = Int.MaxValue
-  private val numVar        = problem.nbVars()
-  private val cheapestEdges =
-    Array.tabulate(numVar)(i => (0 until numVar).iterator.filter(_ != i).map(problem.time(i)).min)
+  private val Infinity: Int             = Int.MaxValue
+  private val numVar: Int               = problem.nbVars()
+  private val cheapestEdges: Array[Int] =
+    Array.tabulate(numVar)(i =>
+      (0 until numVar).iterator.filter(_ != i).map(problem.timeMatrix(i)).min
+    )
 
   override def lowerBound(state: TspTwState, variables: Iterable[Int]): Double = if (
     state.mustVisit.exists(!problem.reachable(state, _))
   ) Infinity.toDouble
   else {
-    val mustTravelCost = state.mustVisit.iterator.map(cheapestEdges).sum
-    val completeTour   = numVar - state.depth - 1 - state.mustVisit.size
+    val mustTravelCost: Int = state.mustVisit.iterator.map(cheapestEdges).sum
+    val completeTour: Int   = numVar - state.depth - 1 - state.mustVisit.size
 
     costsFromMaybe(state, completeTour) match {
       case None                  => Infinity.toDouble
@@ -56,26 +60,26 @@ class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
     }
   }
 
-  private def costsFromMaybe(state: TspTwState, numToCompleteTour: Int) = if (
-    numToCompleteTour <= 0
-  ) Some(0)
-  else {
-    val candidates = state.maybeVisit.filter(problem.reachable(state, _))
-    if (candidates.size < numToCompleteTour) None
-    else Some(candidates.map(cheapestEdges).toSeq.sorted.take(numToCompleteTour).sum)
+  private def costsFromMaybe(state: TspTwState, numToCompleteTour: Int): Option[Int] = {
+    if (numToCompleteTour <= 0) Some(0)
+    else {
+      val candidates = state.maybeVisit.filter(problem.reachable(state, _))
+      if (candidates.size < numToCompleteTour) None
+      else Some(candidates.map(cheapestEdges).toSeq.sorted.take(numToCompleteTour).sum)
+    }
   }
 
   private def computeFinalCost(state: TspTwState, travelCost: Int, numToCompleteTour: Int) = {
 
-    val nodesToRoute =
+    val nodesToRoute: BitSet =
       if (numToCompleteTour <= 0) state.mustVisit else state.mustVisit union state.maybeVisit
 
-    val backToDepot = nodesToRoute.iterator
-      .map(problem.time(_)(0))
+    val backToDepot: Int = nodesToRoute.iterator
+      .map(problem.timeMatrix(_)(0))
       .minOption
       .getOrElse(problem.minDuration(state, 0))
 
-    val total = travelCost + backToDepot
+    val total: Int = travelCost + backToDepot
     if (state.time + total > problem.timeWindows(0).end) Infinity
     else total
   }

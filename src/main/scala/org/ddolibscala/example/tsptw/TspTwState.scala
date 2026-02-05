@@ -2,8 +2,8 @@ package org.ddolibscala.example.tsptw
 
 import scala.collection.immutable.BitSet
 
-/** Represents a state in the dynamic programming model for the Traveling Salesperson Problem with Time
-  * Windows (TSPTW). <p> Each state encapsulates the current information about the vehicle's
+/** Represents a state in the dynamic programming model for the Traveling Salesperson Problem with
+  * Time Windows (TSPTW). <p> Each state encapsulates the current information about the vehicle's
   * position, the set of nodes yet to visit, and timing information. This record is used both for
   * individual states and for relaxed/merged states. </p>
   *
