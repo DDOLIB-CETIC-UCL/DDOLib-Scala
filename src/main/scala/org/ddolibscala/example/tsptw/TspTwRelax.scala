@@ -50,7 +50,7 @@ class TspTwRelax(numVar: Int) extends Relaxation[TspTwState] {
   override def merge(statesToMerge: Iterable[TspTwState]): TspTwState = {
     val mergedPos: mutable.Set[Int] = mutable.HashSet.empty
     var mergedTime: Int             = Infinity
-    val mergedMust: mutable.BitSet  = mutable.BitSet.empty
+    val mergedMust: mutable.BitSet  = mutable.BitSet.fromSpecific(statesToMerge.head.mustVisit)
     val mergedMaybe: mutable.BitSet = mutable.BitSet.empty
     val mergedDepth: Int            = statesToMerge.head.depth
 
