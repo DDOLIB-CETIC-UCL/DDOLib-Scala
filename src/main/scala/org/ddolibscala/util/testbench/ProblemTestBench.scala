@@ -15,15 +15,15 @@ object ProblemTestBench {
   /** Returns a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
     *
     * @param problems
-    *   the list of problem instances to test
+    *   the list of problem instances to test.
     * @param configFactory
-    *   a function providing the solver configuration for a given problem
+    *   a function providing the solver configuration for a given problem.
     * @tparam T
     *   the type of the state in the problem.
     * @tparam P
-    *   the type of the problem implementation
+    *   the type of the problem implementation.
     * @return
-    *   a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations
+    *   a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
     */
   def apply[T, P <: Problem[T]](
     problems: List[P],
@@ -37,13 +37,13 @@ object ProblemTestBench {
   * objects that can be run by any test framework.
   *
   * @param problems
-  *   the list of problem instances to test
+  *   the list of problem instances to test.
   * @param configFactory
-  *   a function providing the solver configuration for a given problem
+  *   a function providing the solver configuration for a given problem.
   * @tparam T
   *   the type of the state in the problem.
   * @tparam P
-  *   the type of the problem implementation
+  *   the type of the problem implementation.
   */
 class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P => TestModel[T]) {
 
@@ -56,7 +56,7 @@ class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P =
   /** Generates all the test cases based on the provided problems and configuration.
     *
     * @return
-    *   a list of test cases ready to be executed
+    *   a list of test cases ready to be executed.
     */
   def generateTests(): List[GeneratedTest] = {
     problems.flatMap { p =>

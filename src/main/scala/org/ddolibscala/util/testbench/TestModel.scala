@@ -19,7 +19,7 @@ trait TestModel[T] {
     *
     * @return
     *   the fast lower bound instance, defaulting to
-    *   [[org.ddolibscala.modeling.DefaultFastLowerBound]]
+    *   [[org.ddolibscala.modeling.DefaultFastLowerBound]].
     */
   def flb: FastLowerBound[T] = DefaultFastLowerBound()
 
@@ -27,14 +27,14 @@ trait TestModel[T] {
     *
     * @return
     *   the relaxation implementation if the problem requires it, or `None` if no relaxation is
-    *   defined
+    *   defined.
     */
   def relaxation: Option[Relaxation[T]] = None
 
   /** Specifies the state ranking heuristic used to select nodes when the width limit is reached.
     *
     * @return
-    *   the state ranking strategy, defaulting to [[org.ddolibscala.modeling.DefaultStateRanking]]
+    *   the state ranking strategy, defaulting to [[org.ddolibscala.modeling.DefaultStateRanking]].
     */
   def ranking: StateRanking[T] = DefaultStateRanking()
 
@@ -42,7 +42,7 @@ trait TestModel[T] {
     *
     * @return
     *   the dominance checker instance, defaulting to
-    *   [[org.ddolibscala.tools.dominance.DefaultDominanceChecker]]
+    *   [[org.ddolibscala.tools.dominance.DefaultDominanceChecker]].
     */
   def dominance: DominanceChecker[T] = DefaultDominanceChecker[T]()
 

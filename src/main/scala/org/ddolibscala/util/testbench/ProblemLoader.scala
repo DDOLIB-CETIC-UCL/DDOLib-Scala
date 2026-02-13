@@ -18,13 +18,13 @@ object ProblemLoader {
     * directory does not exist or cannot be read, it returns an empty list.
     *
     * @tparam P
-    *   the type of the problem instance to create
+    *   the type of the problem instance to create.
     * @param pathStr
-    *   the string path to the directory containing the problem files
+    *   the string path to the directory containing the problem files.
     * @param factory
-    *   a function that creates a problem instance from a file path string
+    *   a function that creates a problem instance from a file path string.
     * @return
-    *   a list of problem instances loaded from the directory
+    *   a list of problem instances loaded from the directory.
     */
   def loadFromDir[P](pathStr: String)(factory: String => P): List[P] = {
     val path = Paths.get(pathStr)
