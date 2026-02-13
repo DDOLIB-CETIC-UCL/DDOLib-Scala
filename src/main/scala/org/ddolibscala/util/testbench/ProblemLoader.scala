@@ -19,19 +19,24 @@ object ProblemLoader {
     *
     * @tparam P
     *   the type of the problem instance to create.
-    * @param pathStr
+    * @param pathDir
     *   the string path to the directory containing the problem files.
     * @param factory
     *   a function that creates a problem instance from a file path string.
     * @return
     *   a list of problem instances loaded from the directory.
     */
-  def loadFromDir[P](pathStr: String)(factory: String => P): List[P] = {
-    val path = Paths.get(pathStr)
-    if (Files.exists(path)) {
-      Using(Files.list(path)) { stream =>
-        stream.filter(Files.isRegularFile(_)).map(_.toString).toList.asScala.toList
-      }.getOrElse(Nil).map(factory)
+  def loadFromDir[P](pathDir: String)(factory: String => P): List[P] = {
+    val dir = Paths.get(pathDir)
+    if (Files.exists(dir)) {
+      Using.resource(Files.walk(dir)) { stream =>
+        stream // Java stream
+          .filter(Files.isRegularFile(_))
+          .map(file => factory(file.toString))
+          .toList //to Java mutable List
+          .asScala // to Scala mutable Buffer
+          .toList // to Scala immutable List
+      }
     } else Nil
   }
 }
