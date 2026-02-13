@@ -17,7 +17,7 @@ trait FastLowerBound[T] extends org.ddolib.modeling.FastLowerBound[T] {
     * @param variables
     *   the set of unassigned variables
     * @return
-    *   avery rough estimation (lower bound) of the optimal value that could be reached if state
+    *   a very rough estimation (lower bound) of the optimal value that could be reached if state
     *   were the initial state
     */
   def lowerBound(state: T, variables: Iterable[Int]): Double
