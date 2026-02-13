@@ -18,17 +18,17 @@ object ProblemTestBench {
     *   the list of problem instances to test.
     * @param configFactory
     *   a function providing the solver configuration for a given problem.
-    * @tparam T
+    * @tparam S
     *   the type of the state in the problem.
     * @tparam P
     *   the type of the problem implementation.
     * @return
     *   a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
     */
-  def apply[T, P <: Problem[T]](
+  def apply[S, P <: Problem[S]](
     problems: List[P],
-    configFactory: P => TestModel[T]
-  ): ProblemTestBench[T, P] = new ProblemTestBench(problems, configFactory)
+    configFactory: P => TestModel[S]
+  ): ProblemTestBench[S, P] = new ProblemTestBench(problems, configFactory)
 }
 
 /** A standalone generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
@@ -40,12 +40,12 @@ object ProblemTestBench {
   *   the list of problem instances to test.
   * @param configFactory
   *   a function providing the solver configuration for a given problem.
-  * @tparam T
+  * @tparam S
   *   the type of the state in the problem.
   * @tparam P
   *   the type of the problem implementation.
   */
-class ProblemTestBench[T, P <: Problem[T]](problems: List[P], configFactory: P => TestModel[T]) {
+class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P => TestModel[S]) {
 
   /** The minimal width of the MDD to test. */
   var minWidth: Int = 2
