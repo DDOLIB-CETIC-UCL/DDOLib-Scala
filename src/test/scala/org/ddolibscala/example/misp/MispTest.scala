@@ -26,7 +26,7 @@ class MispTest extends AnyFunSuite {
 
   bench.generateTests().foreach { testCase =>
     test(testCase.name) {
-      testCase.action()
+      testCase.executeTest()
     }
   }
 }
