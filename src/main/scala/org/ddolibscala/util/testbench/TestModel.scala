@@ -10,10 +10,10 @@ import org.ddolibscala.tools.dominance.DefaultDominanceChecker
   * Dominance) required to solve a problem. It corresponds to the specific configuration needed to
   * instantiate the solver for a given test case.
   *
-  * @tparam T
+  * @tparam S
   *   the type of the state in the problem
   */
-trait TestModel[T] {
+trait TestModel[S] {
 
   /** Specifies the Fast Lower Bound (FLB) implementation to use.
     *
@@ -21,7 +21,7 @@ trait TestModel[T] {
     *   the fast lower bound instance, defaulting to
     *   [[org.ddolibscala.modeling.DefaultFastLowerBound]].
     */
-  def flb: FastLowerBound[T] = DefaultFastLowerBound()
+  def flb: FastLowerBound[S] = DefaultFastLowerBound()
 
   /** Specifies the Relaxation logic to use, if any.
     *
@@ -29,14 +29,14 @@ trait TestModel[T] {
     *   the relaxation implementation if the problem requires it, or `None` if no relaxation is
     *   defined.
     */
-  def relaxation: Option[Relaxation[T]] = None
+  def relaxation: Option[Relaxation[S]] = None
 
   /** Specifies the state ranking heuristic used to select nodes when the width limit is reached.
     *
     * @return
     *   the state ranking strategy, defaulting to [[org.ddolibscala.modeling.DefaultStateRanking]].
     */
-  def ranking: StateRanking[T] = DefaultStateRanking()
+  def ranking: StateRanking[S] = DefaultStateRanking()
 
   /** Specifies the dominance checking strategy to prune dominated states.
     *
@@ -44,6 +44,6 @@ trait TestModel[T] {
     *   the dominance checker instance, defaulting to
     *   [[org.ddolibscala.tools.dominance.DefaultDominanceChecker]].
     */
-  def dominance: DominanceChecker[T] = DefaultDominanceChecker[T]()
+  def dominance: DominanceChecker[S] = DefaultDominanceChecker[S]()
 
 }
