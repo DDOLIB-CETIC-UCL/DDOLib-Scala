@@ -77,8 +77,10 @@ object MispProblem {
       }
     }
 
-    MispProblem(BitSet.fromSpecific(0 until numNodes), neighbors, weights.toArray, opti)
-
+    val problem =
+      MispProblem(BitSet.fromSpecific(0 until numNodes), neighbors, weights.toArray, opti)
+    problem.name = Some(fname)
+    problem
   }
 }
 
@@ -106,7 +108,9 @@ class MispProblem(
   _optimal: Option[Double]
 ) extends Problem[BitSet] {
 
-  override def optimal: Option[Double] = _optimal
+  private var name: Option[String] = None
+
+  override def optimal: Option[Double] = _optimal.map(-_)
 
   override def nbVars(): Int = weights.length
 
@@ -136,7 +140,7 @@ class MispProblem(
 
     val independentSet: ArrayBuffer[Int] = ArrayBuffer()
     var value: Int                       = 0
-    solution.zipWithIndex.foreach { case (i, v) =>
+    solution.zipWithIndex.foreach { case (v, i) =>
       if (v == 1) {
         independentSet += v
         value += weights(i)
@@ -161,12 +165,14 @@ class MispProblem(
     val weightsStr = weights.zipWithIndex.map { case (w, n) => s"\t$n: $w" }.mkString("\n")
     val neighStr = neighbors.zipWithIndex.map { case (neigh, n) => s"\t$n: $neigh" }.mkString("\n")
 
-    s"""Nodes: $nodes
-       |Weight:
-       |$weightsStr
-       |Neighbors:
-       |$neighStr
-       |""".stripMargin
+    val problemStr = s"""Nodes: $nodes
+                        |Weight:
+                        |$weightsStr
+                        |Neighbors:
+                        |$neighStr
+                        |""".stripMargin
+
+    name.getOrElse(problemStr)
 
   }
 }
