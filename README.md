@@ -51,86 +51,111 @@ If you use this Java version, please cite the DDO paper:
 
 ## Examples
 
-<!--
-The project contains two sets of example models located in the [examples](./src/main/java/org/ddolib/ddo/examples/)
-package.
+The project contains a set example models in the [example](./src/main/scala/org/ddolibscala/example) package.
 
-The Knapsack problem is a classic optimization problem where the goal is to maximize the total value of items while
-staying within a given weight limit. The dynamic programming model used to solve this problem uses the recurrence
-relation:
+The Maximum Independent Set Problem (MISP) a classical optimization problem on a graph.
+In graph theory, an independent set is a set of vertices in a graph where
+none of the vertices are adjacent to each other. The objective of the MISP is an independent set such that the sum of
+weight of the selected nodes is maximal.
 
-`KS(i, c) = max(KS(i-1, c), KS(i-1, c - w[i]) + p[i])`
+Several search strategies are available in DDOLib, and they share the same modeling interface. These include the classic
+branch-and-bound (B&B) approach denoted Ddo, the Astar (A*) approach, and the Anytime Column Search (ACS).
 
-where `KS(i, c)` is the maximum value of the first `i` items with a knapsack capacity of `c`,
-`p[i]` is the profit of item `i`, and `w[i]` is the weight of item `i`.
+Below is the implementation of the transition model for the MISP. The base idea of the transition model is the
+following:
 
-For modeling this problem in DDOLib, we define the `KSProblem` class that implements the `Problem` interface.
-This interface requires to define a state. This state is the remaining capacity of the knapsack (an Integer).
-We also define the `initialState` method to return the initial capacity of the knapsack, and the `initialValue` method
-to return 0 as the initial value of the knapsack.
-The `nbVars` method returns the number of items, which is the same as the number of variables in the problem.
-The `domain` method defines the possible decisions for each item (take or not take), and the `transition` method updates
-the state of the knapsack based on the decision made.
-The `transitionCost` method returns the profit of the item if it is taken, and 0 otherwise.
-This implicitely define a decision diagram where the optimal solution is the longest path from the root to a leaf node.
+- A state is the set of the nodes that can be selected.
+- If a node is selected, all its neighbors can be selected anymore.
 
-```java
-/**
- * The state is the remaining capacity of the knapsack (an Integer thus).
- * The decision is the item to take or not (1 or 0).
- */
-public class KSProblem implements Problem<Integer> {
+```scala
+class MispProblem(
+                   nodes: BitSet,
+                   val neighbors: Array[BitSet],
+                   val weights: Array[Int],
+                   _optimal: Option[Double]
+                 ) extends Problem[BitSet] {
 
-    final int capa;
-    final int[] profit;
-    final int[] weight;
-    public final Integer optimal;
+  private var name: Option[String] = None
 
-    public KSProblem(final int capa, final int[] profit, final int[] weight, final Integer optimal) {
-        this.capa = capa;
-        this.profit = profit;
-        this.weight = weight;
-        this.optimal = optimal;
-    }
+  override def optimal: Option[Double] = _optimal.map(-_)
 
-    @Override
-    public int nbVars() {
-        return profit.length;
-    }
+  override def nbVars(): Int = weights.length
 
-    @Override
-    public Integer initialState() {
-        return capa;
-    }
+  override def initialState(): BitSet = nodes
 
-    @Override
-    public int initialValue() {
-        return 0;
-    }
+  override def initialValue(): Double = 0.0
 
-    @Override
-    public Iterator<Integer> domain(Integer state, int var) {
-        if (state >= weight[var]) { // The item can be taken or not
-            return Arrays.asList(1, 0).iterator();
-        } else { // The item cannot be taken
-            return List.of(0).iterator();
-        }
-    }
+  override def domainValues(state: BitSet, variable: Int): Iterable[Int] = {
+    if (state.contains(variable)) List(0, 1)
+    else List(0)
+  }
 
-    @Override
-    public Integer transition(Integer state, Decision decision) {
-        // If the item is taken (1), we decrease the capacity of the knapsack, otherwise leave it unchanged
-        return state - weight[decision.var()] * decision.val();
-    }
+  override def transition(state: BitSet, decision: Decision): BitSet = {
+    val variable: Int = decision.`var`()
+    if (decision.`val`() == 1) (state - variable) diff neighbors(variable)
+    else state - variable
+  }
 
-    @Override
-    public int transitionCost(Integer state, Decision decision) {
-        // If the item is taken (1) the cost is the profit of the item, 0 otherwise
-        return profit[decision.var()] * decision.val();
-    }
+  override def transitionCost(state: BitSet, decision: Decision): Double =
+    -weights(decision.`var`()) * decision.`val`()
 }
 ```
--->
+
+To the DDO solver, we have to implement a problem specific `Relaxation`. This relaxation is optimistic and aims to
+define how to merge states.
+For the MISP, merging states involves taking the union of the remaining nodes in each of the states.
+
+```scala
+class MispRelaxation extends Relaxation[BitSet] {
+
+  override def merge(statesToMerge: Iterable[BitSet]): BitSet = statesToMerge.reduce(_ union _)
+
+  override def relaxEdge(
+                          from: BitSet,
+                          to: BitSet,
+                          merged: BitSet,
+                          decision: Decision,
+                          cost: Double
+                        ): Double = cost
+}
+```
+
+Solving a instance of the problem can be done as follows:
+
+```scala
+ def main(args: Array[String]): Unit = {
+
+  val problem = MispProblem("data/MISP/50_nodes_1.dot")
+  val solver: Solver =
+    Solver.ddo(
+      problem = problem,
+      relaxation = MispRelaxation(),
+      lowerBound = MispFlb(problem),
+      widthHeuristic = FixedWidth(2),
+      ranking = MispRanking(),
+      frontier = Frontier,
+      verbosityLvl = Large,
+      useCache = true
+    )
+
+  val solution: Solution =
+    solver.minimize(onSolution = (sol: Array[Int], stats: SearchStatistic) => {
+      println("------ NEW BEST ------")
+      println(stats)
+      println(sol.mkString("[", ", ", "]"))
+    })
+
+  println(solution)
+  println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+}
+```
+
+You can find description of each parameter by reading the ScalaDoc.
+
+### Note
+
+By default, DDOLib solves __minimization__ problems. For maximization problem as the MISP, we need ti make some
+adaptation to convert it into a minimization problem.
 
 ### Recommended IDE: IntelliJ IDEA
 
