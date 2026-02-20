@@ -1,5 +1,5 @@
 [![Tests](https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala/actions/workflows/ci.yml/badge.svg)](https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala/actions/workflows/ci.yml)
-[![Scaladoc](https://ddolib-cetic-ucl.github.io/DDOLib-Scala/scaladoc/index.html)
+[![Scaladoc](https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala/actions/workflows/scaladoc.yml/badge.svg)](https://ddolib-cetic-ucl.github.io/DDOLib-Scala/scaladoc/index.html)
 
 ![](logo/logo.png)
 
