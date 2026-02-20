@@ -65,7 +65,7 @@ Below is the implementation of the transition model for the MISP. The base idea 
 following:
 
 - A state is the set of the nodes that can be selected.
-- If a node is selected, all its neighbors can be selected anymore.
+- If a node is selected, all its neighbors can not be selected anymore.
 
 ```scala
 class MispProblem(
@@ -155,7 +155,7 @@ the [ScalaDoc](https://ddolib-cetic-ucl.github.io/DDOLib-Scala/scaladoc/index.ht
 
 ### Note
 
-By default, DDOLib solves __minimization__ problems. For maximization problem as the MISP, we need ti make some
+By default, DDOLib solves __minimization__ problems. For maximization problem as the MISP, we need to make some
 adaptation to convert it into a minimization problem.
 
 ### Recommended IDE: IntelliJ IDEA
