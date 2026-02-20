@@ -49,7 +49,12 @@ If you use this Java version, please cite the DDO paper:
 }
 ```
 
-## Examples
+## Note
+
+By default, DDOLib solves __minimization__ problems. For maximization problem, we need to make some
+adaptation to convert it into a minimization problem.
+
+## Example
 
 The project contains a set example models in the [example](./src/main/scala/org/ddolibscala/example) package.
 
@@ -152,11 +157,6 @@ Solving a instance of the problem can be done as follows:
 
 You can find description of each parameter by reading
 the [ScalaDoc](https://ddolib-cetic-ucl.github.io/DDOLib-Scala/scaladoc/index.html).
-
-### Note
-
-By default, DDOLib solves __minimization__ problems. For maximization problem as the MISP, we need to make some
-adaptation to convert it into a minimization problem.
 
 ### Recommended IDE: IntelliJ IDEA
 
