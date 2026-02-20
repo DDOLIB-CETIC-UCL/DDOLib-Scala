@@ -39,11 +39,7 @@ object MispRelaxation {
   */
 class MispRelaxation extends Relaxation[BitSet] {
 
-  override def merge(statesToMerge: Iterable[BitSet]): BitSet = {
-    var merged: BitSet = BitSet()
-    for (state <- statesToMerge) merged = merged union state
-    merged
-  }
+  override def merge(statesToMerge: Iterable[BitSet]): BitSet = statesToMerge.reduce(_ union _)
 
   override def relaxEdge(
     from: BitSet,
