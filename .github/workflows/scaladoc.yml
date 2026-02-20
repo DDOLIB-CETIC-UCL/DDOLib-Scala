@@ -23,3 +23,11 @@ jobs:
 
       - name: Generation doc
         run: sbt doc
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/scala-3.7.4/api
+          destination_dir: scaladoc
+          enable_jekyll: false
