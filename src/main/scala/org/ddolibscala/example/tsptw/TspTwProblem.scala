@@ -126,7 +126,7 @@ class TspTwProblem(
   }
 
   override def transition(state: TspTwState, decision: Decision): TspTwState = {
-    val target: Int      = decision.`val`()
+    val target: Int      = decision.value()
     val newPos: TspNode  = TspNode(target)
     val newTime: Int     = arrivalTime(state, target)
     val newMust: BitSet  = state.mustVisit - target
@@ -136,7 +136,7 @@ class TspTwProblem(
   }
 
   override def transitionCost(state: TspTwState, decision: Decision): Double = {
-    val to: Int = decision.`val`()
+    val to: Int = decision.value()
 
     val travel: Int  = minDuration(state, to)
     val arrival: Int = state.time + travel;
