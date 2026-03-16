@@ -124,13 +124,13 @@ class MispProblem(
   }
 
   override def transition(state: BitSet, decision: Decision): BitSet = {
-    val variable: Int = decision.`var`()
-    if (decision.`val`() == 1) (state - variable) diff neighbors(variable)
+    val variable: Int = decision.variable()
+    if (decision.value() == 1) (state - variable) diff neighbors(variable)
     else state - variable
   }
 
   override def transitionCost(state: BitSet, decision: Decision): Double =
-    -weights(decision.`var`()) * decision.`val`()
+    -weights(decision.variable()) * decision.value()
 
   override def evaluate(solution: Array[Int]): Double = {
     require(
