@@ -1,6 +1,6 @@
-ThisBuild / version      := "0.0.4"
+ThisBuild / version      := "0.0.4-SNAPSHOT"
 ThisBuild / scalaVersion := "3.7.4"
-ThisBuild / organization := "DDOLib-CETIC-UCL"
+ThisBuild / organization := "be.cetic"
 
 lazy val root = (project in file("."))
   .settings(
