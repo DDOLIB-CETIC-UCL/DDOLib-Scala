@@ -32,6 +32,8 @@ object DdoSolver {
     *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram.
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param ranking
@@ -69,6 +71,7 @@ object DdoSolver {
     problem: Problem[T],
     relaxation: Relaxation[T],
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double,
     dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     ranking: StateRanking[T] = DefaultStateRanking[T](),
     widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
@@ -88,6 +91,7 @@ object DdoSolver {
       problem,
       relaxation,
       lowerBound,
+      upperBound,
       dominance,
       ranking,
       widthHeuristic,
@@ -110,6 +114,7 @@ object DdoSolver {
     _problem: Problem[T],
     _relaxation: Relaxation[T],
     _lowerBound: FastLowerBound[T],
+    _upperBound: Double,
     _dominance: DominanceChecker[T],
     _ranking: StateRanking[T],
     _widthHeuristic: WidthHeuristic[T],
@@ -145,6 +150,8 @@ object DdoSolver {
       override def exportDot(): Boolean = _exportDot
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
+
+      override def upperBound(): Double = _upperBound
 
       override def dominance(): DominanceChecker[T] = _dominance
 

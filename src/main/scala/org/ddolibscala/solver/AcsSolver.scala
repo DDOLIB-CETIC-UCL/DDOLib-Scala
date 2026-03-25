@@ -27,6 +27,8 @@ object AcsSolver {
     *   column width used for formatted output during the Anytime Column Search process.
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param variableHeuristic
@@ -45,6 +47,7 @@ object AcsSolver {
     problem: Problem[T],
     columnWidth: Int = 5,
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double = Double.PositiveInfinity,
     dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     verbosityLvl: VerbosityLvl = Silent,
@@ -54,6 +57,7 @@ object AcsSolver {
       problem,
       columnWidth,
       lowerBound,
+      upperBound,
       dominance,
       variableHeuristic,
       verbosityLvl,
@@ -69,6 +73,7 @@ object AcsSolver {
     _problem: Problem[T],
     _columnWidth: Int,
     _lowerBound: FastLowerBound[T],
+    _upperBound: Double,
     _dominance: DominanceChecker[T],
     _variableHeuristic: VariableHeuristic[T],
     _verbosityLvl: VerbosityLvl,
@@ -81,6 +86,8 @@ object AcsSolver {
       override def columnWidth(): Int = _columnWidth
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
+
+      override def upperBound(): Double = _upperBound
 
       override def dominance(): DominanceChecker[T] = _dominance
 

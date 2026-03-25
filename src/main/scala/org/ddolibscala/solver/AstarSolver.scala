@@ -24,6 +24,8 @@ object AstarSolver {
     *   optimization task
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param variableHeuristic
@@ -41,13 +43,22 @@ object AstarSolver {
   def apply[T](
     problem: Problem[T],
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double,
     dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     debugMode: DebugMode = DebugMode.Off
   ): Solver = {
 
-    initSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)
+    initSolver(
+      problem,
+      lowerBound,
+      upperBound,
+      dominance,
+      variableHeuristic,
+      verbosityLvl,
+      debugMode
+    )
   }
 
   /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
@@ -56,6 +67,7 @@ object AstarSolver {
   private def initSolver[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T],
+    _upperBound: Double,
     _dominance: DominanceChecker[T],
     _variableHeuristic: VariableHeuristic[T],
     _verbosityLvl: VerbosityLvl,
@@ -66,6 +78,8 @@ object AstarSolver {
       override def problem(): Problem[T] = _problem
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
+
+      override def upperBound(): Double = _upperBound
 
       override def dominance(): DominanceChecker[T] = _dominance
 
