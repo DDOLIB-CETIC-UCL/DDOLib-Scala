@@ -14,26 +14,26 @@ import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 /** Defines factory for an
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]]
   */
-object AstarSolver {
+private[solver] object AstarSolver {
 
   /** Instantiates and returns an
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]]
     *
-    * @param problem
+    * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
-    * @param lowerBound
+    * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
+    * @param _upperBound
     *   a precomputed upper used to start pruning earlier
-    * @param dominance
+    * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
-    * @param variableHeuristic
+    * @param _variableHeuristic
     *   the heuristic used to determine the next variable to branch on during decision diagram
     *   compilation
-    * @param verbosityLvl
+    * @param _verbosityLvl
     *   the verbosity level of the solver when this model is executed
-    * @param debugMode
+    * @param _debugMode
     *   the debugging level to apply during the compilation and solving phases
     * @tparam T
     *   the type representing a state in the problem
@@ -41,37 +41,13 @@ object AstarSolver {
     *   a solver based on the A* algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
-
-    initSolver(
-      problem,
-      lowerBound,
-      upperBound,
-      dominance,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode
-    )
-  }
-
-  /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
-    * method.
-    */
-  private def initSolver[T](
     _problem: Problem[T],
-    _lowerBound: FastLowerBound[T],
+    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _upperBound: Double,
-    _dominance: DominanceChecker[T],
-    _variableHeuristic: VariableHeuristic[T],
-    _verbosityLvl: VerbosityLvl,
-    _debugMode: DebugMode
+    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    _debugMode: DebugMode = DebugMode.Off
   ): Solver = {
 
     val model: Model[T] = new Model[T] {
@@ -92,5 +68,4 @@ object AstarSolver {
 
     new Solver(new org.ddolib.astar.core.solver.AStarSolver[T](model))
   }
-
 }

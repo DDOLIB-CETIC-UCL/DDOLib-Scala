@@ -15,28 +15,28 @@ import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 /** Defines factory for an
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime Column Search (ACS) solver]]
   */
-object AcsSolver {
+private[solver] object AcsSolver {
 
   /** Instantiates and returns an
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime column search (ACS) solver]]
     *
-    * @param problem
+    * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
-    * @param columnWidth
+    * @param _columnWidth
     *   column width used for formatted output during the Anytime Column Search process.
-    * @param lowerBound
+    * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
+    * @param _upperBound
     *   a precomputed upper used to start pruning earlier
-    * @param dominance
+    * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
-    * @param variableHeuristic
+    * @param _variableHeuristic
     *   the heuristic used to determine the next variable to branch on during decision diagram
     *   compilation
-    * @param verbosityLvl
+    * @param _verbosityLvl
     *   the verbosity level of the solver when this model is executed
-    * @param debugMode
+    * @param _debugMode
     *   the debugging level to apply during the compilation and solving phases
     * @tparam T
     *   the type representing a state in the problem
@@ -44,40 +44,14 @@ object AcsSolver {
     *   a solver based on the ACS algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    columnWidth: Int = 5,
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double = Double.PositiveInfinity,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = Silent,
-    debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
-    initSolver(
-      problem,
-      columnWidth,
-      lowerBound,
-      upperBound,
-      dominance,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode
-    )
-
-  }
-
-  /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
-    * method.
-    */
-  private def initSolver[T](
     _problem: Problem[T],
-    _columnWidth: Int,
-    _lowerBound: FastLowerBound[T],
-    _upperBound: Double,
-    _dominance: DominanceChecker[T],
-    _variableHeuristic: VariableHeuristic[T],
-    _verbosityLvl: VerbosityLvl,
-    _debugMode: DebugMode
+    _columnWidth: Int = 5,
+    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    _upperBound: Double = Double.PositiveInfinity,
+    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    _verbosityLvl: VerbosityLvl = Silent,
+    _debugMode: DebugMode = DebugMode.Off
   ): Solver = {
 
     val model: AcsModel[T] = new AcsModel[T] {
@@ -99,7 +73,5 @@ object AcsSolver {
     }
 
     new Solver(new org.ddolib.acs.core.solver.ACSSolver[T](model))
-
   }
-
 }

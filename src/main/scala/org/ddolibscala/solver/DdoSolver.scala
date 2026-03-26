@@ -20,46 +20,46 @@ import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 /** Defines factory for a
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
   */
-object DdoSolver {
+private[solver] object DdoSolver {
 
   /** Instantiates and returns a
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
     *
-    * @param problem
+    * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
-    * @param relaxation
+    * @param _relaxation
     *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram.
-    * @param lowerBound
+    * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
+    * @param _upperBound
     *   a precomputed upper used to start pruning earlier
-    * @param dominance
+    * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
-    * @param ranking
+    * @param _ranking
     *   the heuristic used to determine the next variable to branch on during decision diagram
     *   compilation
-    * @param widthHeuristic
+    * @param _widthHeuristic
     *   heuristic controlling the maximum number of nodes per layer
-    * @param frontier
+    * @param _frontier
     *   type of frontier management strategy used to store and expand the current layer of the
     *   decision diagram.
-    * @param useCache
+    * @param _useCache
     *   whether caching mechanism must be used
-    * @param exportDot
+    * @param _exportDot
     *   whether the generated diagram must be exported to DOT file
-    * @param variableHeuristic
+    * @param _variableHeuristic
     *   the heuristic used to determine the next variable to branch on during decision diagram
     *   compilation
-    * @param verbosityLvl
+    * @param _verbosityLvl
     *   the verbosity level of the solver when this model is executed
-    * @param debugMode
+    * @param _debugMode
     *   the debugging level to apply during the compilation and solving phases
-    * @param relaxStrategy
+    * @param _relaxStrategy
     *   strategy to select which nodes should be merged together on a relaxed DD
-    * @param restrictStrategy
+    * @param _restrictStrategy
     *   strategy to select which nodes should be dropped on a restricted DD
-    * @param stateDistance
+    * @param _stateDistance
     *   distance function between states, used to form clusters when deciding which nodes on a layer
     *   of a decision diagram should be merged.
     * @tparam T
@@ -68,65 +68,24 @@ object DdoSolver {
     *   a solver based on the DDO algorithm
     */
   def apply[T](
-    problem: Problem[T],
-    relaxation: Relaxation[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    ranking: StateRanking[T] = DefaultStateRanking[T](),
-    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-    frontier: CutSetType = CutSetType.LastExactLayer,
-    useCache: Boolean = false,
-    exportDot: Boolean = false,
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off,
-    relaxStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
-    restrictStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
-    stateDistance: StateDistance[T] = new StateDistance[T] {
-      override def distance(t: T, t1: T): Double = 0.0
-    }
-  ): Solver = {
-    initSolver(
-      problem,
-      relaxation,
-      lowerBound,
-      upperBound,
-      dominance,
-      ranking,
-      widthHeuristic,
-      frontier,
-      useCache,
-      exportDot,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode,
-      relaxStrategy,
-      restrictStrategy,
-      stateDistance
-    )
-  }
-
-  /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
-    * method.
-    */
-  private def initSolver[T](
     _problem: Problem[T],
     _relaxation: Relaxation[T],
-    _lowerBound: FastLowerBound[T],
+    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _upperBound: Double,
-    _dominance: DominanceChecker[T],
-    _ranking: StateRanking[T],
-    _widthHeuristic: WidthHeuristic[T],
-    _frontier: CutSetType,
-    _useCache: Boolean,
-    _exportDot: Boolean,
-    _variableHeuristic: VariableHeuristic[T],
-    _verbosityLvl: VerbosityLvl,
-    _debugMode: DebugMode,
-    _relaxStrategy: ReductionStrategy[T],
-    _restrictStrategy: ReductionStrategy[T],
-    _stateDistance: StateDistance[T]
+    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _ranking: StateRanking[T] = DefaultStateRanking[T](),
+    _widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+    _frontier: CutSetType = CutSetType.LastExactLayer,
+    _useCache: Boolean = false,
+    _exportDot: Boolean = false,
+    _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    _debugMode: DebugMode = DebugMode.Off,
+    _relaxStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
+    _restrictStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
+    _stateDistance: StateDistance[T] = new StateDistance[T] {
+      override def distance(t: T, t1: T): Double = 0.0
+    }
   ): Solver = {
     val model: DdoModel[T] = new DdoModel[T] {
 
@@ -170,5 +129,4 @@ object DdoSolver {
 
     new Solver(new org.ddolib.ddo.core.solver.SequentialSolver[T](model))
   }
-
 }
