@@ -2,19 +2,6 @@ package org.ddolibscala.tools.dominance
 
 import org.ddolibscala.modeling.Dominance
 
-/** Companion object of the [[DefaultDominanceChecker]] class */
-object DefaultDominanceChecker {
-
-  /** Returns a default of a [[DominanceChecker]] that performs no dominance checking.
-    *
-    * @tparam T
-    *   the type of states
-    * @return
-    *   a default of a [[DominanceChecker]] that performs no dominance checking
-    */
-  def apply[T](): DefaultDominanceChecker[T] = new DefaultDominanceChecker()
-}
-
 /** Default implementation of a [[DominanceChecker]] that performs no dominance checking. <p> This
   * class can be used as a placeholder when dominance pruning is not required or when a problem does
   * not define any dominance relation between states. </p>

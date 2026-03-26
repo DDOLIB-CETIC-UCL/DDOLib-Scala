@@ -9,28 +9,6 @@ import org.ddolibscala.util.DebugMode.On
 
 import scala.collection.mutable.ListBuffer
 
-/** Companion object of the [[ProblemTestBench]] class. */
-object ProblemTestBench {
-
-  /** Returns a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
-    *
-    * @param problems
-    *   the list of problem instances to test.
-    * @param configFactory
-    *   a function providing the solver configuration for a given problem.
-    * @tparam S
-    *   the type of the state in the problem.
-    * @tparam P
-    *   the type of the problem implementation.
-    * @return
-    *   a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
-    */
-  def apply[S, P <: Problem[S]](
-    problems: List[P],
-    configFactory: P => TestModel[S]
-  ): ProblemTestBench[S, P] = new ProblemTestBench(problems, configFactory)
-}
-
 /** A standalone generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
   *
   * Instead of being a test suite itself, it generates a list of executable [[GeneratedTest]]

@@ -4,20 +4,6 @@ import org.ddolibscala.modeling.FastLowerBound
 
 import scala.collection.immutable.BitSet
 
-/** Companion object of the [[TspTwFlb]] class. */
-object TspTwFlb {
-
-  /** Returns an object that computes a lower bound for the Traveling Salesperson Problem with Time
-    * Windows (TSPTW).
-    *
-    * @param problem
-    *   the associated TSPTW problem instance
-    * @return
-    *   an object that computes a lower bound for the TSPTW
-    */
-  def apply(problem: TspTwProblem): TspTwFlb = new TspTwFlb(problem)
-}
-
 /** Implementation of a fast lower bound for the Traveling Salesperson Problem with Time Windows
   * (TSPTW).
   *

@@ -6,7 +6,7 @@ import org.ddolib.ddo.core.frontier.Frontier
 import org.ddolib.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling.*
+import org.ddolib.modeling.{DdoModel, FastLowerBound, Problem, Relaxation, StateRanking}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}

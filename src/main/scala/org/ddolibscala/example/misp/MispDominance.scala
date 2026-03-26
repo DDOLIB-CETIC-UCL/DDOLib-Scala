@@ -4,17 +4,6 @@ import org.ddolibscala.modeling.Dominance
 
 import scala.collection.immutable.BitSet
 
-/** Companion object of the [[MispDominance]] class. */
-object MispDominance {
-
-  /** Returns a dominance rule for the MISP.
-    *
-    * @return
-    *   a dominance rule for the MISP
-    */
-  def apply(): MispDominance = new MispDominance()
-}
-
 /** Implementation of a dominance relation for the Maximum Independent Set Problem (MISP).
   *
   * <p> In this context, one state `state1` is considered dominated by another state `state2` if all
