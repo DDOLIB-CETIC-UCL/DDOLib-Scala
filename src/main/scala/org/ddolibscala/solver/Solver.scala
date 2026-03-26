@@ -29,7 +29,7 @@ object Solver {
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
     * @param upperBound
-    *   a precomputed upper used to start pruning earlier
+    *   a precomputed upper bound used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param ranking
@@ -129,6 +129,8 @@ object Solver {
     *   optimization task
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper bound used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param variableHeuristic
