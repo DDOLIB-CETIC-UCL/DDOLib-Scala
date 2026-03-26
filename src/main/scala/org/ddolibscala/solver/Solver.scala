@@ -39,7 +39,7 @@ object Solver {
     *   heuristic controlling the maximum number of nodes per layer
     * @param frontier
     *   type of frontier management strategy used to store and expand the current layer of the
-    *   decision diagram.
+    *   decision diagram
     * @param useCache
     *   whether caching mechanism must be used
     * @param exportDot
@@ -89,7 +89,7 @@ object Solver {
   }
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]].
     *
     * @param problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -122,7 +122,7 @@ object Solver {
   }
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]].
     *
     * @param problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -170,7 +170,7 @@ object Solver {
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
     * @param columnWidth
-    *   column width used for formatted output during the Anytime Column Search process.
+    *   column width used for formatted output during the Anytime Column Search process
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
     * @param upperBound
@@ -222,7 +222,7 @@ class Solver private[solver] (javaSolver: org.ddolib.common.solver.Solver) {
 
   /** Minimizes the objective function according to the solver strategy.
     *
-    * <p> It converts input and output from Java to Scala and vice versa </p>
+    * <p> It converts input and output from Java to Scala and vice versa. </p>
     *
     * @param limit
     *   a predicate that can limit or stop the search based on current
