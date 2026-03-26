@@ -25,9 +25,11 @@ object Solver {
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
     * @param relaxation
-    *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram.
+    *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper bound used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param ranking
@@ -37,7 +39,7 @@ object Solver {
     *   heuristic controlling the maximum number of nodes per layer
     * @param frontier
     *   type of frontier management strategy used to store and expand the current layer of the
-    *   decision diagram.
+    *   decision diagram
     * @param useCache
     *   whether caching mechanism must be used
     * @param exportDot
@@ -58,6 +60,7 @@ object Solver {
     problem: Problem[T],
     relaxation: Relaxation[T],
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double = Double.PositiveInfinity,
     dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     ranking: StateRanking[T] = DefaultStateRanking[T](),
     widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
@@ -72,6 +75,7 @@ object Solver {
       problem,
       relaxation,
       lowerBound,
+      upperBound,
       dominance,
       ranking,
       widthHeuristic,
@@ -85,7 +89,7 @@ object Solver {
   }
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]].
     *
     * @param problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -118,13 +122,15 @@ object Solver {
   }
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]].
     *
     * @param problem
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper bound used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param variableHeuristic
@@ -142,12 +148,21 @@ object Solver {
   def astar[T](
     problem: Problem[T],
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double = Double.PositiveInfinity,
     dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     debugMode: DebugMode = DebugMode.Off
   ): Solver = {
-    AstarSolver(problem, lowerBound, dominance, variableHeuristic, verbosityLvl, debugMode)
+    AstarSolver(
+      problem,
+      lowerBound,
+      upperBound,
+      dominance,
+      variableHeuristic,
+      verbosityLvl,
+      debugMode
+    )
   }
 
   /** Instantiates and returns an
@@ -157,9 +172,11 @@ object Solver {
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
     * @param columnWidth
-    *   column width used for formatted output during the Anytime Column Search process.
+    *   column width used for formatted output during the Anytime Column Search process
     * @param lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper used to start pruning earlier
     * @param dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param variableHeuristic
@@ -178,6 +195,7 @@ object Solver {
     problem: Problem[T],
     columnWidth: Int = 5,
     lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double = Double.PositiveInfinity,
     dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
     variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     verbosityLvl: VerbosityLvl = Silent,
@@ -187,6 +205,7 @@ object Solver {
       problem,
       columnWidth,
       lowerBound,
+      upperBound,
       dominance,
       variableHeuristic,
       verbosityLvl,
@@ -201,11 +220,11 @@ object Solver {
   * @param javaSolver
   *   a solver from java version of DDOLib
   */
-class Solver(javaSolver: org.ddolib.common.solver.Solver) {
+class Solver private[solver] (javaSolver: org.ddolib.common.solver.Solver) {
 
   /** Minimizes the objective function according to the solver strategy.
     *
-    * <p> It converts input and output from Java to Scala and vice versa </p>
+    * <p> It converts input and output from Java to Scala and vice versa. </p>
     *
     * @param limit
     *   a predicate that can limit or stop the search based on current

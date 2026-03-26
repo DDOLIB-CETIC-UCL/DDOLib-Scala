@@ -2,7 +2,7 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.*
+import org.ddolib.modeling.{ExactModel, FastLowerBound, Problem}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
@@ -16,23 +16,23 @@ import org.ddolibscala.util.{DebugMode, VerbosityLvl}
   *   This solver generate a complete decision diagram. It must only be used on small instances for
   *   debug purpose.
   */
-object ExactSolver {
+private[solver] object ExactSolver {
 
   /** Instantiates and returns an
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
     *
-    * @param problem
+    * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
-    * @param lowerBound
+    * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param dominance
+    * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
-    * @param verbosityLvl
+    * @param _verbosityLvl
     *   the verbosity level of the solver when this model is executed
-    * @param debugMode
+    * @param _debugMode
     *   the debugging level to apply during the compilation and solving phases
-    * @param exportDot
+    * @param _exportDot
     *   whether the generated diagram must be exported to DOT file
     * @tparam T
     *   the type representing a state in the problem
@@ -40,26 +40,12 @@ object ExactSolver {
     *   a solver that generate a complete decision diagram to solve the problem
     */
   def apply[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off,
-    exportDot: Boolean = false
-  ): Solver = {
-    initSolver(problem, lowerBound, dominance, verbosityLvl, debugMode, exportDot)
-  }
-
-  /** Internal method that initializes the solver allowing simpler parameters' name in the `apply`
-    * method.
-    */
-  private def initSolver[T](
     _problem: Problem[T],
-    _lowerBound: FastLowerBound[T],
-    _dominance: DominanceChecker[T],
-    _verbosityLevel: VerbosityLvl,
-    _debugMode: DebugMode,
-    _exportDot: Boolean
+    _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+    _debugMode: DebugMode = DebugMode.Off,
+    _exportDot: Boolean = false
   ): Solver = {
 
     val model: ExactModel[T] = new ExactModel[T] {
@@ -71,12 +57,11 @@ object ExactSolver {
 
       override def dominance(): DominanceChecker[T] = _dominance
 
-      override def verbosityLevel(): VerbosityLevel = _verbosityLevel.toJava
+      override def verbosityLevel(): VerbosityLevel = _verbosityLvl.toJava
 
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
     new Solver(new org.ddolib.ddo.core.solver.ExactSolver[T](model))
   }
-
 }
