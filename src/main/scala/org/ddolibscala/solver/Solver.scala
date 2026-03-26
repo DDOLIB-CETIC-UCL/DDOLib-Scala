@@ -218,7 +218,7 @@ object Solver {
   * @param javaSolver
   *   a solver from java version of DDOLib
   */
-class Solver(javaSolver: org.ddolib.common.solver.Solver) {
+class Solver private[solver] (javaSolver: org.ddolib.common.solver.Solver) {
 
   /** Minimizes the objective function according to the solver strategy.
     *
