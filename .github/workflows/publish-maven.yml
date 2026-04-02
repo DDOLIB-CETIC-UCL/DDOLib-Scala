@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: sbtscala/scala-sbt:eclipse-temurin-focal-17.0.9_9_1.9.7_3.3.1
 
     steps:
 
