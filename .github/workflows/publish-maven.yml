@@ -29,15 +29,4 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           SONATYPE_USERNAME: ${{ secrets.MVN_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.MVN_PASSWORD }}
-        run: |
-          # Configure GPG for non-interactive mode
-          mkdir -p ~/.gnupg
-          chmod 700 ~/.gnupg
-          echo "use-agent" >> ~/.gnupg/gpg.conf
-          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
-          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
-          gpgconf --kill gpg-agent || true
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
-
-          sbt "clean; compile; publishSigned; sonaRelease"
+        run: sbt ci-release
