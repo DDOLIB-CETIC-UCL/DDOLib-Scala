@@ -22,28 +22,17 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "scalacheck-1-18" % "3.2.19.0" % Test
 )
 
-ThisBuild / licenses := List("Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0"))
-
-ThisBuild / homepage := Some(url("https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala"))
-
-ThisBuild / scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala"),
-    "scm:git@github.com:DDOLIB-CETIC-UCL/DDOLib-Scala.git"
+inThisBuild(List(
+  organization := "com.github.sbt",
+  homepage := Some(url("https://github.com/sbt/sbt-ci-release")),
+  // Alternatively License.Apache2 see https://github.com/sbt/librarymanagement/blob/develop/core/src/main/scala/sbt/librarymanagement/License.scala
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "olafurpg",
+      "Ólafur Páll Geirsson",
+      "olafurpg@gmail.com",
+      url("https://geirsson.com")
+    )
   )
-)
-
-ThisBuild / publishTo := {
-  val nexus = "https://s01.oss.sonatype.org/"
-  if (isSnapshot.value)
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
-
-ThisBuild / credentials += Credentials(
-  "Sonatype Nexus Repository Manager",
-  "s01.oss.sonatype.org",
-  sys.env.getOrElse("SONATYPE_USERNAME", ""),
-  sys.env.getOrElse("SONATYPE_PASSWORD", "")
-)
+))

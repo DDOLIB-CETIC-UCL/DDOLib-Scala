@@ -2,8 +2,8 @@ name: Publish DDOLib-Scala
 
 on:
   push:
-    branches:
-      - add-maven-release
+    tags:
+      - 'v*'   # trigger on tag vX.X.X
 
 jobs:
   build-and-deploy:
@@ -23,15 +23,9 @@ jobs:
       - name: Install sbt
         uses: sbt/setup-sbt@v1
 
-      - name: Build and deploy
+      - run: sbt ci-release
         env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          SONATYPE_USERNAME: ${{ secrets.MVN_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.MVN_PASSWORD }}
-        run: |
-          if [ -z "$GPG_PRIVATE_KEY" ]; then
-            echo "GPG_PRIVATE_KEY is empty"
-          else
-            echo "GPG_PRIVATE_KEY is set"
-          fi
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
