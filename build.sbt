@@ -1,6 +1,6 @@
 ThisBuild / version      := "0.0.5"
 ThisBuild / scalaVersion := "3.7.4"
-ThisBuild / organization := "DDOLib-CETIC-UCL"
+ThisBuild / organization := "be.cetic"
 
 lazy val root = (project in file("."))
   .settings(
@@ -31,4 +31,19 @@ ThisBuild / scmInfo := Some(
     url("https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala"),
     "scm:git@github.com:DDOLIB-CETIC-UCL/DDOLib-Scala.git"
   )
+)
+
+ThisBuild / publishTo := {
+  val nexus = "https://s01.oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+
+ThisBuild / credentials += Credentials(
+  "Sonatype Nexus Repository Manager",
+  "s01.oss.sonatype.org",
+  sys.env.getOrElse("SONATYPE_USERNAME", ""),
+  sys.env.getOrElse("SONATYPE_PASSWORD", "")
 )
