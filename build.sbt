@@ -17,13 +17,6 @@ lazy val root = (project in file("."))
 
     licenses := List("Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")),
 
-    developers := List(
-      Developer(
-        name = "Quentin Meurisse",
-        email = "quentin.meurisse@cetic.be",
-      )
-    ),
-
     scmInfo := Some(
       ScmInfo(
         url("https://github.com/DDOLIB-CETIC-UCL/DDOLib-Scala"),
