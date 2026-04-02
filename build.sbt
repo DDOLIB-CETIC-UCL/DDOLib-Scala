@@ -40,6 +40,7 @@ libraryDependencies ++= Seq(
 ThisBuild / publishTo := sonatypePublishToBundle.value
 ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
 ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+ThisBuild / pgpExtraArgs := Seq("--pinentry-mode", "loopback")
 
 // GPG signing
 ThisBuild / useGpg := true

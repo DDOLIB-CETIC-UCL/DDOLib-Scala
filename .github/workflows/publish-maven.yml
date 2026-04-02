@@ -62,5 +62,5 @@ jobs:
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           gpgconf --kill gpg-agent || true
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --yes --import
           sbt "clean; compile; +publishSigned; sonatypeBundleRelease"
-          
