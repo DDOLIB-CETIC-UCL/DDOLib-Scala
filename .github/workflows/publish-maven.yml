@@ -23,36 +23,21 @@ jobs:
       - name: Install sbt
         uses: sbt/setup-sbt@v1
 
-      - name: Import GPG key
+      - name: Build and deploy
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          SONATYPE_USERNAME: ${{ secrets.MVN_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.MVN_PASSWORD }}
         run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          # Configure GPG for non-interactive mode
+          mkdir -p ~/.gnupg
+          chmod 700 ~/.gnupg
           echo "use-agent" >> ~/.gnupg/gpg.conf
-          echo RELOADAGENT | gpg-connect-agent
-          gpg --list-keys
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          gpgconf --kill gpg-agent || true
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
 
-      - name: Setup Maven settings.xml
-        run: |
-          mkdir -p $HOME/.m2
-          cat > $HOME/.m2/settings.xml <<EOF
-          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                    https://maven.apache.org/xsd/settings-1.0.0.xsd">
-            <servers>
-              <server>
-                <id>central</id>
-                <username>${{ secrets.MVN_USERNAME }}</username>
-                <password>${{ secrets.MVN_PASSWORD }}</password>
-              </server>
-            </servers>
-          </settings>
-          EOF
-
-      - name: Build and deploy
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
           sbt "clean; compile; +publishSigned; sonatypeBundleRelease"

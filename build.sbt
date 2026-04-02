@@ -40,8 +40,12 @@ libraryDependencies ++= Seq(
 ThisBuild / publishTo := sonatypePublishToBundle.value
 ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
 ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
-ThisBuild / pgpExtraArgs := Seq("--pinentry-mode", "loopback")
-
+credentials += Credentials(
+  "Sonatype Nexus Repository Manager",
+  "s01.oss.sonatype.org",
+  sys.env.getOrElse("MVN_USERNAME", ""),
+  sys.env.getOrElse("MVN_PASSWORD", "")
+)
 // GPG signing
 ThisBuild / useGpg := true
 ThisBuild / pgpPassphrase := sys.env.get("GPG_PASSPHRASE").map(_.toArray)
