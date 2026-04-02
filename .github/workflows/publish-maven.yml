@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: sbtscala/scala-sbt:eclipse-temurin-focal-17.0.9_9_1.9.7_3.3.1
+    runs-on: ubuntu:latest
 
     steps:
 
@@ -19,6 +19,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: 'sbt'
 
       - name: Import GPG key
         env:
