@@ -44,7 +44,6 @@ ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
 // GPG signing
 ThisBuild / useGpg := true
 ThisBuild / pgpPassphrase := sys.env.get("GPG_PASSPHRASE").map(_.toArray)
-ThisBuild / pgpCmd := "gpg"
 
 // Do not publish test artifacts
 Test / publishArtifact := false
