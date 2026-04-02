@@ -40,4 +40,4 @@ jobs:
           echo "$GPG_PRIVATE_KEY" | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
 
-          sbt "clean; compile; +publishSigned; sonatypeBundleRelease"
+          sbt "clean; compile; publishSigned; sonaRelease"
