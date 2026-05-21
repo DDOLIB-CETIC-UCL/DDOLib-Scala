@@ -213,6 +213,54 @@ object Solver {
     )
   }
 
+  /** Instantiates and returns an
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]].
+    *
+    * @param problem
+    *   the structure defining the structure, transitions, and objective function of the
+    *   optimization task
+    * @param weight
+    *   the weight used for the evaluation function (f = g + w*h)
+    * @param lowerBound
+    *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper bound used to start pruning earlier
+    * @param dominance
+    *   the dominance checker used to prune dominated states from the search space
+    * @param variableHeuristic
+    *   the heuristic used to determine the next variable to branch on during decision diagram
+    *   compilation
+    * @param verbosityLvl
+    *   the verbosity level of the solver when this model is executed
+    * @param debugMode
+    *   the debugging level to apply during the compilation and solving phases
+    * @tparam T
+    *   the type representing a state in the problem
+    * @return
+    *   a solver based on the Any-time Weighted A* algorithm
+    */
+  def awastar[T](
+    problem: Problem[T],
+    weight: Double = 5,
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double = Double.PositiveInfinity,
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLvl = Silent,
+    debugMode: DebugMode = DebugMode.Off
+  ): Solver = {
+    AwAstarSolver(
+      problem,
+      weight,
+      lowerBound,
+      upperBound,
+      dominance,
+      variableHeuristic,
+      verbosityLvl,
+      debugMode
+    )
+  }
+
 }
 
 /** Class packaging a Java solver

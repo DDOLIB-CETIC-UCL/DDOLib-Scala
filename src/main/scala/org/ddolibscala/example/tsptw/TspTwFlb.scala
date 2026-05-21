@@ -32,17 +32,17 @@ class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
       (0 until numVar).iterator.filter(_ != i).map(problem.timeMatrix(i)).min
     )
 
-  override def lowerBound(state: TspTwState, variables: Iterable[Int]): Double = if (
-    state.mustVisit.exists(!problem.reachable(state, _))
-  ) Infinity.toDouble
-  else {
-    val mustTravelCost: Int = state.mustVisit.iterator.map(cheapestEdges).sum
-    val completeTour: Int   = numVar - state.depth - 1 - state.mustVisit.size
+  override def lowerBound(state: TspTwState, variables: Iterable[Int]): Double = {
+    if (state.mustVisit.exists(!problem.reachable(state, _))) Infinity.toDouble
+    else {
+      val mustTravelCost: Int = state.mustVisit.iterator.map(cheapestEdges).sum
+      val completeTour: Int   = numVar - state.depth - 1 - state.mustVisit.size
 
-    costsFromMaybe(state, completeTour) match {
-      case None                  => Infinity.toDouble
-      case Some(maybeTravelCost) =>
-        computeFinalCost(state, mustTravelCost + maybeTravelCost, completeTour)
+      costsFromMaybe(state, completeTour) match {
+        case None                  => Infinity.toDouble
+        case Some(maybeTravelCost) =>
+          computeFinalCost(state, mustTravelCost + maybeTravelCost, completeTour)
+      }
     }
   }
 
