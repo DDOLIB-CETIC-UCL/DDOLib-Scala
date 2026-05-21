@@ -1,4 +1,4 @@
-ThisBuild / version      := "0.0.5"
+ThisBuild / version      := "0.0.6"
 ThisBuild / scalaVersion := "3.7.4"
 ThisBuild / organization := "DDOLib-CETIC-UCL"
 
