@@ -25,7 +25,7 @@ object TspTwAstarMain {
     println("\n------ LAST SOLUTION FOUND ------")
     println(s"0 -> ${solution.solution().mkString(" -> ")}")
     println(s"Value: ${solution.value()}")
-    println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+    println(s"Search time: ${solution.statistics().runtime()} ms")
 
   }
 
