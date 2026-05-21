@@ -2,11 +2,13 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
+import org.ddolib.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
 import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
 import org.ddolib.modeling.{FastLowerBound, Problem, Relaxation, StateRanking}
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
 import org.ddolibscala.tools.ddo.frontier.CutSetType
+import org.ddolibscala.tools.ddo.heuristics.cluster.CostBased
 import org.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
 import org.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import org.ddolibscala.tools.dominance.DefaultDominanceChecker
@@ -258,6 +260,84 @@ object Solver {
       variableHeuristic,
       verbosityLvl,
       debugMode
+    )
+  }
+
+  /** Instantiates and returns a
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/lns/core/solver/LNSSolver.html LNS solver]].
+    *
+    * @param problem
+    *   the structure defining the structure, transitions, and objective function of the
+    *   optimization task
+    * @param lowerBound
+    *   a heuristic that estimates a lower bound on the objective value for a given state
+    * @param upperBound
+    *   a precomputed upper used to start pruning earlier
+    * @param dominance
+    *   the dominance checker used to prune dominated states from the search space
+    * @param variableHeuristic
+    *   the heuristic used to determine the next variable to branch on during decision diagram
+    *   compilation
+    * @param verbosityLvl
+    *   the verbosity level of the solver when this model is executed
+    * @param debugMode
+    *   the debugging level to apply during the compilation and solving phases
+    * @param ranking
+    *   the heuristic used to rank states
+    * @param widthHeuristic
+    *   heuristic controlling the maximum number of nodes per layer
+    * @param exportDot
+    *   whether the generated diagram must be exported to DOT file
+    * @param restrictStrategy
+    *   strategy to select which nodes should be dropped on a restricted DD
+    * @param stateDistance
+    *   distance function between states, used to form clusters
+    * @param initialSolution
+    *   an initial solution to start the LNS search
+    * @param probability
+    *   the probability used to destruct parts of the solution in LNS (`0.2` by default)
+    * @param useLNS
+    *   whether LNS should be used
+    * @tparam T
+    *   the type representing a state in the problem
+    * @return
+    *   a solver based on the LNS algorithm
+    */
+  def lns[T](
+    problem: Problem[T],
+    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+    upperBound: Double = Double.PositiveInfinity,
+    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+    verbosityLvl: VerbosityLvl = Silent,
+    debugMode: DebugMode = DebugMode.Off,
+    ranking: StateRanking[T] = DefaultStateRanking[T](),
+    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+    exportDot: Boolean = false,
+    restrictStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
+    stateDistance: StateDistance[T] = new StateDistance[T] {
+      override def distance(t: T, t1: T): Double = 0.0
+    },
+    initialSolution: Array[Int] = Array.empty[Int],
+    probability: Double = 0.2,
+    useLNS: Boolean = true
+  ): Solver = {
+    LnsSolver(
+      problem,
+      lowerBound,
+      upperBound,
+      dominance,
+      variableHeuristic,
+      verbosityLvl,
+      debugMode,
+      ranking,
+      widthHeuristic,
+      exportDot,
+      restrictStrategy,
+      stateDistance,
+      initialSolution,
+      probability,
+      useLNS
     )
   }
 
