@@ -36,7 +36,7 @@ object MispDdoMain {
       })
 
     println(solution)
-    println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+    println(s"Search time: ${solution.statistics().runtime()} ms")
 
   }
 
