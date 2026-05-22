@@ -23,7 +23,11 @@ import scala.collection.mutable.ListBuffer
   * @tparam P
   *   the type of the problem implementation.
   */
-class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P => TestModel[S]) {
+class ProblemTestBench[S, P <: Problem[S]](
+  problems: List[P],
+  configFactory: P => TestModel[S],
+  bestSolutionKnown: Boolean
+) {
 
   /** The minimal width of the MDD to test. */
   var minWidth: Int = 2
@@ -125,6 +129,12 @@ class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P =
         assertSolution(solver.minimize(), p)
       }
 
+      add("AWA*") {
+        val solver =
+          Solver.awastar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
+        assertSolution(solver.minimize(), p)
+      }
+
       tests.toList
     }
   }
@@ -144,8 +154,9 @@ class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P =
     (optBestVal, expectedOptimal) match {
       case (Some(v), Some(e)) =>
         assert(isEqual(v, e), s"Expected $e but got $v$contextMsg")
-      case (v, e) =>
+      case (v, e) if bestSolutionKnown =>
         assert(v == e, s"Expected $e but got $v$contextMsg")
+      case _ => ;
     }
 
     if (expectedOptimal.isDefined) {

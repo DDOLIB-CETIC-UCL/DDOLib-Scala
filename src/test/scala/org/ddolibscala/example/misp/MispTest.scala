@@ -22,7 +22,7 @@ class MispTest extends AnyFunSuite {
         SimpleDominanceChecker(MispDominance(), problem.nbVars())
     }
 
-  val bench = ProblemTestBench(problems, configFactory)
+  val bench = ProblemTestBench(problems, configFactory, bestSolutionKnown = true)
 
   bench.generateTests().foreach { testCase =>
     test(testCase.name) {
