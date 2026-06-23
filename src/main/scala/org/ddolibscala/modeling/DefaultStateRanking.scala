@@ -1,19 +1,5 @@
 package org.ddolibscala.modeling
 
-/** Companion object of the [[StateRanking]] class. */
-object DefaultStateRanking {
-
-  /** Returns a default implementation of the [[StateRanking]] trait where all the states are
-    * equals.
-    *
-    * @tparam T
-    *   the type of states
-    * @return
-    *   a default implementation of the [[StateRanking]] trait where all the states are equals
-    */
-  def apply[T](): DefaultStateRanking[T] = new DefaultStateRanking()
-}
-
 /** Default implementation of the [[StateRanking]] trait where all the states are equals.
   *
   * <p>This implementation can be used as a placeholder or a fallback when no meaningful ranking is

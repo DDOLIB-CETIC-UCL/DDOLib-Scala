@@ -22,7 +22,7 @@ trait FastLowerBound[T] extends org.ddolib.modeling.FastLowerBound[T] {
     */
   def lowerBound(state: T, variables: Iterable[Int]): Double
 
-  // METHOD THAT CONVERT SCALA OBJECTS TO JAVA OBJECTS
+  // METHOD THAT CONVERTS SCALA OBJECTS TO JAVA OBJECTS
 
   /** Used by the solver. Convert the input and output of [[lowerBound]] from Java to Scala and vice
     * versa.

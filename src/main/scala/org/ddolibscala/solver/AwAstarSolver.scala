@@ -3,7 +3,7 @@ package solver
 
 import org.ddolib.common.dominance.DominanceChecker
 import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
-import org.ddolib.modeling.{AcsModel, FastLowerBound, Problem}
+import org.ddolib.modeling.{AwAstarModel, FastLowerBound, Problem}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
@@ -13,18 +13,18 @@ import org.ddolibscala.util.VerbosityLvl.Silent
 import org.ddolibscala.util.{DebugMode, VerbosityLvl}
 
 /** Defines factory for an
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime Column Search (ACS) solver]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]]
   */
-private[solver] object AcsSolver {
+private[solver] object AwAstarSolver {
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime column search (ACS) solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]]
     *
     * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
     *   optimization task
-    * @param _columnWidth
-    *   column width used for formatted output during the Anytime Column Search process.
+    * @param _weight
+    *   the weight used for the evaluation function (f = g + w*h)
     * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
     * @param _upperBound
@@ -41,11 +41,11 @@ private[solver] object AcsSolver {
     * @tparam T
     *   the type representing a state in the problem
     * @return
-    *   a solver based on the ACS algorithm
+    *   a solver based on the Any-time Weighted A* algorithm
     */
   def apply[T](
     _problem: Problem[T],
-    _columnWidth: Int = 5,
+    _weight: Double = 5,
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _upperBound: Double = Double.PositiveInfinity,
     _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
@@ -53,11 +53,10 @@ private[solver] object AcsSolver {
     _verbosityLvl: VerbosityLvl = Silent,
     _debugMode: DebugMode = DebugMode.Off
   ): Solver = {
-
-    val model: AcsModel[T] = new AcsModel[T] {
+    val model: AwAstarModel[T] = new AwAstarModel[T] {
       override def problem(): Problem[T] = _problem
 
-      override def columnWidth(): Int = _columnWidth
+      override def weight(): Double = _weight
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
 
@@ -72,6 +71,7 @@ private[solver] object AcsSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.acs.core.solver.ACSSolver[T](model))
+    new Solver(org.ddolib.awastar.core.solver.AwAstarSolver[T](model))
   }
+
 }

@@ -9,28 +9,6 @@ import org.ddolibscala.util.DebugMode.On
 
 import scala.collection.mutable.ListBuffer
 
-/** Companion object of the [[ProblemTestBench]] class. */
-object ProblemTestBench {
-
-  /** Returns a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
-    *
-    * @param problems
-    *   the list of problem instances to test.
-    * @param configFactory
-    *   a function providing the solver configuration for a given problem.
-    * @tparam S
-    *   the type of the state in the problem.
-    * @tparam P
-    *   the type of the problem implementation.
-    * @return
-    *   a generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
-    */
-  def apply[S, P <: Problem[S]](
-    problems: List[P],
-    configFactory: P => TestModel[S]
-  ): ProblemTestBench[S, P] = new ProblemTestBench(problems, configFactory)
-}
-
 /** A standalone generator of test cases for [[org.ddolibscala.modeling.Problem]] implementations.
   *
   * Instead of being a test suite itself, it generates a list of executable [[GeneratedTest]]
@@ -45,7 +23,11 @@ object ProblemTestBench {
   * @tparam P
   *   the type of the problem implementation.
   */
-class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P => TestModel[S]) {
+class ProblemTestBench[S, P <: Problem[S]](
+  problems: List[P],
+  configFactory: P => TestModel[S],
+  bestSolutionKnown: Boolean
+) {
 
   /** The minimal width of the MDD to test. */
   var minWidth: Int = 2
@@ -147,6 +129,12 @@ class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P =
         assertSolution(solver.minimize(), p)
       }
 
+      add("AWA*") {
+        val solver =
+          Solver.awastar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
+        assertSolution(solver.minimize(), p)
+      }
+
       tests.toList
     }
   }
@@ -166,8 +154,9 @@ class ProblemTestBench[S, P <: Problem[S]](problems: List[P], configFactory: P =
     (optBestVal, expectedOptimal) match {
       case (Some(v), Some(e)) =>
         assert(isEqual(v, e), s"Expected $e but got $v$contextMsg")
-      case (v, e) =>
+      case (v, e) if bestSolutionKnown =>
         assert(v == e, s"Expected $e but got $v$contextMsg")
+      case _ => ;
     }
 
     if (expectedOptimal.isDefined) {

@@ -2,18 +2,6 @@ package org.ddolibscala.example.tsptw
 
 import org.ddolibscala.modeling.Dominance
 
-/** Companion object of the [[TspTwDominance]] class.
-  */
-object TspTwDominance {
-
-  /** Returns a dominance relation for the Traveling Salesperson Problem with Time Windows (TSPTW).
-    *
-    * @return
-    *   a dominance relation for the Traveling Salesperson Problem with Time Windows (TSPTW).
-    */
-  def apply(): TspTwDominance = new TspTwDominance()
-}
-
 /** Dominance relation for the Traveling Salesperson Problem with Time Windows (TSPTW).
   *
   * <p> This class defines a dominance rule between two [[TspTwState]] instances. Two states are

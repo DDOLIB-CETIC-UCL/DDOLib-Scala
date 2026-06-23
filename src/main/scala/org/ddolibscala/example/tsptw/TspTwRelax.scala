@@ -5,19 +5,6 @@ import org.ddolibscala.modeling.Relaxation
 
 import scala.collection.mutable
 
-/** Companion object of the [[TspTwRelax]] class. */
-object TspTwRelax {
-
-  /** Returns an object that computes relaxation for [[TspTwState]].s
-    *
-    * @param numVar
-    *   number of variables/nodes in the associated TSPTW problem
-    * @return
-    *   an object that computes relaxation for [[TspTwState]]
-    */
-  def apply(numVar: Int): TspTwRelax = new TspTwRelax(numVar)
-}
-
 /** Relaxation class for the Traveling Salesman Problem with Time Windows (TSPTW).
   *
   * <p> This class implements the [[org.ddolibscala.modeling.Relaxation]] interface for

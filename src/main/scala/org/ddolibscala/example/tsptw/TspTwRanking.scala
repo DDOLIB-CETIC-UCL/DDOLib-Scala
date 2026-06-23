@@ -2,10 +2,6 @@ package org.ddolibscala.example.tsptw
 
 import org.ddolibscala.modeling.StateRanking
 
-object TspTwRanking {
-  def apply(): TspTwRanking = new TspTwRanking()
-}
-
 /** Ranking class for states in the Traveling Salesperson Problem with Time Windows (TSPTW).
   *
   * <p> This class implements [[org.ddolibscala.modeling.StateRanking]] for `TSPTWState` and is used to order states within

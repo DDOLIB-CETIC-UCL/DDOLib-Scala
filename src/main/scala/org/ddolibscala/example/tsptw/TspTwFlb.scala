@@ -2,21 +2,8 @@ package org.ddolibscala.example.tsptw
 
 import org.ddolibscala.modeling.FastLowerBound
 
-import scala.collection.immutable.BitSet
-
-/** Companion object of the [[TspTwFlb]] class. */
-object TspTwFlb {
-
-  /** Returns an object that computes a lower bound for the Traveling Salesperson Problem with Time
-    * Windows (TSPTW).
-    *
-    * @param problem
-    *   the associated TSPTW problem instance
-    * @return
-    *   an object that computes a lower bound for the TSPTW
-    */
-  def apply(problem: TspTwProblem): TspTwFlb = new TspTwFlb(problem)
-}
+import scala.util.boundary
+import scala.util.boundary.break
 
 /** Implementation of a fast lower bound for the Traveling Salesperson Problem with Time Windows
   * (TSPTW).
@@ -46,42 +33,63 @@ class TspTwFlb(problem: TspTwProblem) extends FastLowerBound[TspTwState] {
       (0 until numVar).iterator.filter(_ != i).map(problem.timeMatrix(i)).min
     )
 
-  override def lowerBound(state: TspTwState, variables: Iterable[Int]): Double = if (
-    state.mustVisit.exists(!problem.reachable(state, _))
-  ) Infinity.toDouble
-  else {
-    val mustTravelCost: Int = state.mustVisit.iterator.map(cheapestEdges).sum
-    val completeTour: Int   = numVar - state.depth - 1 - state.mustVisit.size
+  override def lowerBound(state: TspTwState, variables: Iterable[Int]): Double = boundary {
 
-    costsFromMaybe(state, completeTour) match {
-      case None                  => Infinity.toDouble
-      case Some(maybeTravelCost) =>
-        computeFinalCost(state, mustTravelCost + maybeTravelCost, completeTour)
+    // Determine the initial travel cost based on the current position.
+    // If the state is on a specific node, we take its cheapest outgoing edge.
+    // If it's a set of virtual nodes, we take the absolute minimum of all their cheapest edges.
+    val initialCost: Int = state.position match {
+      case TspNode(pos)        => cheapestEdges(pos)
+      case VirtualNodes(nodes) => nodes.iterator.map(cheapestEdges).min
     }
-  }
 
-  private def costsFromMaybe(state: TspTwState, numToCompleteTour: Int): Option[Int] = {
-    if (numToCompleteTour <= 0) Some(0)
-    else {
-      val candidates = state.maybeVisit.filter(problem.reachable(state, _))
-      if (candidates.size < numToCompleteTour) None
-      else Some(candidates.map(cheapestEdges).toSeq.sorted.take(numToCompleteTour).sum)
+    // Process all mandatory nodes (mustVisit).
+    // We accumulate a tuple containing: (totalCost, maximumEdgeEncountered, shortestBackToDepot).
+    // backToDepot is initialized to Infinity because the return to the depot will occur
+    // from a future visited node, not from the current position.
+    val mustResult: (Int, Int, Int) =
+      state.mustVisit.foldLeft((initialCost, initialCost, Infinity)) {
+        // If a mandatory node is unreachable, the tour is infeasible. We break and return Infinity.
+        case (_, i) if !problem.reachable(state, i) => break(Infinity.toDouble)
+        case ((cost, maxE, back), i)                =>
+          (cost + cheapestEdges(i), maxE max cheapestEdges(i), back min problem.timeMatrix(i)(0))
+      }
+
+    // Calculate how many more optional nodes we need to select to complete a full tour.
+    val numToCompleteTour: Int = numVar - state.depth - 1 - state.mustVisit.size
+
+    // Process optional nodes (maybeVisit) if the tour is not yet complete.
+    val (travelCost, maxEdge, backToDepot): (Int, Int, Int) = {
+      if (numToCompleteTour > 0) {
+        // Filter optional nodes to keep only the ones that are currently reachable.
+        val candidatesNodes: List[Int] =
+          state.maybeVisit.iterator.filter(problem.reachable(state, _)).toList
+
+        // If there aren't enough reachable nodes to finish the tour, it's infeasible.
+        if (candidatesNodes.length < numToCompleteTour) break(Infinity.toDouble)
+
+        // Greedily select the required number of nodes with the cheapest outgoing edges.
+        val selectedNodes: List[Int] = candidatesNodes.sortBy(cheapestEdges).take(numToCompleteTour)
+        // Accumulate their costs on top of the results from the mandatory nodes.
+        selectedNodes.foldLeft(mustResult) { case ((cost, maxE, back), i) =>
+          (cost + cheapestEdges(i), maxE max cheapestEdges(i), back min problem.timeMatrix(i)(0))
+        }
+      } else mustResult
     }
-  }
 
-  private def computeFinalCost(state: TspTwState, travelCost: Int, numToCompleteTour: Int) = {
+    // Compute the total heuristic cost.
+    // We subtract the maximum edge because a path visiting N nodes only uses N-1 edges.
+    val total = {
+      if (travelCost - maxEdge == 0) problem.minDuration(state, 0)
+      else travelCost - maxEdge + backToDepot
+    }
 
-    val nodesToRoute: BitSet =
-      if (numToCompleteTour <= 0) state.mustVisit else state.mustVisit union state.maybeVisit
-
-    val backToDepot: Int = nodesToRoute.iterator
-      .map(problem.timeMatrix(_)(0))
-      .minOption
-      .getOrElse(problem.minDuration(state, 0))
-
-    val total: Int = travelCost + backToDepot
-    if (state.time + total > problem.timeWindows(0).end) Infinity
-    else total
+    // Final Time Window constraint check.
+    // Ensure that adding this heuristic travel time to the current state time
+    // does not violate the depot's closing time window.
+    // Explicitly return a Double to satisfy Scala 3 typing constraints within the boundary block.
+    if (state.time + total > problem.timeWindows(0).end) Infinity.toDouble
+    else total.toDouble
   }
 
 }

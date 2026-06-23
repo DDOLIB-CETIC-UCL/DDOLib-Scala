@@ -16,7 +16,7 @@ object MispAstarMain {
 
     val solution: Solution = solver.minimize()
     println(solution)
-    println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+    println(s"Search time: ${solution.statistics().runtime()} ms")
   }
 
 }
