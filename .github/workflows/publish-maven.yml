@@ -3,7 +3,6 @@ name: Publish to Maven Central
 on:
   push:
     tags: ["v*"]
-    branches: ["master"] # Master commit are published as snapshot
 jobs:
   publish:
     runs-on: ubuntu-latest
