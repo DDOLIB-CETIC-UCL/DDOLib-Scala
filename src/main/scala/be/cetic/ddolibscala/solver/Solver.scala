@@ -1,19 +1,21 @@
 package be.cetic.ddolibscala.solver
 
-import be.cetic.ddolibscala.{SearchStatistic, Solution}
+import be.cetic.ddolibscala.modeling.layered.{DefaultFastLowerBound, DefaultStateRanking}
+import be.cetic.ddolibscala.solver.Solver
+import be.cetic.ddolibscala.solver.layered.*
 import be.cetic.ddolibscala.tools.ddo.frontier.CutSetType
-import be.cetic.ddolibscala.tools.ddo.heuristics.cluster.CostBased
-import be.cetic.ddolibscala.tools.ddo.heuristics.variables.DefaultVariableHeuristic
+import be.cetic.ddolibscala.tools.ddo.heuristics.cluster.layered.CostBased
+import be.cetic.ddolibscala.tools.ddo.heuristics.variables.layered.DefaultVariableHeuristic
 import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
+import be.cetic.ddolibscala.util.VerbosityLvl.Silent
+import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
+import be.cetic.ddolibscala.{SearchStatistic, Solution}
 import org.ddolib.common.dominance.DominanceChecker
+import org.ddolib.modeling.layered.{FastLowerBound, Problem, Relaxation, StateRanking}
 import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
 import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
 import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling.layered.{FastLowerBound, Problem, Relaxation, StateRanking}
-import be.cetic.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
-import be.cetic.ddolibscala.util.VerbosityLvl.Silent
-import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
 
 import scala.jdk.FunctionConverters.{enrichAsJavaBiConsumer, enrichAsJavaPredicate}
 

@@ -1,8 +1,9 @@
 package be.cetic.ddolibscala.example.tsptw
 
+import be.cetic.ddolibscala.example.tsptw.layered.{TspTwDominance, TspTwFlb, TspTwProblem, TspTwRanking, TspTwRelax, TspTwState}
+import be.cetic.ddolibscala.modeling.layered.{FastLowerBound, Relaxation, StateRanking}
 import be.cetic.ddolibscala.tools.dominance.SimpleDominanceChecker
 import org.ddolib.common.dominance.DominanceChecker
-import be.cetic.ddolibscala.modeling.{FastLowerBound, Relaxation, StateRanking}
 import be.cetic.ddolibscala.util.testbench.{ProblemLoader, ProblemTestBench, TestModel}
 import org.scalatest.funsuite.AnyFunSuite
 

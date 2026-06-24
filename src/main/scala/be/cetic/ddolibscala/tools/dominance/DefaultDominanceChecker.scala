@@ -1,6 +1,6 @@
 package be.cetic.ddolibscala.tools.dominance
 
-import be.cetic.ddolibscala.modeling.Dominance
+import be.cetic.ddolibscala.modeling.layered.Dominance
 
 /** Default implementation of a [[DominanceChecker]] that performs no dominance checking. <p> This
   * class can be used as a placeholder when dominance pruning is not required or when a problem does

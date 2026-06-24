@@ -1,9 +1,9 @@
 package be.cetic.ddolibscala.util.testbench
 
-import be.cetic.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import org.ddolib.common.dominance.DominanceChecker
 import be.cetic.ddolibscala.modeling.*
+import be.cetic.ddolibscala.modeling.layered.{DefaultFastLowerBound, DefaultStateRanking, FastLowerBound, Relaxation, StateRanking}
 
 /** Defines the model configuration and components used to solve a problem instance during tests.
   *

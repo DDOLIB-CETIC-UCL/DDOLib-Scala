@@ -1,8 +1,9 @@
 package be.cetic.ddolibscala.util.testbench
 
 import be.cetic.ddolibscala.Solution
+import be.cetic.ddolibscala.modeling.layered.{DefaultFastLowerBound, Problem}
 import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
-import be.cetic.ddolibscala.modeling.{Problem, *}
+import be.cetic.ddolibscala.modeling.*
 import be.cetic.ddolibscala.solver.Solver
 import be.cetic.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker

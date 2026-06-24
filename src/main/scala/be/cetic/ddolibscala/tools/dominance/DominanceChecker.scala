@@ -1,6 +1,6 @@
 package be.cetic.ddolibscala.tools.dominance
 
-import be.cetic.ddolibscala.modeling.Dominance
+import be.cetic.ddolibscala.modeling.layered.Dominance
 
 /** Object that, given a dominance, will check if a state is dominated.
   *
