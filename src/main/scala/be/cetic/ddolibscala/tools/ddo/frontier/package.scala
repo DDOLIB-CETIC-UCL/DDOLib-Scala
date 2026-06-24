@@ -1,5 +1,9 @@
-package be.cetic.ddolibscala.tools.ddo
+package be.cetic.ddolibscala.tools.ddo {
 
-/** This package contains trait and simple implementation of solver frontier.
-  */
-package object frontier {}
+  /** This package contains trait and simple implementation of solver frontier.
+    */
+  package object frontier {}
+
+  package frontier {}
+}
+

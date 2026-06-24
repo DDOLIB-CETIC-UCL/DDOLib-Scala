@@ -1,4 +1,7 @@
-package be.cetic.ddolibscala
+package be.cetic.ddolibscala {
 
-/** Package containing examples. */
-package object example {}
+  /** Package containing examples. */
+  package object example {}
+
+  package example {}
+}
