@@ -2,10 +2,9 @@ package be.cetic.ddolibscala.util.testbench
 
 import be.cetic.ddolibscala.Solution
 import be.cetic.ddolibscala.modeling.layered.{DefaultFastLowerBound, Problem}
-import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
-import be.cetic.ddolibscala.modeling.*
 import be.cetic.ddolibscala.solver.Solver
 import be.cetic.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
+import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.DebugMode.On
 
@@ -53,20 +52,20 @@ class ProblemTestBench[S, P <: Problem[S]](
       }
 
       add("Transition Model") {
-        val solver = Solver.exact(p, debugMode = On)
+        val solver = Solver.layered.exact(p, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 
       if (!config.flb.isInstanceOf[DefaultFastLowerBound[?]]) {
         add("FLB") {
-          val solver = Solver.exact(p, lowerBound = config.flb, debugMode = On)
+          val solver = Solver.layered.exact(p, lowerBound = config.flb, debugMode = On)
           assertSolution(solver.minimize(), p)
         }
       }
 
       if (!config.dominance.isInstanceOf[DefaultDominanceChecker[?]]) {
         add("Dominance") {
-          val solver = Solver.exact(p, dominance = config.dominance, debugMode = On)
+          val solver = Solver.layered.exact(p, dominance = config.dominance, debugMode = On)
           assertSolution(solver.minimize(), p)
         }
       }
@@ -74,7 +73,7 @@ class ProblemTestBench[S, P <: Problem[S]](
       config.relaxation.foreach { relax =>
         add("Relaxation") {
           for (w <- minWidth to maxWidth) {
-            val solver = Solver.ddo(
+            val solver = Solver.layered.ddo(
               p,
               relaxation = relax,
               widthHeuristic = FixedWidth(w),
@@ -88,7 +87,7 @@ class ProblemTestBench[S, P <: Problem[S]](
         if (!config.flb.isInstanceOf[DefaultFastLowerBound[?]]) {
           add("Relax & Flb") {
             for (w <- minWidth to maxWidth) {
-              val solver = Solver.ddo(
+              val solver = Solver.layered.ddo(
                 p,
                 relaxation = relax,
                 lowerBound = config.flb,
@@ -103,7 +102,7 @@ class ProblemTestBench[S, P <: Problem[S]](
 
         add("Cache") {
           for (w <- minWidth to maxWidth) {
-            val solver = Solver.ddo(
+            val solver = Solver.layered.ddo(
               p,
               relaxation = relax,
               lowerBound = config.flb,
@@ -121,19 +120,19 @@ class ProblemTestBench[S, P <: Problem[S]](
 
       add("A*") {
         val solver =
-          Solver.astar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
+          Solver.layered.astar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 
       add("ACS") {
         val solver =
-          Solver.acs(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
+          Solver.layered.acs(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 
       add("AWA*") {
         val solver =
-          Solver.awastar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
+          Solver.layered.awastar(p, lowerBound = config.flb, dominance = config.dominance, debugMode = On)
         assertSolution(solver.minimize(), p)
       }
 

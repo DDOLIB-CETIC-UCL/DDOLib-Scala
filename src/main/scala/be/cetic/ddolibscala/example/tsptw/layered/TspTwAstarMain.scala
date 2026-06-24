@@ -10,7 +10,7 @@ object TspTwAstarMain {
 
   def main(args: Array[String]): Unit = {
     val problem = TspTwProblem(Paths.get("data", "TSPTW", "AFG", "rbg010a.tw").toString)
-    val solver  = Solver.astar(
+    val solver  = Solver.layered.astar(
       problem,
       lowerBound = TspTwFlb(problem),
       dominance = SimpleDominanceChecker(TspTwDominance(), problem.nbVars())

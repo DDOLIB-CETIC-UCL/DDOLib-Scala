@@ -1,7 +1,6 @@
 package be.cetic.ddolibscala.solver
 
 import be.cetic.ddolibscala.modeling.layered.{DefaultFastLowerBound, DefaultStateRanking}
-import be.cetic.ddolibscala.solver.Solver
 import be.cetic.ddolibscala.solver.layered.*
 import be.cetic.ddolibscala.tools.ddo.frontier.CutSetType
 import be.cetic.ddolibscala.tools.ddo.heuristics.cluster.layered.CostBased
@@ -22,325 +21,347 @@ import scala.jdk.FunctionConverters.{enrichAsJavaBiConsumer, enrichAsJavaPredica
 /** Factory for solvers */
 object Solver {
 
-  /** Instantiates and returns a
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
-    *
-    * @param problem
-    *   the structure defining the structure, transitions, and objective function of the
-    *   optimization task
-    * @param relaxation
-    *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram
-    * @param lowerBound
-    *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
-    *   a precomputed upper bound used to start pruning earlier
-    * @param dominance
-    *   the dominance checker used to prune dominated states from the search space
-    * @param ranking
-    *   the heuristic used to determine the next variable to branch on during decision diagram
-    *   compilation
-    * @param widthHeuristic
-    *   heuristic controlling the maximum number of nodes per layer
-    * @param frontier
-    *   type of frontier management strategy used to store and expand the current layer of the
-    *   decision diagram
-    * @param useCache
-    *   whether caching mechanism must be used
-    * @param exportDot
-    *   whether the generated diagram must be exported to DOT file
-    * @param variableHeuristic
-    *   the heuristic used to determine the next variable to branch on during decision diagram
-    *   compilation
-    * @param verbosityLvl
-    *   the verbosity level of the solver when this model is executed
-    * @param debugMode
-    *   the debugging level to apply during the compilation and solving phases
-    * @tparam T
-    *   the type representing a state in the problem
-    * @return
-    *   a solver based on the DDO algorithm
-    */
-  def ddo[T](
-    problem: Problem[T],
-    relaxation: Relaxation[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double = Double.PositiveInfinity,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    ranking: StateRanking[T] = DefaultStateRanking[T](),
-    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-    frontier: CutSetType = CutSetType.LastExactLayer,
-    useCache: Boolean = false,
-    exportDot: Boolean = false,
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
-    DdoSolver(
-      problem,
-      relaxation,
-      lowerBound,
-      upperBound,
-      dominance,
-      ranking,
-      widthHeuristic,
-      frontier,
-      useCache,
-      exportDot,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode
-    )
+  object layered {
+
+    /** Instantiates and returns a
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
+      *
+      * @param problem
+      *   the structure defining the structure, transitions, and objective function of the
+      *   optimization task
+      *
+      * @param relaxation
+      *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram
+      * @param lowerBound
+      *   a heuristic that estimates a lower bound on the objective value for a given state
+      * @param upperBound
+      *   a precomputed upper bound used to start pruning earlier
+      * @param dominance
+      *   the dominance checker used to prune dominated states from the search space
+      * @param ranking
+      *   the heuristic used to determine the next variable to branch on during decision diagram
+      *   compilation
+      *
+      * @param widthHeuristic
+      *   heuristic controlling the maximum number of nodes per layer
+      * @param frontier
+      *   type of frontier management strategy used to store and expand the current layer of the
+      *   decision diagram
+      *
+      * @param useCache
+      *   whether caching mechanism must be used
+      * @param exportDot
+      *   whether the generated diagram must be exported to DOT file
+      * @param variableHeuristic
+      *   the heuristic used to determine the next variable to branch on during decision diagram
+      *   compilation
+      *
+      * @param verbosityLvl
+      *   the verbosity level of the solver when this model is executed
+      * @param debugMode
+      *   the debugging level to apply during the compilation and solving phases
+      * @tparam T
+      *   the type representing a state in the problem
+      * @return
+      *   a solver based on the DDO algorithm
+      */
+    def ddo[T](
+      problem: Problem[T],
+      relaxation: Relaxation[T],
+      lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+      upperBound: Double = Double.PositiveInfinity,
+      dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+      ranking: StateRanking[T] = DefaultStateRanking[T](),
+      widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+      frontier: CutSetType = CutSetType.LastExactLayer,
+      useCache: Boolean = false,
+      exportDot: Boolean = false,
+      variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+      verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+      debugMode: DebugMode = DebugMode.Off
+    ): Solver = {
+      DdoSolver(
+        problem,
+        relaxation,
+        lowerBound,
+        upperBound,
+        dominance,
+        ranking,
+        widthHeuristic,
+        frontier,
+        useCache,
+        exportDot,
+        variableHeuristic,
+        verbosityLvl,
+        debugMode
+      )
+    }
+
+    /** Instantiates and returns an
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]].
+      *
+      * @param problem
+      *   the structure defining the structure, transitions, and objective function of the
+      *   optimization task
+      *
+      * @param lowerBound
+      *   a heuristic that estimates a lower bound on the objective value for a given state
+      * @param dominance
+      *   the dominance checker used to prune dominated states from the search space
+      * @param verbosityLvl
+      *   the verbosity level of the solver when this model is executed
+      * @param debugMode
+      *   the debugging level to apply during the compilation and solving phases
+      * @param exportDot
+      *   whether the generated diagram must be exported to DOT file
+      * @tparam T
+      *   the type representing a state in the problem
+      * @return
+      *   a solver that generate a complete decision diagram to solve the problem
+      */
+    def exact[T](
+      problem: Problem[T],
+      lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+      dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+      verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+      debugMode: DebugMode = DebugMode.Off,
+      exportDot: Boolean = false
+    ): Solver = {
+      ExactSolver(problem, lowerBound, dominance, verbosityLvl, debugMode, exportDot)
+
+    }
+
+    /** Instantiates and returns an
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]].
+      *
+      * @param problem
+      *   the structure defining the structure, transitions, and objective function of the
+      *   optimization task
+      *
+      * @param lowerBound
+      *   a heuristic that estimates a lower bound on the objective value for a given state
+      * @param upperBound
+      *   a precomputed upper bound used to start pruning earlier
+      * @param dominance
+      *   the dominance checker used to prune dominated states from the search space
+      * @param variableHeuristic
+      *   the heuristic used to determine the next variable to branch on during decision diagram
+      *   compilation
+      *
+      * @param verbosityLvl
+      *   the verbosity level of the solver when this model is executed
+      * @param debugMode
+      *   the debugging level to apply during the compilation and solving phases
+      * @tparam T
+      *   the type representing a state in the problem
+      * @return
+      *   a solver based on the A* algorithm
+      */
+    def astar[T](
+      problem: Problem[T],
+      lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+      upperBound: Double = Double.PositiveInfinity,
+      dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+      variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+      verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+      debugMode: DebugMode = DebugMode.Off
+    ): Solver = {
+      AstarSolver(
+        problem,
+        lowerBound,
+        upperBound,
+        dominance,
+        variableHeuristic,
+        verbosityLvl,
+        debugMode
+      )
+    }
+
+    /** Instantiates and returns an
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime column search (ACS) solver]]
+      *
+      * @param problem
+      *   the structure defining the structure, transitions, and objective function of the
+      *   optimization task
+      *
+      * @param columnWidth
+      *   column width used for formatted output during the Anytime Column Search process
+      * @param lowerBound
+      *   a heuristic that estimates a lower bound on the objective value for a given state
+      * @param upperBound
+      *   a precomputed upper used to start pruning earlier
+      * @param dominance
+      *   the dominance checker used to prune dominated states from the search space
+      * @param variableHeuristic
+      *   the heuristic used to determine the next variable to branch on during decision diagram
+      *   compilation
+      *
+      * @param verbosityLvl
+      *   the verbosity level of the solver when this model is executed
+      * @param debugMode
+      *   the debugging level to apply during the compilation and solving phases
+      * @tparam T
+      *   the type representing a state in the problem
+      * @return
+      *   a solver based on the ACS algorithm
+      */
+    def acs[T](
+      problem: Problem[T],
+      columnWidth: Int = 5,
+      lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+      upperBound: Double = Double.PositiveInfinity,
+      dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+      variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+      verbosityLvl: VerbosityLvl = Silent,
+      debugMode: DebugMode = DebugMode.Off
+    ): Solver = {
+      AcsSolver(
+        problem,
+        columnWidth,
+        lowerBound,
+        upperBound,
+        dominance,
+        variableHeuristic,
+        verbosityLvl,
+        debugMode
+      )
+    }
+
+    /** Instantiates and returns an
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]].
+      *
+      * @param problem
+      *   the structure defining the structure, transitions, and objective function of the
+      *   optimization task
+      *
+      * @param weight
+      *   the weight used for the evaluation function (f = g + w*h)
+      * @param lowerBound
+      *   a heuristic that estimates a lower bound on the objective value for a given state
+      * @param upperBound
+      *   a precomputed upper bound used to start pruning earlier
+      * @param dominance
+      *   the dominance checker used to prune dominated states from the search space
+      * @param variableHeuristic
+      *   the heuristic used to determine the next variable to branch on during decision diagram
+      *   compilation
+      *
+      * @param verbosityLvl
+      *   the verbosity level of the solver when this model is executed
+      * @param debugMode
+      *   the debugging level to apply during the compilation and solving phases
+      * @tparam T
+      *   the type representing a state in the problem
+      * @return
+      *   a solver based on the Any-time Weighted A* algorithm
+      */
+    def awastar[T](
+      problem: Problem[T],
+      weight: Double = 5,
+      lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+      upperBound: Double = Double.PositiveInfinity,
+      dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+      variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+      verbosityLvl: VerbosityLvl = Silent,
+      debugMode: DebugMode = DebugMode.Off
+    ): Solver = {
+      AwAstarSolver(
+        problem,
+        weight,
+        lowerBound,
+        upperBound,
+        dominance,
+        variableHeuristic,
+        verbosityLvl,
+        debugMode
+      )
+    }
+
+    /** Instantiates and returns a
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/lns/core/solver/LNSSolver.html LNS solver]].
+      *
+      * @param problem
+      *   the structure defining the structure, transitions, and objective function of the
+      *   optimization task
+      *
+      * @param lowerBound
+      *   a heuristic that estimates a lower bound on the objective value for a given state
+      * @param upperBound
+      *   a precomputed upper used to start pruning earlier
+      * @param dominance
+      *   the dominance checker used to prune dominated states from the search space
+      * @param variableHeuristic
+      *   the heuristic used to determine the next variable to branch on during decision diagram
+      *   compilation
+      *
+      * @param verbosityLvl
+      *   the verbosity level of the solver when this model is executed
+      * @param debugMode
+      *   the debugging level to apply during the compilation and solving phases
+      * @param ranking
+      *   the heuristic used to rank states
+      * @param widthHeuristic
+      *   heuristic controlling the maximum number of nodes per layer
+      * @param exportDot
+      *   whether the generated diagram must be exported to DOT file
+      * @param restrictStrategy
+      *   strategy to select which nodes should be dropped on a restricted DD
+      * @param stateDistance
+      *   distance function between states, used to form clusters
+      * @param initialSolution
+      *   an initial solution to start the LNS search
+      * @param probability
+      *   the probability used to destruct parts of the solution in LNS (`0.2` by default)
+      * @param useLNS
+      *   whether LNS should be used
+      * @tparam T
+      *   the type representing a state in the problem
+      * @return
+      *   a solver based on the LNS algorithm
+      */
+    def lns[T](
+      problem: Problem[T],
+      lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
+      upperBound: Double = Double.PositiveInfinity,
+      dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+      variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
+      verbosityLvl: VerbosityLvl = Silent,
+      debugMode: DebugMode = DebugMode.Off,
+      ranking: StateRanking[T] = DefaultStateRanking[T](),
+      widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
+      exportDot: Boolean = false,
+      restrictStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
+      stateDistance: StateDistance[T] = new StateDistance[T] {
+        override def distance(t: T, t1: T): Double = 0.0
+      },
+      initialSolution: Array[Int] = Array.empty[Int],
+      probability: Double = 0.2,
+      useLNS: Boolean = true
+    ): Solver = {
+      LnsSolver(
+        problem,
+        lowerBound,
+        upperBound,
+        dominance,
+        variableHeuristic,
+        verbosityLvl,
+        debugMode,
+        ranking,
+        widthHeuristic,
+        exportDot,
+        restrictStrategy,
+        stateDistance,
+        initialSolution,
+        probability,
+        useLNS
+      )
+    }
   }
 
-  /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]].
-    *
-    * @param problem
-    *   the structure defining the structure, transitions, and objective function of the
-    *   optimization task
-    * @param lowerBound
-    *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param dominance
-    *   the dominance checker used to prune dominated states from the search space
-    * @param verbosityLvl
-    *   the verbosity level of the solver when this model is executed
-    * @param debugMode
-    *   the debugging level to apply during the compilation and solving phases
-    * @param exportDot
-    *   whether the generated diagram must be exported to DOT file
-    * @tparam T
-    *   the type representing a state in the problem
-    * @return
-    *   a solver that generate a complete decision diagram to solve the problem
-    */
-  def exact[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off,
-    exportDot: Boolean = false
-  ): Solver = {
-    ExactSolver(problem, lowerBound, dominance, verbosityLvl, debugMode, exportDot)
+  object noLayer {
+    def astar() = ???
 
-  }
-
-  /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]].
-    *
-    * @param problem
-    *   the structure defining the structure, transitions, and objective function of the
-    *   optimization task
-    * @param lowerBound
-    *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
-    *   a precomputed upper bound used to start pruning earlier
-    * @param dominance
-    *   the dominance checker used to prune dominated states from the search space
-    * @param variableHeuristic
-    *   the heuristic used to determine the next variable to branch on during decision diagram
-    *   compilation
-    * @param verbosityLvl
-    *   the verbosity level of the solver when this model is executed
-    * @param debugMode
-    *   the debugging level to apply during the compilation and solving phases
-    * @tparam T
-    *   the type representing a state in the problem
-    * @return
-    *   a solver based on the A* algorithm
-    */
-  def astar[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double = Double.PositiveInfinity,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
-    debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
-    AstarSolver(
-      problem,
-      lowerBound,
-      upperBound,
-      dominance,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode
-    )
-  }
-
-  /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/acs/core/solver/ACSSolver.html Anytime column search (ACS) solver]]
-    *
-    * @param problem
-    *   the structure defining the structure, transitions, and objective function of the
-    *   optimization task
-    * @param columnWidth
-    *   column width used for formatted output during the Anytime Column Search process
-    * @param lowerBound
-    *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
-    *   a precomputed upper used to start pruning earlier
-    * @param dominance
-    *   the dominance checker used to prune dominated states from the search space
-    * @param variableHeuristic
-    *   the heuristic used to determine the next variable to branch on during decision diagram
-    *   compilation
-    * @param verbosityLvl
-    *   the verbosity level of the solver when this model is executed
-    * @param debugMode
-    *   the debugging level to apply during the compilation and solving phases
-    * @tparam T
-    *   the type representing a state in the problem
-    * @return
-    *   a solver based on the ACS algorithm
-    */
-  def acs[T](
-    problem: Problem[T],
-    columnWidth: Int = 5,
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double = Double.PositiveInfinity,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = Silent,
-    debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
-    AcsSolver(
-      problem,
-      columnWidth,
-      lowerBound,
-      upperBound,
-      dominance,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode
-    )
-  }
-
-  /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]].
-    *
-    * @param problem
-    *   the structure defining the structure, transitions, and objective function of the
-    *   optimization task
-    * @param weight
-    *   the weight used for the evaluation function (f = g + w*h)
-    * @param lowerBound
-    *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
-    *   a precomputed upper bound used to start pruning earlier
-    * @param dominance
-    *   the dominance checker used to prune dominated states from the search space
-    * @param variableHeuristic
-    *   the heuristic used to determine the next variable to branch on during decision diagram
-    *   compilation
-    * @param verbosityLvl
-    *   the verbosity level of the solver when this model is executed
-    * @param debugMode
-    *   the debugging level to apply during the compilation and solving phases
-    * @tparam T
-    *   the type representing a state in the problem
-    * @return
-    *   a solver based on the Any-time Weighted A* algorithm
-    */
-  def awastar[T](
-    problem: Problem[T],
-    weight: Double = 5,
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double = Double.PositiveInfinity,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = Silent,
-    debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
-    AwAstarSolver(
-      problem,
-      weight,
-      lowerBound,
-      upperBound,
-      dominance,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode
-    )
-  }
-
-  /** Instantiates and returns a
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/lns/core/solver/LNSSolver.html LNS solver]].
-    *
-    * @param problem
-    *   the structure defining the structure, transitions, and objective function of the
-    *   optimization task
-    * @param lowerBound
-    *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param upperBound
-    *   a precomputed upper used to start pruning earlier
-    * @param dominance
-    *   the dominance checker used to prune dominated states from the search space
-    * @param variableHeuristic
-    *   the heuristic used to determine the next variable to branch on during decision diagram
-    *   compilation
-    * @param verbosityLvl
-    *   the verbosity level of the solver when this model is executed
-    * @param debugMode
-    *   the debugging level to apply during the compilation and solving phases
-    * @param ranking
-    *   the heuristic used to rank states
-    * @param widthHeuristic
-    *   heuristic controlling the maximum number of nodes per layer
-    * @param exportDot
-    *   whether the generated diagram must be exported to DOT file
-    * @param restrictStrategy
-    *   strategy to select which nodes should be dropped on a restricted DD
-    * @param stateDistance
-    *   distance function between states, used to form clusters
-    * @param initialSolution
-    *   an initial solution to start the LNS search
-    * @param probability
-    *   the probability used to destruct parts of the solution in LNS (`0.2` by default)
-    * @param useLNS
-    *   whether LNS should be used
-    * @tparam T
-    *   the type representing a state in the problem
-    * @return
-    *   a solver based on the LNS algorithm
-    */
-  def lns[T](
-    problem: Problem[T],
-    lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    upperBound: Double = Double.PositiveInfinity,
-    dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
-    variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
-    verbosityLvl: VerbosityLvl = Silent,
-    debugMode: DebugMode = DebugMode.Off,
-    ranking: StateRanking[T] = DefaultStateRanking[T](),
-    widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
-    exportDot: Boolean = false,
-    restrictStrategy: ReductionStrategy[T] = CostBased[T](DefaultStateRanking[T]()),
-    stateDistance: StateDistance[T] = new StateDistance[T] {
-      override def distance(t: T, t1: T): Double = 0.0
-    },
-    initialSolution: Array[Int] = Array.empty[Int],
-    probability: Double = 0.2,
-    useLNS: Boolean = true
-  ): Solver = {
-    LnsSolver(
-      problem,
-      lowerBound,
-      upperBound,
-      dominance,
-      variableHeuristic,
-      verbosityLvl,
-      debugMode,
-      ranking,
-      widthHeuristic,
-      exportDot,
-      restrictStrategy,
-      stateDistance,
-      initialSolution,
-      probability,
-      useLNS
-    )
+    def acs() = ???
   }
 
 }

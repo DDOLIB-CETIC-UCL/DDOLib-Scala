@@ -13,7 +13,7 @@ object MispAstarMain {
   def main(args: Array[String]): Unit = {
     val problem = MispProblem("data/MISP/weighted.dot")
 
-    val solver: Solver = Solver.astar(problem = problem, lowerBound = MispFlb(problem))
+    val solver: Solver = Solver.layered.astar(problem = problem, lowerBound = MispFlb(problem))
 
     val solution: Solution = solver.minimize()
     println(solution)

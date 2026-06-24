@@ -9,7 +9,7 @@ object TspTwAwAstarMain {
 
   def main(args: Array[String]): Unit = {
     val problem = TspTwProblem(Paths.get("data", "TSPTW", "AFG", "rbg172a.tw").toString)
-    val solver  = Solver.awastar(
+    val solver  = Solver.layered.awastar(
       problem,
       weight = 7.5,
       lowerBound = TspTwFlb(problem),

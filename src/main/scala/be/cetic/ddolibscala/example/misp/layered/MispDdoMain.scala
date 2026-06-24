@@ -20,7 +20,7 @@ object MispDdoMain {
 
     val problem        = MispProblem("data/MISP/50_nodes_1.dot")
     val solver: Solver =
-      Solver.ddo(
+      Solver.layered.ddo(
         problem = problem,
         relaxation = MispRelaxation(),
         lowerBound = MispFlb(problem),
