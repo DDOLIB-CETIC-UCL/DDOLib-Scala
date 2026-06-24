@@ -43,8 +43,8 @@ object Hybrid {
     distance: StateDistance[T],
     alpha: Double,
     seed: Long
-  ): org.ddolib.ddo.core.heuristics.cluster.Hybrid[T] = {
-    new org.ddolib.ddo.core.heuristics.cluster.Hybrid[T](ranking, distance, alpha, seed)
+  ): org.ddolib.solving.ddo.core.heuristics.cluster.layered.Hybrid[T] = {
+    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.Hybrid[T](ranking, distance, alpha, seed)
   }
 
 }

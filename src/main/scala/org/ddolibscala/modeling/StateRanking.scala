@@ -10,7 +10,7 @@ package org.ddolibscala.modeling
   * @tparam T
   *   the type of states
   */
-trait StateRanking[T] extends org.ddolib.modeling.StateRanking[T] {
+trait StateRanking[T] extends org.ddolib.modeling.layered.StateRanking[T] {
 
   /** Defines how to compare two states.
     *

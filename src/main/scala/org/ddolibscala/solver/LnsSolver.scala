@@ -2,10 +2,10 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
-import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
-import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling.{FastLowerBound, LnsModel, Problem, StateRanking}
+import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
+import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
+import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
+import org.ddolib.modeling.layered.{FastLowerBound, LnsModel, Problem, StateRanking}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
@@ -113,7 +113,7 @@ private[solver] object LnsSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.lns.core.solver.LNSSolver[T](model))
+    new Solver(new org.ddolib.solving.lns.core.solver.layered.LnsSolver[T](model))
   }
 
 }

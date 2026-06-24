@@ -17,6 +17,6 @@ package object ddolibscala {
   /** Alias for the
     * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/solver/SearchStatistics.html org.ddolib.common.solver.SearchStatistics]]
     */
-  type SearchStatistic = org.ddolib.common.solver.SearchStatistics
+  type SearchStatistic = org.ddolib.common.solver.stat.SearchStatistics
 
 }

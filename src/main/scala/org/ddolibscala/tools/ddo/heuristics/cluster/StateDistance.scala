@@ -1,6 +1,6 @@
 package org.ddolibscala.tools.ddo.heuristics.cluster
 
-import org.ddolib.ddo.core.mdd.NodeSubProblem
+import org.ddolib.solving.ddo.core.mdd.layered.NodeSubProblem
 
 /** Trait defining a distance function between states, used to form clusters when deciding which
   * nodes on a layer of a decision diagram should be merged.
@@ -13,7 +13,7 @@ import org.ddolib.ddo.core.mdd.NodeSubProblem
   * @tparam T
   *   the type of states
   */
-trait StateDistance[T] extends org.ddolib.ddo.core.heuristics.cluster.StateDistance[T] {
+trait StateDistance[T] extends org.ddolib.solving.ddo.core.heuristics.cluster.layered.StateDistance[T] {
 
   /** Computes the discrete distance between two states.
     *

@@ -1,6 +1,6 @@
 package org.ddolibscala.example.tsptw
 
-import org.ddolib.ddo.core.Decision
+import org.ddolib.solving.ddo.core.Decision
 import org.ddolibscala.modeling.Relaxation
 
 import scala.collection.mutable

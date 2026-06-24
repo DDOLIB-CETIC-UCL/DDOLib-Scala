@@ -1,6 +1,6 @@
 package org.ddolibscala.tools.ddo.heuristics.cluster
 
-import org.ddolib.ddo.core.mdd.NodeSubProblem
+import org.ddolib.solving.ddo.core.mdd.layered.NodeSubProblem
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
@@ -15,7 +15,7 @@ import scala.jdk.CollectionConverters.*
   * @tparam T
   *   the type of states in the decision diagram
   */
-trait ReductionStrategy[T] extends org.ddolib.ddo.core.heuristics.cluster.ReductionStrategy[T] {
+trait ReductionStrategy[T] extends org.ddolib.solving.ddo.core.heuristics.cluster.layered.ReductionStrategy[T] {
 
   /** Generates clusters of nodes for restriction and relaxation from the given layer.
     *

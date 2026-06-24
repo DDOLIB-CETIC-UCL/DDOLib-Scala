@@ -1,6 +1,6 @@
 package org.ddolibscala.tools.ddo.frontier
 
-import org.ddolib.modeling.StateRanking
+import org.ddolib.modeling.layered.StateRanking
 
 /** Factory for
   * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/SimpleFrontier.html SimpleFrontier]]
@@ -20,10 +20,12 @@ object SimpleFrontier {
     * @return
     *   a simple frontier using a `LastExactLayer` cutset
     */
-  def lastExactLayer[T](ranking: StateRanking[T]): org.ddolib.ddo.core.frontier.SimpleFrontier[T] =
-    new org.ddolib.ddo.core.frontier.SimpleFrontier[T](
+  def lastExactLayer[T](
+    ranking: StateRanking[T]
+  ): org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T] =
+    new org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T](
       ranking,
-      org.ddolib.ddo.core.frontier.CutSetType.LastExactLayer
+      org.ddolib.solving.ddo.core.frontier.CutSetType.LastExactLayer
     )
 
   /** Returns a simple frontier using a
@@ -39,10 +41,10 @@ object SimpleFrontier {
     * @return
     *   a simple frontier using a `Frontier` cutset
     */
-  def apply[T](ranking: StateRanking[T]): org.ddolib.ddo.core.frontier.SimpleFrontier[T] =
-    new org.ddolib.ddo.core.frontier.SimpleFrontier[T](
+  def apply[T](ranking: StateRanking[T]): org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T] =
+    new org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T](
       ranking,
-      org.ddolib.ddo.core.frontier.CutSetType.Frontier
+      org.ddolib.solving.ddo.core.frontier.CutSetType.Frontier
     )
 
 }

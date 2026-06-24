@@ -22,8 +22,8 @@ object CostBased {
     * @return
     *   a cost-based reduction strategy
     */
-  def apply[T](ranking: StateRanking[T]): org.ddolib.ddo.core.heuristics.cluster.CostBased[T] = {
-    new org.ddolib.ddo.core.heuristics.cluster.CostBased[T](ranking)
+  def apply[T](ranking: StateRanking[T]): org.ddolib.solving.ddo.core.heuristics.cluster.layered.CostBased[T] = {
+    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.CostBased[T](ranking)
   }
 
 }

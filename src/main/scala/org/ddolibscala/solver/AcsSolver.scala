@@ -2,8 +2,8 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
-import org.ddolib.modeling.{AcsModel, FastLowerBound, Problem}
+import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
+import org.ddolib.modeling.layered.{AcsModel, FastLowerBound, Problem}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
@@ -72,6 +72,6 @@ private[solver] object AcsSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.acs.core.solver.ACSSolver[T](model))
+    new Solver(new org.ddolib.solving.acs.core.solver.layered.AcsSolver[T](model))
   }
 }

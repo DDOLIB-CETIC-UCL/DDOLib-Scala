@@ -17,7 +17,7 @@ import scala.jdk.CollectionConverters.{IterableHasAsScala, IteratorHasAsScala}
   * @tparam T
   *   the type representing the problem state
   */
-trait VariableHeuristic[T] extends org.ddolib.ddo.core.heuristics.variable.VariableHeuristic[T] {
+trait VariableHeuristic[T] extends org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic[T] {
 
   /** Selects the next variable to branch on given the current set of unassigned variables and the
     * states of the next layer. <p> The heuristic can analyze the provided states to estimate which

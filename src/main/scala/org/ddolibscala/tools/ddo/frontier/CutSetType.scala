@@ -1,6 +1,6 @@
 package org.ddolibscala.tools.ddo.frontier
 
-import org.ddolib.ddo.core.frontier.CutSetType as JavaCutSetType
+import org.ddolib.solving.ddo.core.frontier.CutSetType as JavaCutSetType
 
 /** Alias for
   *

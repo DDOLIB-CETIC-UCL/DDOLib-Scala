@@ -1,6 +1,6 @@
 package org.ddolibscala.tools.dominance
 
-import org.ddolib.modeling.Dominance
+import org.ddolib.modeling.layered.Dominance
 
 /** 
  * 

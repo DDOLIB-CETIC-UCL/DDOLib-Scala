@@ -2,11 +2,11 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.ddo.core.frontier.Frontier
-import org.ddolib.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
-import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
-import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling.{DdoModel, FastLowerBound, Problem, Relaxation, StateRanking}
+import org.ddolib.solving.ddo.core.frontier.Frontier
+import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
+import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
+import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
+import org.ddolib.modeling.layered.{DdoModel, FastLowerBound, Problem, Relaxation, StateRanking}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
@@ -127,6 +127,6 @@ private[solver] object DdoSolver {
       override def stateDistance(): StateDistance[T] = _stateDistance
     }
 
-    new Solver(new org.ddolib.ddo.core.solver.SequentialSolver[T](model))
+    new Solver(new org.ddolib.solving.ddo.core.solver.layered.SequentialSolver[T](model))
   }
 }

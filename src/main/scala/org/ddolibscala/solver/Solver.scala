@@ -2,10 +2,10 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
-import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
-import org.ddolib.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.modeling.{FastLowerBound, Problem, Relaxation, StateRanking}
+import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
+import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
+import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
+import org.ddolib.modeling.layered.{FastLowerBound, Problem, Relaxation, StateRanking}
 import org.ddolibscala.modeling.{DefaultFastLowerBound, DefaultStateRanking}
 import org.ddolibscala.tools.ddo.frontier.CutSetType
 import org.ddolibscala.tools.ddo.heuristics.cluster.CostBased

@@ -1,6 +1,6 @@
 package org.ddolibscala.modeling
 
-import org.ddolib.ddo.core.Decision
+import org.ddolib.solving.ddo.core.Decision
 
 import scala.jdk.CollectionConverters.IteratorHasAsJava
 import scala.jdk.OptionConverters.RichOption
@@ -12,7 +12,7 @@ import scala.jdk.OptionConverters.RichOption
   * @tparam T
   *   the type representing a state in the problem
   */
-trait Problem[T] extends org.ddolib.modeling.Problem[T] {
+trait Problem[T] extends org.ddolib.modeling.layered.Problem[T] {
 
   /** Returns the domain of possible values for a given variable when applied to a specific state.
     *

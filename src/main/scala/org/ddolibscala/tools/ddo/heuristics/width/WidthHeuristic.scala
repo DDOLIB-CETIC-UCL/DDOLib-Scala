@@ -8,7 +8,7 @@ package org.ddolibscala.tools.ddo.heuristics.width
   * @tparam T
   *   the type of state used to compute the layer width
   */
-trait WidthHeuristic[T] extends org.ddolib.ddo.core.heuristics.width.WidthHeuristic[T] {
+trait WidthHeuristic[T] extends org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic[T] {
 
   /** Computes the maximum width allowed for a layer rooted at the given state.
     *

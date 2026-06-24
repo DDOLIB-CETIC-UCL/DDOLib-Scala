@@ -1,6 +1,6 @@
 package org.ddolibscala.modeling
 
-import org.ddolib.ddo.core.Decision
+import org.ddolib.solving.ddo.core.Decision
 
 import scala.jdk.CollectionConverters.IteratorHasAsScala
 
@@ -11,7 +11,7 @@ import scala.jdk.CollectionConverters.IteratorHasAsScala
   * @tparam T
   *   the type of states
   */
-trait Relaxation[T] extends org.ddolib.modeling.Relaxation[T] {
+trait Relaxation[T] extends org.ddolib.modeling.layered.Relaxation[T] {
 
   /** Merges the given states to create a NEW state which is an over approximation of all the
     * covered states.

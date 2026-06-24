@@ -23,8 +23,10 @@ object RandomBased {
     * @return
     *   a random-based reduction strategy
     */
-  def apply[T](seed: Long): org.ddolib.ddo.core.heuristics.cluster.RandomBased[T] = {
-    new org.ddolib.ddo.core.heuristics.cluster.RandomBased[T](seed)
+  def apply[T](
+    seed: Long
+  ): org.ddolib.solving.ddo.core.heuristics.cluster.layered.RandomBased[T] = {
+    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.RandomBased[T](seed)
   }
 
 }

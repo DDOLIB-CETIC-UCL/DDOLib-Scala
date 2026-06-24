@@ -1,6 +1,6 @@
 package org.ddolibscala.example.misp
 
-import org.ddolib.ddo.core.Decision
+import org.ddolib.solving.ddo.core.Decision
 import org.ddolibscala.modeling.Problem
 
 import scala.collection.immutable.BitSet

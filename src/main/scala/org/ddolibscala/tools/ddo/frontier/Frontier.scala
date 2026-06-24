@@ -1,9 +1,9 @@
 package org.ddolibscala.tools.ddo.frontier
 
-import org.ddolib.ddo.core.SubProblem
-import org.ddolib.ddo.core.frontier.CutSetType
+import org.ddolib.solving.ddo.core.SubProblem
+import org.ddolib.solving.ddo.core.frontier.CutSetType
 
-trait Frontier[T] extends org.ddolib.ddo.core.frontier.Frontier[T] {
+trait Frontier[T] extends org.ddolib.solving.ddo.core.frontier.Frontier[T] {
 
   /** Adds a new subproblem to the frontier for future exploration.
     *

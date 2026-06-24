@@ -35,8 +35,8 @@ object GHP {
   def apply[T](
     distance: StateDistance[T],
     seed: Long = Random.nextLong()
-  ): org.ddolib.ddo.core.heuristics.cluster.GHP[T] = {
-    new org.ddolib.ddo.core.heuristics.cluster.GHP(distance, seed)
+  ): org.ddolib.solving.ddo.core.heuristics.cluster.layered.GHP[T] = {
+    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.GHP[T](distance, seed)
   }
 
 }

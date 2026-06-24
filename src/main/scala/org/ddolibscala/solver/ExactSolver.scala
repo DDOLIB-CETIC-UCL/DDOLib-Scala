@@ -2,7 +2,7 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.{ExactModel, FastLowerBound, Problem}
+import org.ddolib.modeling.layered.{ExactModel, FastLowerBound, Problem}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
@@ -62,6 +62,6 @@ private[solver] object ExactSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.ddo.core.solver.ExactSolver[T](model))
+    new Solver(new org.ddolib.solving.ddo.core.solver.layered.ExactSolver[T](model))
   }
 }

@@ -2,8 +2,8 @@ package org.ddolibscala
 package solver
 
 import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.ddo.core.heuristics.variable.VariableHeuristic
-import org.ddolib.modeling.{AwAstarModel, FastLowerBound, Problem}
+import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
+import org.ddolib.modeling.layered.{AwAstarModel, FastLowerBound, Problem}
 import org.ddolib.util.debug.DebugLevel
 import org.ddolib.util.verbosity.VerbosityLevel
 import org.ddolibscala.modeling.DefaultFastLowerBound
@@ -71,7 +71,7 @@ private[solver] object AwAstarSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(org.ddolib.awastar.core.solver.AwAstarSolver[T](model))
+    new Solver(org.ddolib.solving.awastar.core.solver.layered.AwAstarSolver[T](model))
   }
 
 }
