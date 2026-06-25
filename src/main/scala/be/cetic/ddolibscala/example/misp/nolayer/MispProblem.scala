@@ -1,15 +1,13 @@
-package be.cetic.ddolibscala.example.misp.layered
+package be.cetic.ddolibscala.example.misp.nolayer
 
-import be.cetic.ddolibscala
-import be.cetic.ddolibscala.modeling.layered.Problem
-import org.ddolib.solving.ddo.core.Decision
+import be.cetic.ddolibscala.modeling.nolayer.Problem
 
 import scala.collection.immutable.BitSet
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 import scala.util.Using
 
-/** Companion object of the [[MispProblem]] class. */
+/** Companion object of the   [[MispProblem]] class. */
 object MispProblem {
 
   /** Returns an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]].
@@ -82,22 +80,6 @@ object MispProblem {
   }
 }
 
-/** Represents an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]].
-  *
-  * <p> The problem is defined on a weighted undirected graph. Each node can either be included in
-  * the independent set or not, and selected nodes cannot be adjacent. </p> <p> The state of the
-  * problem is represented by a Set indicating which nodes can still be selected. The solver
-  * explores decisions for each node to build an independent set of maximum weight. </p>
-  *
-  * @param nodes
-  *   all the nodes of the graph
-  * @param neighbors
-  *   adjacency list for each node
-  * @param weights
-  *   weight of each node
-  * @param _optimal
-  *   the value of the optimal solution if known
-  */
 class MispProblem(
   nodes: BitSet,
   val neighbors: Array[BitSet],
@@ -106,35 +88,22 @@ class MispProblem(
 ) extends Problem[BitSet] {
 
   private var name: Option[String] = None
+  
+  def numNodes: Int = nodes.size
 
-  override def optimal: Option[Double] = _optimal.map(-_)
-
-  override def nbVars(): Int = weights.length
+  override def domainLabels(state: BitSet): Iterable[Int] = state
 
   override def initialState(): BitSet = nodes
 
-  override def initialValue(): Double = 0.0
+  override def initialValue(): Double = 0
 
-  override def domainValues(state: BitSet, variable: Int): Iterable[Int] = {
-    if (state.contains(variable)) List(0, 1)
-    else List(0)
-  }
+  override def isTarget(state: BitSet): Boolean = state.isEmpty
 
-  override def transition(state: BitSet, decision: Decision): BitSet = {
-    val variable: Int = decision.variable()
-    if (decision.value() == 1) (state - variable) diff neighbors(variable)
-    else state - variable
-  }
+  override def transition(state: BitSet, label: Int): BitSet = (state - label) diff neighbors(label)
 
-  override def transitionCost(state: BitSet, decision: Decision): Double =
-    -weights(decision.variable()) * decision.value()
+  override def transitionCost(state: BitSet, label: Int): Double = -weights(label)
 
   override def evaluate(solution: Array[Int]): Double = {
-    require(
-      solution.length == nbVars(),
-      s"The solution ${solution.mkString("[", ", ", "]")} does not cover all the ${nbVars()} variable"
-    )
-
     val independentSet: ArrayBuffer[Int] = ArrayBuffer()
     var value: Int                       = 0
     solution.zipWithIndex.foreach { case (v, i) =>
@@ -159,15 +128,16 @@ class MispProblem(
   }
 
   override def toString: String = {
-    val weightsStr = weights.zipWithIndex.map { case (w, n) => s"\t$n: $w" }.mkString("\n")
-    val neighStr = neighbors.zipWithIndex.map { case (neigh, n) => s"\t$n: $neigh" }.mkString("\n")
+    val weightsStr = weights.zipWithIndex.map { (w, n) => s"\t$n: $w" }.mkString("\n")
+    val neighStr   = neighbors.zipWithIndex.map { (neigh, n) => s"\t$n: $neigh" }.mkString("\n")
 
-    val problemStr = s"""Nodes: $nodes
-                        |Weight:
-                        |$weightsStr
-                        |Neighbors:
-                        |$neighStr
-                        |""".stripMargin
+    val problemStr =
+      s"""Nodes: $nodes
+         |Weight:
+         |$weightsStr
+         |Neighbors:
+         |$neighStr
+         |""".stripMargin
 
     name.getOrElse(problemStr)
 
