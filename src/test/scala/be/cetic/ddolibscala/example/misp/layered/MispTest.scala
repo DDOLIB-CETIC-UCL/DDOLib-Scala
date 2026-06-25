@@ -1,9 +1,10 @@
-package be.cetic.ddolibscala.example.misp
+package be.cetic.ddolibscala.example.misp.layered
 
 import be.cetic.ddolibscala.example.misp.layered.{MispDominance, MispFlb, MispProblem, MispRanking, MispRelaxation}
 import be.cetic.ddolibscala.modeling.layered.{FastLowerBound, Relaxation, StateRanking}
 import be.cetic.ddolibscala.tools.dominance.SimpleDominanceChecker
-import be.cetic.ddolibscala.util.testbench.{ProblemLoader, ProblemTestBench, TestModel}
+import be.cetic.ddolibscala.util.testbench.ProblemLoader
+import be.cetic.ddolibscala.util.testbench.layered.{ProblemTestBench, TestModel}
 import org.ddolib.common.dominance.DominanceChecker
 import org.scalatest.funsuite.AnyFunSuite
 

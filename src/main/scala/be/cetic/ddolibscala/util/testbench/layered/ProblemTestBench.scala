@@ -1,4 +1,4 @@
-package be.cetic.ddolibscala.util.testbench
+package be.cetic.ddolibscala.util.testbench.layered
 
 import be.cetic.ddolibscala.Solution
 import be.cetic.ddolibscala.modeling.layered.{DefaultFastLowerBound, Problem}
@@ -7,6 +7,7 @@ import be.cetic.ddolibscala.tools.ddo.frontier.CutSetType.Frontier
 import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.DebugMode.On
+import be.cetic.ddolibscala.util.testbench.GeneratedTest
 
 import scala.collection.mutable.ListBuffer
 

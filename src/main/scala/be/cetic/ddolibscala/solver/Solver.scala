@@ -190,7 +190,7 @@ object Solver {
     }
   }
 
-  object noLayer {
+  object nolayer {
 
     /** Instantiates and returns a NoLayer A* solver.
       */

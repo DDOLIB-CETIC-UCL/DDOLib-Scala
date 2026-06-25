@@ -88,7 +88,7 @@ class MispProblem(
 ) extends Problem[BitSet] {
 
   private var name: Option[String] = None
-  
+
   def numNodes: Int = nodes.size
 
   override def domainLabels(state: BitSet): Iterable[Int] = state
@@ -104,19 +104,11 @@ class MispProblem(
   override def transitionCost(state: BitSet, label: Int): Double = -weights(label)
 
   override def evaluate(solution: Array[Int]): Double = {
-    val independentSet: ArrayBuffer[Int] = ArrayBuffer()
-    var value: Int                       = 0
-    solution.zipWithIndex.foreach { case (v, i) =>
-      if (v == 1) {
-        independentSet += v
-        value += weights(i)
-      }
-    }
 
-    for (i <- independentSet.indices) {
-      for (j <- i + 1 until independentSet.length) {
-        val from = independentSet(i)
-        val to   = independentSet(j)
+    for (i <- solution.indices) {
+      for (j <- i + 1 until solution.length) {
+        val from = solution(i)
+        val to   = solution(j)
         require(
           !neighbors(from).contains(to),
           s"The solution ${solution.mkString("[", ", ", "]")} is not an independent set. Nodes $from and $to are adjacent"
@@ -124,7 +116,7 @@ class MispProblem(
       }
     }
 
-    -value
+    solution.foldLeft(0)((acc, node) => acc - weights(node))
   }
 
   override def toString: String = {
@@ -142,4 +134,6 @@ class MispProblem(
     name.getOrElse(problemStr)
 
   }
+
+  override def optimal: Option[Double] = _optimal.map(-_)
 }
