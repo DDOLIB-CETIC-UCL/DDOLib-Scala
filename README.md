@@ -56,7 +56,7 @@ adaptation to convert it into a minimization problem.
 
 ## Example
 
-The project contains a set example models in the [example](./src/main/scala/org/ddolibscala/example) package.
+The project contains a set example models in the [example](src/main/scala/be/cetic/ddolibscala/example) package.
 
 The Maximum Independent Set Problem (MISP) a classical optimization problem on a graph.
 In graph theory, an independent set is a set of vertices in a graph where
