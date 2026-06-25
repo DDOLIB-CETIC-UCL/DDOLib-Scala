@@ -13,6 +13,15 @@ by the [CETIC](https://www.cetic.be/) (team of [Renaud De Landtsheer](https://ww
 the [UCLouvain](https://uclouvain.be/en/index.html) (team of [Pierre Schaus](https://pschaus.github.io/)).
 It includes a modeling API for users to define their DP problem and solve them efficiently.
 
+## Using DDOLib-Scala as a Dependency
+
+DDOLib-Scala is published on [Maven Central](https://central.sonatype.com/artifact/be.cetic/ddolib-scala_3)
+Add the following to your `build.sbt`:
+
+````scala 3
+libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.0"
+````
+
 # Theoretical Foundations
 
 The technique of using decision diagrams for solving combinatorial problems is based on the work of several researchers.
