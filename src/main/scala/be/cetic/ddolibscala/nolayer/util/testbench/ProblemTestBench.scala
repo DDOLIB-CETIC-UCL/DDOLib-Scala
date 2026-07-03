@@ -63,6 +63,16 @@ class ProblemTestBench[S, P <: Problem[S]](
         assertSolution(solver.minimize(), p)
       }
 
+      add("AWA*") {
+        val solver = Solvers.nolayer.awastar(
+          problem = p,
+          lowerBound = config.flb,
+          dominance = config.dominance,
+          debugMode = On
+        )
+        assertSolution(solver.minimize(), p)
+      }
+
       tests.toList
     }
   }

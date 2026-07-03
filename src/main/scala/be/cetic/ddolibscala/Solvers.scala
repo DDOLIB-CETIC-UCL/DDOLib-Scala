@@ -210,6 +210,30 @@ object Solvers {
       )
     }
 
+    /** Instantiates and returns a NoLayer Anytime Weighted A* solver.
+      */
+    def awastar[T](
+      problem: noLayerModeling.Problem[T],
+      weight: Double = 5,
+      lowerBound: noLayerModeling.FastLowerBound[T] =
+        new noLayerModeling.DefaultFastLowerBound[T](),
+      upperBound: Double = Double.PositiveInfinity,
+      dominance: noLayerModeling.NoLayerDominanceChecker[T] =
+        new noLayerModeling.DefaultNoLayerDominanceChecker[T](),
+      verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
+      debugMode: DebugMode = DebugMode.Off
+    ): noLayerSolver.Solver = {
+      noLayerSolver.AwAstarSolver(
+        problem,
+        weight,
+        lowerBound,
+        upperBound,
+        dominance,
+        verbosityLvl,
+        debugMode
+      )
+    }
+
     /** Instantiates and returns a NoLayer Anytime Column Search (ACS) solver.
       */
     def acs[T](
