@@ -15,12 +15,22 @@ It includes a modeling API for users to define their DP problem and solve them e
 
 ## Using DDOLib-Scala as a Dependency
 
-DDOLib-Scala is published on [Maven Central](https://central.sonatype.com/artifact/be.cetic/ddolib-scala_3)
+DDOLib-Scala is published on [Maven Central](https://central.sonatype.com/artifact/be.cetic/ddolib-scala_3).
 Add the following to your `build.sbt`:
 
-````scala 3
-libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.0"
-````
+```scala
+libraryDependencies += "io.github.ddolib-cetic-ucl" % "ddolib" % "0.1.0" // DDOLib core (Java)
+libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.1" // Scala interface
+```
+
+> [!CAUTION]
+> DDOLib-Scala is only a Scala interface for DDOLib (Java).
+> **It does not contain any core algorithm.**
+> You must import **both** DDOLib-Scala **and** the Java version.
+
+> [!IMPORTANT]
+> DDOLib and DDOLib-Scala versions are released together and share the same major.minor version number
+> (e.g. `0.1.x`). Always match the DDOLib-Scala version with a compatible DDOLib version.
 
 # Theoretical Foundations
 
