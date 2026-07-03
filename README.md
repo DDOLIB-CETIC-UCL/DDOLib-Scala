@@ -65,7 +65,7 @@ adaptation to convert it into a minimization problem.
 
 ## Example
 
-The project contains a set example models in the [example](src/main/scala/be/cetic/ddolibscala/example) package.
+The project contains a set example models in the [examples](src/main/scala/be/cetic/ddolibscala/examples) package.
 
 The Maximum Independent Set Problem (MISP) a classical optimization problem on a graph.
 In graph theory, an independent set is a set of vertices in a graph where
@@ -137,11 +137,18 @@ class MispRelaxation extends Relaxation[BitSet] {
 Solving a instance of the problem can be done as follows:
 
 ```scala
- def main(args: Array[String]): Unit = {
+import be.cetic.ddolibscala.Solvers
+import be.cetic.ddolibscala.SearchStatistic
+import be.cetic.ddolibscala.common.frontier.CutSetType.Frontier
+import be.cetic.ddolibscala.common.heuristics.width.FixedWidth
+import be.cetic.ddolibscala.common.util.VerbosityLvl.Large
+import be.cetic.ddolibscala.layered.solver.{Solution, Solver}
+
+def main(args: Array[String]): Unit = {
 
   val problem = MispProblem("data/MISP/50_nodes_1.dot")
   val solver: Solver =
-    Solver.ddo(
+    Solvers.layered.ddo(
       problem = problem,
       relaxation = MispRelaxation(),
       lowerBound = MispFlb(problem),
@@ -160,7 +167,7 @@ Solving a instance of the problem can be done as follows:
     })
 
   println(solution)
-  println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+  println(s"Search time: ${solution.statistics().runtime()} ms")
 }
 ```
 
