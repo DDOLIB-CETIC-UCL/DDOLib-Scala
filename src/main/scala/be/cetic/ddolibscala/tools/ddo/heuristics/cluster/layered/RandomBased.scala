@@ -9,7 +9,7 @@ package be.cetic.ddolibscala.tools.ddo.heuristics.cluster.layered
   * behavior.
   *
   * @see
-  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/heuristics/cluster/RandomBased.html]]
+  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/heuristics/cluster/RandomBased.html]]
   *   for details
   */
 object RandomBased {
@@ -25,8 +25,8 @@ object RandomBased {
     */
   def apply[T](
     seed: Long
-  ): org.ddolib.solving.ddo.core.heuristics.cluster.layered.RandomBased[T] = {
-    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.RandomBased[T](seed)
+  ): org.ddolib.layered.solving.ddo.core.heuristics.cluster.RandomBased[T] = {
+    new org.ddolib.layered.solving.ddo.core.heuristics.cluster.RandomBased[T](seed)
   }
 
 }

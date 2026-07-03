@@ -1,6 +1,6 @@
 package be.cetic.ddolibscala.util.testbench.nolayer
 
-import be.cetic.ddolibscala.Solution
+import be.cetic.ddolibscala.NoLayerSolution
 import be.cetic.ddolibscala.modeling.nolayer.Problem
 import be.cetic.ddolibscala.solver.Solver
 import be.cetic.ddolibscala.util.DebugMode.On
@@ -69,7 +69,7 @@ class ProblemTestBench[S, P <: Problem[S]](
 
   /** Internal assertion logic using standard Scala asserts to remain framework-agnostic.
     */
-  private def assertSolution(bestSolution: Solution, problem: P): Unit = {
+  private def assertSolution(bestSolution: NoLayerSolution, problem: P): Unit = {
     val bestValue       = bestSolution.value()
     val optBestVal      = if (bestValue.isInfinite) None else Some(bestValue)
     val expectedOptimal = problem.optimal

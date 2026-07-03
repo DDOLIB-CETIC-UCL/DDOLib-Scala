@@ -1,6 +1,6 @@
 package be.cetic.ddolibscala.tools.dominance
 
-import org.ddolib.modeling.layered.Dominance
+import org.ddolib.layered.modeling.Dominance
 
 /** 
  * 
@@ -9,6 +9,6 @@ object SimpleDominanceChecker {
   def apply[T](
     dominance: Dominance[T],
     nbVars: Int
-  ): org.ddolib.common.dominance.SimpleDominanceChecker[T] =
-    new org.ddolib.common.dominance.SimpleDominanceChecker[T](dominance, nbVars)
+  ): org.ddolib.layered.modeling.SimpleDominanceChecker[T] =
+    new org.ddolib.layered.modeling.SimpleDominanceChecker[T](dominance, nbVars)
 }

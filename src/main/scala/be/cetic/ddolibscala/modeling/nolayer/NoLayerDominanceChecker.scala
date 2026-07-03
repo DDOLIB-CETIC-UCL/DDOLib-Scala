@@ -5,7 +5,7 @@ package be.cetic.ddolibscala.modeling.nolayer
  * @tparam T
  * the type of states
  */
-trait NoLayerDominanceChecker[T] extends org.ddolib.common.dominance.NoLayerDominanceChecker[T] {
+trait NoLayerDominanceChecker[T] extends org.ddolib.nolayer.modeling.NoLayerDominanceChecker[T] {
 
   /** Evaluates if a state can be pruned based on previously seen states.
    *

@@ -7,7 +7,7 @@ import be.cetic.ddolibscala.modeling.layered.StateRanking
   * cost.
   *
   * @see
-  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/heuristics/cluster/CostBased.html]]
+  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/heuristics/cluster/CostBased.html]]
   *   for details
   */
 object CostBased {
@@ -22,8 +22,8 @@ object CostBased {
     * @return
     *   a cost-based reduction strategy
     */
-  def apply[T](ranking: StateRanking[T]): org.ddolib.solving.ddo.core.heuristics.cluster.layered.CostBased[T] = {
-    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.CostBased[T](ranking)
+  def apply[T](ranking: StateRanking[T]): org.ddolib.layered.solving.ddo.core.heuristics.cluster.CostBased[T] = {
+    new org.ddolib.layered.solving.ddo.core.heuristics.cluster.CostBased[T](ranking)
   }
 
 }

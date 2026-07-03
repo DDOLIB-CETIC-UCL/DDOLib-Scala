@@ -1,19 +1,19 @@
 package be.cetic.ddolibscala.solver.nolayer
 
 import be.cetic.ddolibscala.modeling.nolayer.*
-import be.cetic.ddolibscala.solver.Solver
+import be.cetic.ddolibscala.solver.NoLayerSolver
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import org.ddolib.modeling.nolayer.Model
-import org.ddolib.util.debug.DebugLevel
-import org.ddolib.util.verbosity.VerbosityLevel
+import org.ddolib.nolayer.modeling.Model
+import org.ddolib.common.util.debug.DebugLevel
+import org.ddolib.common.util.verbosity.VerbosityLevel
 
 /** Defines factory for a NoLayer
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/nolayer/AStarSolver.html A* solver]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/nolayer/solving/astar/core/solver/AStarSolver.html A* solver]]
   */
 private[solver] object AstarSolver {
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/nolayer/AStarSolver.html A* solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/nolayer/solving/astar/core/solver/AStarSolver.html A* solver]]
     * operating without layer or fixed variable concepts.
     *
     * @param _problem
@@ -40,22 +40,22 @@ private[solver] object AstarSolver {
     _dominance: NoLayerDominanceChecker[T] = DefaultNoLayerDominanceChecker[T](),
     _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     _debugMode: DebugMode = DebugMode.Off
-  ): Solver = {
+  ): NoLayerSolver = {
 
     val model: Model[T] = new Model[T] {
-      override def problem(): org.ddolib.modeling.nolayer.Problem[T] = _problem
+      override def problem(): org.ddolib.nolayer.modeling.Problem[T] = _problem
 
-      override def lowerBound(): org.ddolib.modeling.nolayer.FastLowerBound[T] = _lowerBound
+      override def lowerBound(): org.ddolib.nolayer.modeling.FastLowerBound[T] = _lowerBound
 
       override def upperBound(): Double = _upperBound
 
-      override def dominance(): org.ddolib.common.dominance.NoLayerDominanceChecker[T] = _dominance
+      override def dominance(): org.ddolib.nolayer.modeling.NoLayerDominanceChecker[T] = _dominance
 
       override def verbosityLevel(): VerbosityLevel = _verbosityLvl.toJava
 
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.solving.astar.core.solver.nolayer.AStarSolver[T](model))
+    new NoLayerSolver(new org.ddolib.nolayer.solving.astar.core.solver.AStarSolver[T](model))
   }
 }

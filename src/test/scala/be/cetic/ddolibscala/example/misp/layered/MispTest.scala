@@ -5,7 +5,7 @@ import be.cetic.ddolibscala.modeling.layered.{FastLowerBound, Relaxation, StateR
 import be.cetic.ddolibscala.tools.dominance.SimpleDominanceChecker
 import be.cetic.ddolibscala.util.testbench.ProblemLoader
 import be.cetic.ddolibscala.util.testbench.layered.{ProblemTestBench, TestModel}
-import org.ddolib.common.dominance.DominanceChecker
+import org.ddolib.layered.modeling.DominanceChecker
 import org.scalatest.funsuite.AnyFunSuite
 
 import scala.collection.immutable.BitSet

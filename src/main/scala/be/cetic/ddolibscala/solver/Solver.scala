@@ -8,13 +8,14 @@ import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.VerbosityLvl.Silent
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import be.cetic.ddolibscala.{SearchStatistic, Solution}
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.layered.{Relaxation, StateRanking}
-import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
-import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
-import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
+import be.cetic.ddolibscala.{NoLayerSolution, SearchStatistic, Solution}
+import org.ddolib.layered.modeling.DominanceChecker
+import org.ddolib.layered.modeling.{Relaxation, StateRanking}
+import org.ddolib.layered.solving.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
+import org.ddolib.layered.solving.ddo.core.heuristics.variable.VariableHeuristic
+import org.ddolib.common.heuristics.width.WidthHeuristic
 
+import scala.jdk.CollectionConverters.ListHasAsScala
 import scala.jdk.FunctionConverters.{enrichAsJavaBiConsumer, enrichAsJavaPredicate}
 
 // Explicit package aliases renamed for style consistency
@@ -28,9 +29,9 @@ object Solver {
     /** Instantiates and returns a DDO solver.
       */
     def ddo[T](
-      problem: org.ddolib.modeling.layered.Problem[T],
+      problem: org.ddolib.layered.modeling.Problem[T],
       relaxation: Relaxation[T],
-      lowerBound: org.ddolib.modeling.layered.FastLowerBound[T] =
+      lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
       upperBound: Double = Double.PositiveInfinity,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
@@ -63,8 +64,8 @@ object Solver {
     /** Instantiates and returns an exact solver.
       */
     def exact[T](
-      problem: org.ddolib.modeling.layered.Problem[T],
-      lowerBound: org.ddolib.modeling.layered.FastLowerBound[T] =
+      problem: org.ddolib.layered.modeling.Problem[T],
+      lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
@@ -77,8 +78,8 @@ object Solver {
     /** Instantiates and returns an A* solver.
       */
     def astar[T](
-      problem: org.ddolib.modeling.layered.Problem[T],
-      lowerBound: org.ddolib.modeling.layered.FastLowerBound[T] =
+      problem: org.ddolib.layered.modeling.Problem[T],
+      lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
       upperBound: Double = Double.PositiveInfinity,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
@@ -100,9 +101,9 @@ object Solver {
     /** Instantiates and returns an Anytime column search (ACS) solver.
       */
     def acs[T](
-      problem: org.ddolib.modeling.layered.Problem[T],
+      problem: org.ddolib.layered.modeling.Problem[T],
       columnWidth: Int = 5,
-      lowerBound: org.ddolib.modeling.layered.FastLowerBound[T] =
+      lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
       upperBound: Double = Double.PositiveInfinity,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
@@ -125,9 +126,9 @@ object Solver {
     /** Instantiates and returns an Anytime Weighted A* solver.
       */
     def awastar[T](
-      problem: org.ddolib.modeling.layered.Problem[T],
+      problem: org.ddolib.layered.modeling.Problem[T],
       weight: Double = 5,
-      lowerBound: org.ddolib.modeling.layered.FastLowerBound[T] =
+      lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
       upperBound: Double = Double.PositiveInfinity,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
@@ -150,8 +151,8 @@ object Solver {
     /** Instantiates and returns a LNS solver.
       */
     def lns[T](
-      problem: org.ddolib.modeling.layered.Problem[T],
-      lowerBound: org.ddolib.modeling.layered.FastLowerBound[T] =
+      problem: org.ddolib.layered.modeling.Problem[T],
+      lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
       upperBound: Double = Double.PositiveInfinity,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
@@ -203,7 +204,7 @@ object Solver {
         new noLayerModeling.DefaultNoLayerDominanceChecker[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
       debugMode: DebugMode = DebugMode.Off
-    ): Solver = {
+    ): NoLayerSolver = {
       be.cetic.ddolibscala.solver.nolayer.AstarSolver(
         problem,
         lowerBound,
@@ -226,7 +227,7 @@ object Solver {
         new noLayerModeling.DefaultNoLayerDominanceChecker[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
       debugMode: DebugMode = DebugMode.Off
-    ): Solver = {
+    ): NoLayerSolver = {
       be.cetic.ddolibscala.solver.nolayer.AcsSolver(
         problem,
         columnWidth,
@@ -241,15 +242,30 @@ object Solver {
 
 }
 
-/** Class packaging a Java solver
+/** Class packaging a Java layered solver
   */
-class Solver private[solver] (javaSolver: org.ddolib.common.solver.Solver) {
+class Solver private[solver] (javaSolver: org.ddolib.layered.solver.Solver) {
 
   def minimize(
     limit: SearchStatistic => Boolean = _ => false,
     onSolution: (Array[Int], SearchStatistic) => Unit = (_, _) => {}
   ): Solution = {
     javaSolver.minimize(limit.asJava, onSolution.asJava)
+  }
+
+}
+
+/** Class packaging a Java NoLayer solver
+  */
+class NoLayerSolver private[solver] (javaSolver: org.ddolib.nolayer.solver.Solver) {
+
+  def minimize(
+    limit: SearchStatistic => Boolean = _ => false,
+    onSolution: (Seq[Int], SearchStatistic) => Unit = (_, _) => {}
+  ): NoLayerSolution = {
+    val onSolutionJava = (solution: java.util.List[java.lang.Integer], stats: SearchStatistic) =>
+      onSolution(solution.asScala.toSeq.map(_.toInt), stats)
+    javaSolver.minimize(limit.asJava, onSolutionJava.asJava)
   }
 
 }

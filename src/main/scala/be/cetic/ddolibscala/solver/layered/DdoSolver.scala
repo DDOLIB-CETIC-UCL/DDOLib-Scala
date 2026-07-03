@@ -8,22 +8,22 @@ import be.cetic.ddolibscala.tools.ddo.heuristics.variables.layered.DefaultVariab
 import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.layered.*
-import org.ddolib.solving.ddo.core.frontier.Frontier
-import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
-import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
-import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.util.debug.DebugLevel
-import org.ddolib.util.verbosity.VerbosityLevel
+import org.ddolib.layered.modeling.DominanceChecker
+import org.ddolib.layered.modeling.*
+import org.ddolib.common.frontier.Frontier
+import org.ddolib.layered.solving.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
+import org.ddolib.layered.solving.ddo.core.heuristics.variable.VariableHeuristic
+import org.ddolib.common.heuristics.width.WidthHeuristic
+import org.ddolib.common.util.debug.DebugLevel
+import org.ddolib.common.util.verbosity.VerbosityLevel
 
 /** Defines factory for a
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/solver/SequentialSolver.html DDO solver]].
   */
 private[solver] object DdoSolver {
 
   /** Instantiates and returns a
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/SequentialSolver.html DDO solver]].
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/solver/SequentialSolver.html DDO solver]].
     *
     * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -72,7 +72,7 @@ private[solver] object DdoSolver {
     _relaxation: Relaxation[T],
     _lowerBound: FastLowerBound[T] = new DefaultFastLowerBound[T](),
     _upperBound: Double,
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _ranking: StateRanking[T] = DefaultStateRanking[T](),
     _widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
     _frontier: CutSetType = CutSetType.LastExactLayer,
@@ -127,6 +127,6 @@ private[solver] object DdoSolver {
       override def stateDistance(): StateDistance[T] = _stateDistance
     }
 
-    new Solver(new org.ddolib.solving.ddo.core.solver.layered.SequentialSolver[T](model))
+    new Solver(new org.ddolib.layered.solving.ddo.core.solver.SequentialSolver[T](model))
   }
 }

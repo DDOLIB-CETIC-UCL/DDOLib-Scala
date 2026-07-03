@@ -7,7 +7,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
   * @tparam T
   *   the type of the state
   */
-trait FastLowerBound[T] extends org.ddolib.modeling.layered.FastLowerBound[T] {
+trait FastLowerBound[T] extends org.ddolib.layered.modeling.FastLowerBound[T] {
 
   /** Returns a very rough estimation (lower bound) of the optimal value that could be reached if
     * state were the initial state.

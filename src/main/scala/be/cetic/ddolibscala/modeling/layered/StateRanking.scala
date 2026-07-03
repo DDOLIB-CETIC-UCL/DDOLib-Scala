@@ -10,7 +10,7 @@ package be.cetic.ddolibscala.modeling.layered
   * @tparam T
   *   the type of states
   */
-trait StateRanking[T] extends org.ddolib.modeling.layered.StateRanking[T] {
+trait StateRanking[T] extends org.ddolib.layered.modeling.StateRanking[T] {
 
   /** Defines how to compare two states.
     *

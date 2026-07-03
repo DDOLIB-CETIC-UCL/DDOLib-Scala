@@ -1,9 +1,9 @@
 package be.cetic.ddolibscala.util
 
-import org.ddolib.util.verbosity.VerbosityLevel as JavaVerbosityLvl
+import org.ddolib.common.util.verbosity.VerbosityLevel as JavaVerbosityLvl
 
 /** Alias for the
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/util/verbosity/VerbosityLevel.html org.ddolib.util.verbosity.VerbosityLevel]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/util/verbosity/VerbosityLevel.html org.ddolib.common.util.verbosity.VerbosityLevel]]
   */
 enum VerbosityLvl {
 

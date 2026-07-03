@@ -4,13 +4,13 @@ import be.cetic.ddolibscala.modeling.layered.DefaultFastLowerBound
 import be.cetic.ddolibscala.solver.Solver
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.layered.{ExactModel, FastLowerBound, Problem}
-import org.ddolib.util.debug.DebugLevel
-import org.ddolib.util.verbosity.VerbosityLevel
+import org.ddolib.layered.modeling.DominanceChecker
+import org.ddolib.layered.modeling.{ExactModel, FastLowerBound, Problem}
+import org.ddolib.common.util.debug.DebugLevel
+import org.ddolib.common.util.verbosity.VerbosityLevel
 
 /** Defines factory for an
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/solver/ExactSolver.html exact solver]]
   *
   * @note
   *   This solver generate a complete decision diagram. It must only be used on small instances for
@@ -19,7 +19,7 @@ import org.ddolib.util.verbosity.VerbosityLevel
 private[solver] object ExactSolver {
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/solver/ExactSolver.html exact solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/solver/ExactSolver.html exact solver]]
     *
     * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -42,7 +42,7 @@ private[solver] object ExactSolver {
   def apply[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     _debugMode: DebugMode = DebugMode.Off,
     _exportDot: Boolean = false
@@ -62,6 +62,6 @@ private[solver] object ExactSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.solving.ddo.core.solver.layered.ExactSolver[T](model))
+    new Solver(new org.ddolib.layered.solving.ddo.core.solver.ExactSolver[T](model))
   }
 }

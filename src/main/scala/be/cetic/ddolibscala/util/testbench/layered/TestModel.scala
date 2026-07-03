@@ -3,7 +3,7 @@ package be.cetic.ddolibscala.util.testbench.layered
 import be.cetic.ddolibscala.modeling.*
 import be.cetic.ddolibscala.modeling.layered.*
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
-import org.ddolib.common.dominance.DominanceChecker
+import org.ddolib.layered.modeling.DominanceChecker
 
 /** Defines the model configuration and components used to solve a problem instance during tests.
   *

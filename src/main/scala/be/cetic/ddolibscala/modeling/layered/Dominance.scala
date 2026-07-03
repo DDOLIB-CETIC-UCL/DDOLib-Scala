@@ -14,7 +14,7 @@ package be.cetic.ddolibscala.modeling.layered
   * @tparam T
   *   the type representing the problem state
   */
-trait Dominance[T] extends org.ddolib.modeling.layered.Dominance[T] {
+trait Dominance[T] extends org.ddolib.layered.modeling.Dominance[T] {
 
   /** Returns a canonical key associated with a given state.<br>
     *

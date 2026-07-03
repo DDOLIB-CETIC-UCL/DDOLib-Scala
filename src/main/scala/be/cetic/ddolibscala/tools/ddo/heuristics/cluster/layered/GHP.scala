@@ -16,7 +16,7 @@ import scala.util.Random
   * <p>A random number generator is used for tie-breaking and initial shuffling of the layer.</p>
   *
   * @see
-  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/heuristics/cluster/GHP.html]]
+  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/heuristics/cluster/GHP.html]]
   *   for details
   */
 object GHP {
@@ -35,8 +35,8 @@ object GHP {
   def apply[T](
     distance: StateDistance[T],
     seed: Long = Random.nextLong()
-  ): org.ddolib.solving.ddo.core.heuristics.cluster.layered.GHP[T] = {
-    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.GHP[T](distance, seed)
+  ): org.ddolib.layered.solving.ddo.core.heuristics.cluster.GHP[T] = {
+    new org.ddolib.layered.solving.ddo.core.heuristics.cluster.GHP[T](distance, seed)
   }
 
 }

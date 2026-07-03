@@ -1,9 +1,9 @@
 package be.cetic.ddolibscala.util
 
-import org.ddolib.util.debug.DebugLevel as JavaDebugLvl
+import org.ddolib.common.util.debug.DebugLevel as JavaDebugLvl
 
 /** Alias for
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/util/debug/DebugLevel.html org.ddolib.util.debug.DebugLevel]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/util/debug/DebugLevel.html org.ddolib.common.util.debug.DebugLevel]]
   */
 enum DebugMode {
 

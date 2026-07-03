@@ -1,9 +1,9 @@
 package be.cetic.ddolibscala.tools.ddo.frontier
 
-import org.ddolib.solving.ddo.core.SubProblem
-import org.ddolib.solving.ddo.core.frontier.CutSetType
+import org.ddolib.layered.solving.ddo.core.SubProblem
+import org.ddolib.common.frontier.CutSetType
 
-trait Frontier[T] extends org.ddolib.solving.ddo.core.frontier.Frontier[T] {
+trait Frontier[T] extends org.ddolib.common.frontier.Frontier[T] {
 
   /** Adds a new subproblem to the frontier for future exploration.
     *
@@ -45,14 +45,14 @@ trait Frontier[T] extends org.ddolib.solving.ddo.core.frontier.Frontier[T] {
     *
     * <p> The cut set type determines the strategy used to define which nodes belong to the frontier
     * (e.g.,
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/CutSetType.html#LastExactLayer CutSetType.LastExactLayer]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/CutSetType.html#LastExactLayer CutSetType.LastExactLayer]]
     * or
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/CutSetType.html#Frontier CutSetType.Frontier]]).
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/CutSetType.html#Frontier CutSetType.Frontier]]).
     * This affects how the solver manages layers during compilation. </p>
     *
     * @return
     *   the
-    *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/CutSetType.html CutSetType]]
+    *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/CutSetType.html CutSetType]]
     *   representing the frontier strategy
     */
   override def cutSetType(): CutSetType

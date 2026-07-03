@@ -1,7 +1,7 @@
 package be.cetic.ddolibscala.example.misp.layered
 
 import be.cetic.ddolibscala.modeling.layered.Relaxation
-import org.ddolib.solving.ddo.core.Decision
+import org.ddolib.layered.solving.ddo.core.Decision
 
 import scala.collection.immutable.BitSet
 

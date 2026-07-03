@@ -6,19 +6,19 @@ import be.cetic.ddolibscala.tools.ddo.heuristics.variables.layered.DefaultVariab
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.VerbosityLvl.Silent
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.layered.{AwAstarModel, FastLowerBound, Problem}
-import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
-import org.ddolib.util.debug.DebugLevel
-import org.ddolib.util.verbosity.VerbosityLevel
+import org.ddolib.layered.modeling.DominanceChecker
+import org.ddolib.layered.modeling.{AwAstarModel, FastLowerBound, Problem}
+import org.ddolib.layered.solving.ddo.core.heuristics.variable.VariableHeuristic
+import org.ddolib.common.util.debug.DebugLevel
+import org.ddolib.common.util.verbosity.VerbosityLevel
 
 /** Defines factory for an
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]]
   */
 private[solver] object AwAstarSolver {
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/awastar/core/solver/AwAstarSolver.html Anytime Weighted A* solver]]
     *
     * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -48,7 +48,7 @@ private[solver] object AwAstarSolver {
     _weight: Double = 5,
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _upperBound: Double = Double.PositiveInfinity,
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLvl = Silent,
     _debugMode: DebugMode = DebugMode.Off
@@ -71,7 +71,7 @@ private[solver] object AwAstarSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(org.ddolib.solving.awastar.core.solver.layered.AwAstarSolver[T](model))
+    new Solver(org.ddolib.layered.solving.awastar.core.solver.AwAstarSolver[T](model))
   }
 
 }

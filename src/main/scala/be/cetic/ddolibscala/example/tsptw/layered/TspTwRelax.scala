@@ -2,7 +2,7 @@ package be.cetic.ddolibscala.example.tsptw.layered
 
 import be.cetic.ddolibscala.example.tsptw.layered.{TspNode, VirtualNodes}
 import be.cetic.ddolibscala.modeling.layered.Relaxation
-import org.ddolib.solving.ddo.core.Decision
+import org.ddolib.layered.solving.ddo.core.Decision
 
 import scala.collection.mutable
 

@@ -5,19 +5,19 @@ import be.cetic.ddolibscala.solver.Solver
 import be.cetic.ddolibscala.tools.ddo.heuristics.variables.layered.DefaultVariableHeuristic
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.layered.{FastLowerBound, Model, Problem}
-import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
-import org.ddolib.util.debug.DebugLevel
-import org.ddolib.util.verbosity.VerbosityLevel
+import org.ddolib.layered.modeling.DominanceChecker
+import org.ddolib.layered.modeling.{FastLowerBound, Model, Problem}
+import org.ddolib.layered.solving.ddo.core.heuristics.variable.VariableHeuristic
+import org.ddolib.common.util.debug.DebugLevel
+import org.ddolib.common.util.verbosity.VerbosityLevel
 
 /** Defines factory for an
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/astar/core/solver/AStarSolver.html A* solver]]
   */
 private[solver] object AstarSolver {
 
   /** Instantiates and returns an
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/astar/core/solver/AStarSolver.html A* solver]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/astar/core/solver/AStarSolver.html A* solver]]
     *
     * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -44,7 +44,7 @@ private[solver] object AstarSolver {
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _upperBound: Double,
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     _debugMode: DebugMode = DebugMode.Off
@@ -66,6 +66,6 @@ private[solver] object AstarSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.solving.astar.core.solver.layered.AStarSolver[T](model))
+    new Solver(new org.ddolib.layered.solving.astar.core.solver.AStarSolver[T](model))
   }
 }

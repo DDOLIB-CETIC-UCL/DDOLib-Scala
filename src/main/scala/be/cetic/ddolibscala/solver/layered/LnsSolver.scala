@@ -8,21 +8,21 @@ import be.cetic.ddolibscala.tools.ddo.heuristics.width.FixedWidth
 import be.cetic.ddolibscala.tools.dominance.DefaultDominanceChecker
 import be.cetic.ddolibscala.util.VerbosityLvl.Silent
 import be.cetic.ddolibscala.util.{DebugMode, VerbosityLvl}
-import org.ddolib.common.dominance.DominanceChecker
-import org.ddolib.modeling.layered.{FastLowerBound, LnsModel, Problem, StateRanking}
-import org.ddolib.solving.ddo.core.heuristics.cluster.layered.{ReductionStrategy, StateDistance}
-import org.ddolib.solving.ddo.core.heuristics.variable.layered.VariableHeuristic
-import org.ddolib.solving.ddo.core.heuristics.width.WidthHeuristic
-import org.ddolib.util.debug.DebugLevel
-import org.ddolib.util.verbosity.VerbosityLevel
+import org.ddolib.layered.modeling.DominanceChecker
+import org.ddolib.layered.modeling.{FastLowerBound, LnsModel, Problem, StateRanking}
+import org.ddolib.layered.solving.ddo.core.heuristics.cluster.{ReductionStrategy, StateDistance}
+import org.ddolib.layered.solving.ddo.core.heuristics.variable.VariableHeuristic
+import org.ddolib.common.heuristics.width.WidthHeuristic
+import org.ddolib.common.util.debug.DebugLevel
+import org.ddolib.common.util.verbosity.VerbosityLevel
 
 /** Defines factory for a
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/lns/core/solver/LNSSolver.html LNS solver]].
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/lns/core/solver/LnsSolver.html LNS solver]].
   */
 private[solver] object LnsSolver {
 
   /** Instantiates and returns a
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/lns/core/solver/LNSSolver.html LNS solver]].
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/lns/core/solver/LnsSolver.html LNS solver]].
     *
     * @param _problem
     *   the structure defining the structure, transitions, and objective function of the
@@ -65,7 +65,7 @@ private[solver] object LnsSolver {
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
     _upperBound: Double = Double.PositiveInfinity,
-    _dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
+    _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLvl = Silent,
     _debugMode: DebugMode = DebugMode.Off,
@@ -113,7 +113,7 @@ private[solver] object LnsSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.solving.lns.core.solver.layered.LnsSolver[T](model))
+    new Solver(new org.ddolib.layered.solving.lns.core.solver.LnsSolver[T](model))
   }
 
 }

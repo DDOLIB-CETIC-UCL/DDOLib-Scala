@@ -10,7 +10,7 @@ import be.cetic.ddolibscala.modeling.layered.Dominance
   *   the type of states
   */
 abstract class DominanceChecker[T](dominance: Dominance[T])
-    extends org.ddolib.common.dominance.DominanceChecker[T](dominance) {
+    extends org.ddolib.layered.modeling.DominanceChecker[T](dominance) {
 
   /**
    * Checks whether the input state is dominated and updates the front of non-dominated nodes.

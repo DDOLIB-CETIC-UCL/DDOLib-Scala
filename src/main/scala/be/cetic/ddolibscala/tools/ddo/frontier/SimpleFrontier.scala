@@ -1,17 +1,17 @@
 package be.cetic.ddolibscala.tools.ddo.frontier
 
-import org.ddolib.modeling.layered.StateRanking
+import org.ddolib.layered.modeling.StateRanking
 
 /** Factory for
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/SimpleFrontier.html SimpleFrontier]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/SimpleFrontier.html SimpleFrontier]]
   */
 object SimpleFrontier {
 
   /** Returns a simple frontier using a
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/CutSetType.html#LastExactLayer LastExactLayer cutset]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/CutSetType.html#LastExactLayer LastExactLayer cutset]]
     *
     * @see
-    *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/SimpleFrontier.html SimpleFrontier]]
+    *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/SimpleFrontier.html SimpleFrontier]]
     * @param ranking
     *   the ordering used to determine which subproblem is most promising and should be explored
     *   first
@@ -22,17 +22,17 @@ object SimpleFrontier {
     */
   def lastExactLayer[T](
     ranking: StateRanking[T]
-  ): org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T] =
-    new org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T](
+  ): org.ddolib.common.frontier.SimpleFrontier[T] =
+    new org.ddolib.common.frontier.SimpleFrontier[T](
       ranking,
-      org.ddolib.solving.ddo.core.frontier.CutSetType.LastExactLayer
+      org.ddolib.common.frontier.CutSetType.LastExactLayer
     )
 
   /** Returns a simple frontier using a
-    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/CutSetType.html#Frontier Frontier cutset]]
+    * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/CutSetType.html#Frontier Frontier cutset]]
     *
     * @see
-    *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/SimpleFrontier.html SimpleFrontier]]
+    *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/SimpleFrontier.html SimpleFrontier]]
     * @param ranking
     *   the ordering used to determine which subproblem is most promising and should be explored
     *   first
@@ -41,10 +41,10 @@ object SimpleFrontier {
     * @return
     *   a simple frontier using a `Frontier` cutset
     */
-  def apply[T](ranking: StateRanking[T]): org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T] =
-    new org.ddolib.solving.ddo.core.frontier.SimpleFrontier[T](
+  def apply[T](ranking: StateRanking[T]): org.ddolib.common.frontier.SimpleFrontier[T] =
+    new org.ddolib.common.frontier.SimpleFrontier[T](
       ranking,
-      org.ddolib.solving.ddo.core.frontier.CutSetType.Frontier
+      org.ddolib.common.frontier.CutSetType.Frontier
     )
 
 }

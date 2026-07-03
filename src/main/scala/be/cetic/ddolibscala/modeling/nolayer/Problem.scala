@@ -1,6 +1,6 @@
 package be.cetic.ddolibscala.modeling.nolayer
 
-import scala.jdk.CollectionConverters.IteratorHasAsJava
+import scala.jdk.CollectionConverters.{IteratorHasAsJava, ListHasAsScala}
 import scala.jdk.OptionConverters.RichOption
 
 /** `Problem` defines the state space, the transitions between states induced by labels, and the
@@ -10,7 +10,7 @@ import scala.jdk.OptionConverters.RichOption
  * @tparam T
  * the type representing a state in the problem
  */
-trait Problem[T] extends org.ddolib.modeling.nolayer.Problem[T] {
+trait Problem[T] extends org.ddolib.nolayer.modeling.Problem[T] {
 
   /** Returns the domain of possible labels/actions from a given state.
    *
@@ -82,9 +82,14 @@ trait Problem[T] extends org.ddolib.modeling.nolayer.Problem[T] {
    * @return
    * The value of the input solution
    */
-  override def evaluate(solution: Array[Int]): Double
+  def evaluate(solution: Array[Int]): Double
 
   // METHODS TO CONVERT SCALA OBJECTS INTO JAVA OBJECTS
+
+  /** Used by the solver. Converts the input of [[evaluate]] from Java to Scala.
+   */
+  final override def evaluate(solution: java.util.List[java.lang.Integer]): Double =
+    evaluate(solution.asScala.map(_.toInt).toArray)
 
   /** Used by the solver. Converts the output of [[domainLabels]] from Scala to Java.
    */

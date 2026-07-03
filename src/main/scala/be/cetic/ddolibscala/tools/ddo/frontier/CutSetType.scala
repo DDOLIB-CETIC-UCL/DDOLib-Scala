@@ -1,10 +1,10 @@
 package be.cetic.ddolibscala.tools.ddo.frontier
 
-import org.ddolib.solving.ddo.core.frontier.CutSetType as JavaCutSetType
+import org.ddolib.common.frontier.CutSetType as JavaCutSetType
 
 /** Alias for
   *
-  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/frontier/CutSetType.html org.ddolib.ddo.core.frontier.CutSetType]]
+  * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/frontier/CutSetType.html org.ddolib.ddo.core.frontier.CutSetType]]
   */
 enum CutSetType {
 

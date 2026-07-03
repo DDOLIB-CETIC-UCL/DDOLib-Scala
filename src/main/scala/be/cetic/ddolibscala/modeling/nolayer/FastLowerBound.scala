@@ -5,7 +5,7 @@ package be.cetic.ddolibscala.modeling.nolayer
   * @tparam T
   *   the type of the state
   */
-trait FastLowerBound[T] extends org.ddolib.modeling.nolayer.FastLowerBound[T] {
+trait FastLowerBound[T] extends org.ddolib.nolayer.modeling.FastLowerBound[T] {
 
   /** Returns a very rough estimation (lower bound) of the remaining cost from the given state to
     * reach any valid target state.

@@ -2,7 +2,7 @@ package be.cetic.ddolibscala.example.tsptw.layered
 
 import be.cetic.ddolibscala.example.tsptw.layered.{Position, TimeWindow, TspNode, VirtualNodes}
 import be.cetic.ddolibscala.modeling.layered.Problem
-import org.ddolib.solving.ddo.core.Decision
+import org.ddolib.layered.solving.ddo.core.Decision
 
 import scala.collection.immutable.BitSet
 import scala.io.Source

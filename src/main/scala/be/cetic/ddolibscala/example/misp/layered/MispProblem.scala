@@ -2,7 +2,7 @@ package be.cetic.ddolibscala.example.misp.layered
 
 import be.cetic.ddolibscala
 import be.cetic.ddolibscala.modeling.layered.Problem
-import org.ddolib.solving.ddo.core.Decision
+import org.ddolib.layered.solving.ddo.core.Decision
 
 import scala.collection.immutable.BitSet
 import scala.collection.mutable.ArrayBuffer

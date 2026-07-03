@@ -18,7 +18,7 @@ import be.cetic.ddolibscala.modeling.layered.StateRanking
   *   - `1 - alpha` fraction of the clusters are formed using the GHP distance-based method.
   *
   * @see
-  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/ddo/core/heuristics/cluster/Hybrid.html]]
+  *   [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/layered/solving/ddo/core/heuristics/cluster/Hybrid.html]]
   *   for details
   */
 object Hybrid {
@@ -43,8 +43,8 @@ object Hybrid {
     distance: StateDistance[T],
     alpha: Double,
     seed: Long
-  ): org.ddolib.solving.ddo.core.heuristics.cluster.layered.Hybrid[T] = {
-    new org.ddolib.solving.ddo.core.heuristics.cluster.layered.Hybrid[T](ranking, distance, alpha, seed)
+  ): org.ddolib.layered.solving.ddo.core.heuristics.cluster.Hybrid[T] = {
+    new org.ddolib.layered.solving.ddo.core.heuristics.cluster.Hybrid[T](ranking, distance, alpha, seed)
   }
 
 }
