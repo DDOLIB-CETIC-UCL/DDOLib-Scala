@@ -8,17 +8,8 @@ package be.cetic {
 
   package ddolibscala {
 
-    // Since we are inside be.cetic.ddolibscala, 'solver' is resolved relatively
-    export solver.Solver
-
     /** Alias for the
-      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/solver/Solution.html org.ddolib.common.solver.Solution]]
-      * object.
-      */
-    type Solution = org.ddolib.common.solver.Solution
-
-    /** Alias for the
-      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/solver/SearchStatistics.html org.ddolib.common.solver.SearchStatistics]]
+      * [[https://ddolib-cetic-ucl.github.io/DDOLib/javadoc/org/ddolib/common/solver/stat/SearchStatistics.html org.ddolib.common.solver.stat.SearchStatistics]]
       */
     type SearchStatistic = org.ddolib.common.solver.stat.SearchStatistics
   }

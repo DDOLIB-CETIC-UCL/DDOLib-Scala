@@ -15,12 +15,22 @@ It includes a modeling API for users to define their DP problem and solve them e
 
 ## Using DDOLib-Scala as a Dependency
 
-DDOLib-Scala is published on [Maven Central](https://central.sonatype.com/artifact/be.cetic/ddolib-scala_3)
+DDOLib-Scala is published on [Maven Central](https://central.sonatype.com/artifact/be.cetic/ddolib-scala_3).
 Add the following to your `build.sbt`:
 
-````scala 3
-libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.0"
-````
+```scala
+libraryDependencies += "io.github.ddolib-cetic-ucl" % "ddolib" % "0.1.0" // DDOLib core (Java)
+libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.1" // Scala interface
+```
+
+> [!CAUTION]
+> DDOLib-Scala is only a Scala interface for DDOLib (Java).
+> **It does not contain any core algorithm.**
+> You must import **both** DDOLib-Scala **and** the Java version.
+
+> [!IMPORTANT]
+> DDOLib and DDOLib-Scala versions are released together and share the same major.minor version number
+> (e.g. `0.1.x`). Always match the DDOLib-Scala version with a compatible DDOLib version.
 
 # Theoretical Foundations
 
@@ -65,7 +75,7 @@ adaptation to convert it into a minimization problem.
 
 ## Example
 
-The project contains a set example models in the [example](src/main/scala/be/cetic/ddolibscala/example) package.
+The project contains a set example models in the [examples](src/main/scala/be/cetic/ddolibscala/examples) package.
 
 The Maximum Independent Set Problem (MISP) a classical optimization problem on a graph.
 In graph theory, an independent set is a set of vertices in a graph where
@@ -137,11 +147,18 @@ class MispRelaxation extends Relaxation[BitSet] {
 Solving a instance of the problem can be done as follows:
 
 ```scala
- def main(args: Array[String]): Unit = {
+import be.cetic.ddolibscala.Solvers
+import be.cetic.ddolibscala.SearchStatistic
+import be.cetic.ddolibscala.common.frontier.CutSetType.Frontier
+import be.cetic.ddolibscala.common.heuristics.width.FixedWidth
+import be.cetic.ddolibscala.common.util.VerbosityLvl.Large
+import be.cetic.ddolibscala.layered.solver.{Solution, Solver}
+
+def main(args: Array[String]): Unit = {
 
   val problem = MispProblem("data/MISP/50_nodes_1.dot")
   val solver: Solver =
-    Solver.ddo(
+    Solvers.layered.ddo(
       problem = problem,
       relaxation = MispRelaxation(),
       lowerBound = MispFlb(problem),
@@ -160,7 +177,7 @@ Solving a instance of the problem can be done as follows:
     })
 
   println(solution)
-  println(s"Search time: ${solution.statistics().runTimeMs()} ms")
+  println(s"Search time: ${solution.statistics().runtime()} ms")
 }
 ```
 
