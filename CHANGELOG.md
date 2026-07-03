@@ -2,6 +2,19 @@
 
 This file documents the DDOLib-Scala changes.
 
+## [0.1.1]
+
+### Changed
+
+- Dependency with maven repo of DDOLib instead of a jar
+- Change package structure to separate layered and nolayer models
+
+### Added
+
+- Anytime Weighted A* solver
+    - layered
+    - no layer (beta)
+
 ## [0.1.0]
 
 Foundation of the DDOLib library.
@@ -28,4 +41,5 @@ Foundation of the DDOLib library.
 - User API
 - Various academic example
 - Implementation of a generic test bench for examples
+- No layer API (beta)
 - No layer A* and ACS solver (beta)
