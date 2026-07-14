@@ -1,9 +1,9 @@
 package be.cetic.ddolibscala.nolayer.util.testbench
 
-import be.cetic.ddolibscala.nolayer.solver.Solution
-import be.cetic.ddolibscala.nolayer.modeling.Problem
 import be.cetic.ddolibscala.Solvers
 import be.cetic.ddolibscala.common.util.DebugMode.On
+import be.cetic.ddolibscala.nolayer.modeling.Problem
+import be.cetic.ddolibscala.nolayer.solver.Solution
 import be.cetic.ddolibscala.util.testbench.GeneratedTest
 
 import scala.collection.mutable.ListBuffer
@@ -96,7 +96,7 @@ class ProblemTestBench[S, P <: Problem[S]](
     }
 
     if (expectedOptimal.isDefined) {
-      val calculatedVal = problem.evaluate(bestSolution.solution().toArray)
+      val calculatedVal = problem.evaluate(bestSolution.solution())
       assert(
         isEqual(calculatedVal, expectedOptimal.get),
         s"Solution evaluation failed. Expected ${expectedOptimal.get}, got $calculatedVal"
