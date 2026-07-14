@@ -96,7 +96,7 @@ class ProblemTestBench[S, P <: Problem[S]](
     }
 
     if (expectedOptimal.isDefined) {
-      val calculatedVal = problem.evaluate(bestSolution.solution())
+      val calculatedVal = problem.evaluate(bestSolution.solution().toArray)
       assert(
         isEqual(calculatedVal, expectedOptimal.get),
         s"Solution evaluation failed. Expected ${expectedOptimal.get}, got $calculatedVal"

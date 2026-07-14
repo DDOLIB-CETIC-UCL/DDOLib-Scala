@@ -15,7 +15,8 @@ class Solver private[ddolibscala] (javaSolver: org.ddolib.nolayer.solver.Solver)
   ): Solution = {
     val onSolutionJava = (solution: java.util.List[java.lang.Integer], stats: SearchStatistic) =>
       onSolution(solution.asScala.toSeq.map(_.toInt), stats)
-    javaSolver.minimize(limit.asJava, onSolutionJava.asJava)
+    
+    Solution(javaSolver.minimize(limit.asJava, onSolutionJava.asJava))
   }
 
 }
