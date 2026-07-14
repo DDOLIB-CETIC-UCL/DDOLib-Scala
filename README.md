@@ -20,7 +20,7 @@ Add the following to your `build.sbt`:
 
 ```scala
 libraryDependencies += "io.github.ddolib-cetic-ucl" % "ddolib" % "0.1.0" // DDOLib core (Java)
-libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.1" // Scala interface
+libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.2" // Scala interface
 ```
 
 > [!CAUTION]
