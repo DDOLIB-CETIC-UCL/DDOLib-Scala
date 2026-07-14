@@ -82,14 +82,14 @@ trait Problem[T] extends org.ddolib.nolayer.modeling.Problem[T] {
    * @return
    * The value of the input solution
    */
-  def evaluate(solution: Array[Int]): Double
+  def evaluate(solution: Seq[Int]): Double
 
   // METHODS TO CONVERT SCALA OBJECTS INTO JAVA OBJECTS
 
   /** Used by the solver. Converts the input of [[evaluate]] from Java to Scala.
    */
   final override def evaluate(solution: java.util.List[java.lang.Integer]): Double =
-    evaluate(solution.asScala.map(_.toInt).toArray)
+    evaluate(solution.asScala.map(_.toInt).toSeq)
 
   /** Used by the solver. Converts the output of [[domainLabels]] from Scala to Java.
    */

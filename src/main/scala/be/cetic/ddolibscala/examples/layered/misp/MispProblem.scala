@@ -12,7 +12,8 @@ import scala.util.Using
 /** Companion object of the [[MispProblem]] class. */
 object MispProblem {
 
-  /** Returns an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]].
+  /** Returns an instance of the Maximum Independent Set Problem (MISP) as a
+    * [[be.cetic.ddolibscala.layered.modeling.Problem]].
     *
     * @param nodes
     *   all the nodes of the graph
@@ -23,7 +24,8 @@ object MispProblem {
     * @param optimal
     *   the value of the optimal solution if known
     * @return
-    *   an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]].
+    *   an instance of the Maximum Independent Set Problem (MISP) as a
+    *   [[be.cetic.ddolibscala.layered.modeling.Problem]].
     */
   def apply(
     nodes: BitSet,
@@ -32,13 +34,14 @@ object MispProblem {
     optimal: Option[Double] = None
   ): MispProblem = new MispProblem(nodes, neighbors, weights, optimal)
 
-  /** Returns an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]] by reading
-    * a file.
+  /** Returns an instance of the Maximum Independent Set Problem (MISP) as a
+    * [[be.cetic.ddolibscala.layered.modeling.Problem]] by reading a file.
     *
     * @param fname
     *   The path to the data file
     * @return
-    *   an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]].
+    *   an instance of the Maximum Independent Set Problem (MISP) as a
+    *   [[be.cetic.ddolibscala.layered.modeling.Problem]].
     */
   def apply(fname: String): MispProblem = {
     val weights: ArrayBuffer[Int] = ArrayBuffer()
@@ -82,7 +85,8 @@ object MispProblem {
   }
 }
 
-/** Represents an instance of the Maximum Independent Set Problem (MISP) as a [[Problem]].
+/** Represents an instance of the Maximum Independent Set Problem (MISP) as a
+  * [[be.cetic.ddolibscala.layered.modeling.Problem]].
   *
   * <p> The problem is defined on a weighted undirected graph. Each node can either be included in
   * the independent set or not, and selected nodes cannot be adjacent. </p> <p> The state of the

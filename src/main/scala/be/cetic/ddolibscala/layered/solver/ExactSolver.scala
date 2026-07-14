@@ -61,6 +61,6 @@ private[ddolibscala] object ExactSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.layered.solving.ddo.core.solver.ExactSolver[T](model))
+    Solver(new org.ddolib.layered.solving.ddo.core.solver.ExactSolver[T](model))
   }
 }

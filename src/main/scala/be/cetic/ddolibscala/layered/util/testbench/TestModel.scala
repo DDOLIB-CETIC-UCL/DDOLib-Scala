@@ -19,7 +19,7 @@ trait TestModel[S] {
     *
     * @return
     * the fast lower bound instance, defaulting to
-    * [[DefaultFastLowerBound]].
+    * [[be.cetic.ddolibscala.layered.modeling.DefaultFastLowerBound]].
     */
   def flb: FastLowerBound[S] = DefaultFastLowerBound()
 
@@ -34,7 +34,8 @@ trait TestModel[S] {
   /** Specifies the state ranking heuristic used to select nodes when the width limit is reached.
     *
     * @return
-    * the state ranking strategy, defaulting to [[DefaultStateRanking]].
+    * the state ranking strategy, defaulting to
+    * [[be.cetic.ddolibscala.layered.modeling.DefaultStateRanking]].
     */
   def ranking: StateRanking[S] = DefaultStateRanking()
 
@@ -42,7 +43,7 @@ trait TestModel[S] {
     *
     * @return
     * the dominance checker instance, defaulting to
-    * [[DefaultDominanceChecker]].
+    * [[be.cetic.ddolibscala.layered.modeling.DefaultDominanceChecker]].
     */
   def dominance: DominanceChecker[S] = DefaultDominanceChecker[S]()
 

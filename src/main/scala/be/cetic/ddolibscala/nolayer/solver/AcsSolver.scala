@@ -60,6 +60,6 @@ private[ddolibscala] object AcsSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.nolayer.solving.acs.core.solver.AcsSolver[T](model))
+    Solver(new org.ddolib.nolayer.solving.acs.core.solver.AcsSolver[T](model))
   }
 }

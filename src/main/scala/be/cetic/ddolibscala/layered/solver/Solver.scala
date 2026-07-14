@@ -12,7 +12,7 @@ class Solver private[ddolibscala] (javaSolver: org.ddolib.layered.solver.Solver)
     limit: SearchStatistic => Boolean = _ => false,
     onSolution: (Array[Int], SearchStatistic) => Unit = (_, _) => {}
   ): Solution = {
-    javaSolver.minimize(limit.asJava, onSolution.asJava)
+    Solution(javaSolver.minimize(limit.asJava, onSolution.asJava))
   }
 
 }

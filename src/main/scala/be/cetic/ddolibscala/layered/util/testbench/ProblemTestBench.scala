@@ -11,10 +11,12 @@ import be.cetic.ddolibscala.util.testbench.GeneratedTest
 
 import scala.collection.mutable.ListBuffer
 
-/** A standalone generator of test cases for [[Problem]] implementations.
+/** A standalone generator of test cases for [[be.cetic.ddolibscala.layered.modeling.Problem]]
+  * implementations.
   *
-  * Instead of being a test suite itself, it generates a list of executable [[GeneratedTest]]
-  * objects that can be run by any test framework.
+  * Instead of being a test suite itself, it generates a list of executable
+  * [[be.cetic.ddolibscala.util.testbench.GeneratedTest]] objects that can be run by any test
+  * framework.
   *
   * @param problems
   *   the list of problem instances to test.

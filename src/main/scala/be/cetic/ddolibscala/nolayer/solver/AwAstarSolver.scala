@@ -60,6 +60,6 @@ private[ddolibscala] object AwAstarSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.nolayer.solving.awastar.core.solver.AwAstarSolver[T](model))
+    Solver(new org.ddolib.nolayer.solving.awastar.core.solver.AwAstarSolver[T](model))
   }
 }
