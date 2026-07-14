@@ -15,14 +15,16 @@ trait TestModel[S] {
   /** Specifies the Fast Lower Bound (FLB) implementation to use.
    *
    * @return
-   * the fast lower bound instance, defaulting to [[DefaultFastLowerBound]].
+   * the fast lower bound instance, defaulting to
+   * [[be.cetic.ddolibscala.nolayer.modeling.DefaultFastLowerBound]].
    */
   def flb: FastLowerBound[S] = new DefaultFastLowerBound[S]()
 
   /** Specifies the dominance checking strategy to prune dominated states.
    *
    * @return
-   * the dominance checker instance, defaulting to [[DefaultNoLayerDominanceChecker]].
+   * the dominance checker instance, defaulting to
+   * [[be.cetic.ddolibscala.nolayer.modeling.DefaultNoLayerDominanceChecker]].
    */
   def dominance: NoLayerDominanceChecker[S] = new DefaultNoLayerDominanceChecker[S]()
 

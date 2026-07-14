@@ -4,7 +4,8 @@ import be.cetic.ddolibscala.layered.modeling.FastLowerBound
 
 import scala.collection.immutable.BitSet
 
-/** Compute a [[FastLowerBound]] for the Maximum Independent Set Problem (MISP).
+/** Compute a [[be.cetic.ddolibscala.layered.modeling.FastLowerBound]] for the Maximum Independent
+  * Set Problem (MISP).
   *
   * @param problem
   *   the associated MISP problem instance

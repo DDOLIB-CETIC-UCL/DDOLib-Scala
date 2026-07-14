@@ -8,10 +8,11 @@ import be.cetic.ddolibscala.util.testbench.GeneratedTest
 
 import scala.collection.mutable.ListBuffer
 
-/** A standalone generator of test cases for NoLayer [[Problem]] implementations.
+/** A standalone generator of test cases for NoLayer
+  * [[be.cetic.ddolibscala.nolayer.modeling.Problem]] implementations.
   *
-  * It generates a list of executable [[GeneratedTest]] objects that can be run by any test
-  * framework.
+  * It generates a list of executable [[be.cetic.ddolibscala.util.testbench.GeneratedTest]]
+  * objects that can be run by any test framework.
   *
   * @param problems
   *   the list of problem instances to test.
