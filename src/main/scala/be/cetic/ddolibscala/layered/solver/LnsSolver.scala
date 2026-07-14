@@ -112,7 +112,7 @@ private[ddolibscala] object LnsSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.layered.solving.lns.core.solver.LnsSolver[T](model))
+    Solver(new org.ddolib.layered.solving.lns.core.solver.LnsSolver[T](model))
   }
 
 }

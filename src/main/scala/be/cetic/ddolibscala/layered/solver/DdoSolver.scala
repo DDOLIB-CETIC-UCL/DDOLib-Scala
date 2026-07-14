@@ -126,6 +126,6 @@ private[ddolibscala] object DdoSolver {
       override def stateDistance(): StateDistance[T] = _stateDistance
     }
 
-    new Solver(new org.ddolib.layered.solving.ddo.core.solver.SequentialSolver[T](model))
+    Solver(new org.ddolib.layered.solving.ddo.core.solver.SequentialSolver[T](model))
   }
 }

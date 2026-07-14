@@ -55,6 +55,6 @@ private[ddolibscala] object AstarSolver {
       override def debugMode(): DebugLevel = _debugMode.toJava
     }
 
-    new Solver(new org.ddolib.nolayer.solving.astar.core.solver.AStarSolver[T](model))
+    Solver(new org.ddolib.nolayer.solving.astar.core.solver.AStarSolver[T](model))
   }
 }
