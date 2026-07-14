@@ -2,6 +2,16 @@
 
 This file documents the DDOLib-Scala changes.
 
+## [0.1.2]
+
+### Changed
+
+- `nolayer.modeling.Problem.evaluate()` method takes a `Seq` as input instead of an `Array`
+
+### Added
+
+- Package Java solution class to Scala
+
 ## [0.1.1]
 
 ### Changed
