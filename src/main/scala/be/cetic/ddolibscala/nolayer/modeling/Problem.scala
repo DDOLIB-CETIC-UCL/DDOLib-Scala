@@ -82,7 +82,7 @@ trait Problem[T] extends org.ddolib.nolayer.modeling.Problem[T] {
    * @return
    * The value of the input solution
    */
-  def evaluate(solution: Array[Int]): Double
+  def evaluate(solution: Seq[Int]): Double
 
   // METHODS TO CONVERT SCALA OBJECTS INTO JAVA OBJECTS
 

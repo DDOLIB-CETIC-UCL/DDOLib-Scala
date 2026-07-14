@@ -103,7 +103,7 @@ class MispProblem(
 
   override def transitionCost(state: BitSet, label: Int): Double = -weights(label)
 
-  override def evaluate(solution: Array[Int]): Double = {
+  override def evaluate(solution: Seq[Int]): Double = {
 
     for (i <- solution.indices) {
       for (j <- i + 1 until solution.length) {
