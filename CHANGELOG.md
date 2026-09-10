@@ -2,6 +2,12 @@
 
 This file documents the DDOLib-Scala changes.
 
+## Unreleased
+
+### Added
+
+- Object to instantiate `Decision`
+
 ## [0.1.2]
 
 ### Changed
