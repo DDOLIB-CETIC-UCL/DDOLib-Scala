@@ -10,7 +10,7 @@ import scala.util.Using
 /** Companion object of the [[KnapSack]] class. */
 object KnapSack {
 
-  def apply(capa: Int, profit: List[Int], weight: List[Int]): KnapSack =
+  def apply(capa: Int, profit: Array[Int], weight: Array[Int]): KnapSack =
     new KnapSack(capa, profit, weight)
 
   /** Reads a KnapSack instance from a file.
@@ -35,7 +35,7 @@ object KnapSack {
       }
     }
 
-    val problem = KnapSack(capa, profit.toList, weight.toList)
+    val problem = KnapSack(capa, profit.toArray, weight.toArray)
     problem.name = Some(fname)
     problem
   }
@@ -55,11 +55,7 @@ object KnapSack {
  * @param weight
  *   the weight of each item
  */
-
-
-
-
-class KnapSack(val capa: Int, val profit: List[Int], val weight: List[Int]) extends Problem[Int] {
+class KnapSack(val capa: Int, val profit: Array[Int], val weight: Array[Int]) extends Problem[Int] {
 
   private var name: Option[String] = None
 

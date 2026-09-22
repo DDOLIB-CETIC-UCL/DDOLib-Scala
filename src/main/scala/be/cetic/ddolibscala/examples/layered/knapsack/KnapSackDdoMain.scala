@@ -26,7 +26,7 @@ object KnapSachDdoMain {
       Solvers.layered.ddo(
         problem = problem,
         relaxation = KnapSackRelaxation(),
-        widthHeuristic = FixedWidth(2), // TODO: Adjust parameters taken directly from the MISP example for this one need to try not to big and not to small ex(500 width)
+        widthHeuristic = FixedWidth(2),
         frontier = Frontier,
         //verbosityLvl = Large,
         useCache = true,
