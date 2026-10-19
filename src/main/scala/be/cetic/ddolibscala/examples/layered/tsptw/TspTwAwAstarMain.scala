@@ -1,6 +1,9 @@
 package be.cetic.ddolibscala
 package examples.layered.tsptw
 
+import be.cetic.ddolibscala.common.solver.stopcriterion.&&
+import be.cetic.ddolibscala.common.solver.stopcriterion.AstarStopCriterion.minValidChildrenPercent
+import be.cetic.ddolibscala.common.solver.stopcriterion.StopCriterion.maxIterSinceLastImprovement
 import be.cetic.ddolibscala.layered.modeling.SimpleDominanceChecker
 
 import java.nio.file.Paths
@@ -16,11 +19,17 @@ object TspTwAwAstarMain {
       dominance = SimpleDominanceChecker(TspTwDominance(), problem.nbVars())
     )
 
-    val solution = solver.minimize(onSolution = (sol, stats) => {
-      println("------ NEW BEST ------")
-      println(stats)
-      println(s"0 -> ${sol.mkString(" -> ")}")
-    })
+    // Stops when the incumbent stagnates while few children are kept by the weighted search
+    val stop = maxIterSinceLastImprovement(200) && minValidChildrenPercent(11)
+
+    val solution = solver.minimize(
+      limit = stop,
+      onSolution = (sol, stats) => {
+        println("------ NEW BEST ------")
+        println(stats)
+        println(s"0 -> ${sol.mkString(" -> ")}")
+      }
+    )
 
     println("\n------ LAST SOLUTION FOUND ------")
     println(s"0 -> ${solution.solution().mkString(" -> ")}")

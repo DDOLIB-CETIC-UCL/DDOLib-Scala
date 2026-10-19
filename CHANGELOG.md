@@ -7,6 +7,7 @@ This file documents the DDOLib-Scala changes.
 ### Added
 
 - Object to instantiate `Decision`
+- Factories of pre-implemented stop criterion
 
 ## [0.1.2]
 
