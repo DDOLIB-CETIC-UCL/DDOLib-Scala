@@ -4,10 +4,11 @@ This file documents the DDOLib-Scala changes.
 
 ## Unreleased
 
+## [0.2.0]
+
 ### Changed
 
 - DDOLib 0.2.0 as base version
--
 
 ### Added
 
