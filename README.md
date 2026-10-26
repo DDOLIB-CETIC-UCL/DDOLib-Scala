@@ -13,14 +13,17 @@ by the [CETIC](https://www.cetic.be/) (team of [Renaud De Landtsheer](https://ww
 the [UCLouvain](https://uclouvain.be/en/index.html) (team of [Pierre Schaus](https://pschaus.github.io/)).
 It includes a modeling API for users to define their DP problem and solve them efficiently.
 
+A user-guide based on the Java version can be
+found [here](https://ddolib-cetic-ucl.github.io/DDOLib/userguide/index.html)
+
 ## Using DDOLib-Scala as a Dependency
 
 DDOLib-Scala is published on [Maven Central](https://central.sonatype.com/artifact/be.cetic/ddolib-scala_3).
 Add the following to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.ddolib-cetic-ucl" % "ddolib" % "0.1.0" // DDOLib core (Java)
-libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.2" // Scala interface
+libraryDependencies += "io.github.ddolib-cetic-ucl" % "ddolib" % "0.2.0" // DDOLib core (Java)
+libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.2.0" // Scala interface
 ```
 
 > [!CAUTION]
@@ -30,7 +33,7 @@ libraryDependencies += "be.cetic" % "ddolib-scala_3" % "0.1.2" // Scala interfac
 
 > [!IMPORTANT]
 > DDOLib and DDOLib-Scala versions are released together and share the same major.minor version number
-> (e.g. `0.1.x`). Always match the DDOLib-Scala version with a compatible DDOLib version.
+> (e.g. `0.2.x`). Always match the DDOLib-Scala version with a compatible DDOLib version.
 
 # Theoretical Foundations
 
