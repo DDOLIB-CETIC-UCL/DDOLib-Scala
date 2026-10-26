@@ -31,8 +31,9 @@ private[ddolibscala] object DdoSolver {
     *   the relaxation of the model used to evaluate the nodes or layers of the decision diagram.
     * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param _upperBound
-    *   a precomputed upper used to start pruning earlier
+    * @param _initialSolution
+    *   a precomputed solution to start the search from; its value is used as initial upper
+    *   bound and it is returned if no better solution is found
     * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param _ranking
@@ -70,7 +71,7 @@ private[ddolibscala] object DdoSolver {
     _problem: Problem[T],
     _relaxation: Relaxation[T],
     _lowerBound: FastLowerBound[T] = new DefaultFastLowerBound[T](),
-    _upperBound: Double,
+    _initialSolution: Option[Solution] = None,
     _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _ranking: StateRanking[T] = DefaultStateRanking[T](),
     _widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
@@ -109,7 +110,8 @@ private[ddolibscala] object DdoSolver {
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
 
-      override def upperBound(): Double = _upperBound
+      override def initialSolution(): org.ddolib.layered.solver.Solution =
+        _initialSolution.map(_.javaSolution).orNull
 
       override def dominance(): DominanceChecker[T] = _dominance
 

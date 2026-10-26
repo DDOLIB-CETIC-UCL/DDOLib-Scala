@@ -28,8 +28,9 @@ private[ddolibscala] object LnsSolver {
     *   optimization task
     * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param _upperBound
-    *   a precomputed upper used to start pruning earlier
+    * @param _initialSolution
+    *   a precomputed solution to start the search from; its value is used as initial upper
+    *   bound and it is returned if no better solution is found
     * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param _variableHeuristic
@@ -49,8 +50,6 @@ private[ddolibscala] object LnsSolver {
     *   strategy to select which nodes should be dropped on a restricted DD
     * @param _stateDistance
     *   distance function between states, used to form clusters
-    * @param _initialSolution
-    *   an initial solution to start the LNS search
     * @param _probability
     *   the probability used to destruct parts of the solution in LNS (`0.2` by default)
     * @param _useLNS
@@ -63,7 +62,7 @@ private[ddolibscala] object LnsSolver {
   def apply[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    _upperBound: Double = Double.PositiveInfinity,
+    _initialSolution: Option[Solution] = None,
     _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLvl = Silent,
@@ -75,7 +74,6 @@ private[ddolibscala] object LnsSolver {
     _stateDistance: StateDistance[T] = new StateDistance[T] {
       override def distance(t: T, t1: T): Double = 0.0
     },
-    _initialSolution: Array[Int] = Array.empty[Int],
     _probability: Double = 0.2,
     _useLNS: Boolean = true
   ): Solver = {
@@ -93,15 +91,14 @@ private[ddolibscala] object LnsSolver {
 
       override def stateDistance(): StateDistance[T] = _stateDistance
 
-      override def initialSolution(): Array[Int] = _initialSolution
-
       override def probability(): Double = _probability
 
       override def useLNS(): Boolean = _useLNS
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
 
-      override def upperBound(): Double = _upperBound
+      override def initialSolution(): org.ddolib.layered.solver.Solution =
+        _initialSolution.map(_.javaSolution).orNull
 
       override def dominance(): DominanceChecker[T] = _dominance
 

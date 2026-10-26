@@ -26,8 +26,9 @@ private[ddolibscala] object AcsSolver {
     *   column width used for formatted output during the Anytime Column Search process.
     * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param _upperBound
-    *   a precomputed upper used to start pruning earlier
+    * @param _initialSolution
+    *   a precomputed solution to start the search from; its value is used as initial upper
+    *   bound and it is returned if no better solution is found
     * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param _variableHeuristic
@@ -46,7 +47,7 @@ private[ddolibscala] object AcsSolver {
     _problem: Problem[T],
     _columnWidth: Int = 5,
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    _upperBound: Double = Double.PositiveInfinity,
+    _initialSolution: Option[Solution] = None,
     _dominance: DominanceChecker[T] = new DefaultDominanceChecker[T](),
     _variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
     _verbosityLvl: VerbosityLvl = Silent,
@@ -60,7 +61,8 @@ private[ddolibscala] object AcsSolver {
 
       override def lowerBound(): FastLowerBound[T] = _lowerBound
 
-      override def upperBound(): Double = _upperBound
+      override def initialSolution(): org.ddolib.layered.solver.Solution =
+        _initialSolution.map(_.javaSolution).orNull
 
       override def dominance(): DominanceChecker[T] = _dominance
 

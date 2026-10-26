@@ -10,7 +10,16 @@ object MispAstarMain {
   def main(args: Array[String]): Unit = {
     val problem = MispProblem("data/MISP/weighted.dot")
 
-    val solver: Solver = Solvers.layered.astar(problem = problem, lowerBound = MispFlb(problem))
+    // A first solution found by a depth-first dive gives an initial upper bound to A*.
+    val initial: Solution =
+      StartHeuristics.layered.dfs(problem = problem, lowerBound = MispFlb(problem))
+    println(s"DFS solution: $initial")
+
+    val solver: Solver = Solvers.layered.astar(
+      problem = problem,
+      lowerBound = MispFlb(problem),
+      initialSolution = Some(initial)
+    )
 
     val solution: Solution = solver.minimize()
     println(solution)

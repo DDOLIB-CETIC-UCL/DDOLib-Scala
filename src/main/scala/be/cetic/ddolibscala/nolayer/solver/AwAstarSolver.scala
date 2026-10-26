@@ -21,8 +21,9 @@ private[ddolibscala] object AwAstarSolver {
     *   the weight added to the heuristic function. Must be > 1
     * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param _upperBound
-    *   a precomputed upper bound used to start pruning earlier
+    * @param _initialSolution
+    *   a precomputed solution to start the search from; its value is used as initial upper
+    *   bound and it is returned if no better solution is found
     * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param _verbosityLvl
@@ -38,7 +39,7 @@ private[ddolibscala] object AwAstarSolver {
     _problem: Problem[T],
     _weight: Double = 5,
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    _upperBound: Double = Double.PositiveInfinity,
+    _initialSolution: Option[Solution] = None,
     _dominance: NoLayerDominanceChecker[T] = DefaultNoLayerDominanceChecker[T](),
     _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     _debugMode: DebugMode = DebugMode.Off
@@ -51,7 +52,8 @@ private[ddolibscala] object AwAstarSolver {
 
       override def lowerBound(): org.ddolib.nolayer.modeling.FastLowerBound[T] = _lowerBound
 
-      override def upperBound(): Double = _upperBound
+      override def initialSolution(): org.ddolib.nolayer.solver.Solution =
+        _initialSolution.map(_.javaSolution).orNull
 
       override def dominance(): org.ddolib.nolayer.modeling.NoLayerDominanceChecker[T] = _dominance
 

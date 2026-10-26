@@ -19,8 +19,9 @@ private[ddolibscala] object AstarSolver {
     *   the structure defining the transitions and objective function of the optimization task
     * @param _lowerBound
     *   a heuristic that estimates a lower bound on the objective value for a given state
-    * @param _upperBound
-    *   a precomputed upper bound used to start pruning earlier
+    * @param _initialSolution
+    *   a precomputed solution to start the search from; its value is used as initial upper
+    *   bound and it is returned if no better solution is found
     * @param _dominance
     *   the dominance checker used to prune dominated states from the search space
     * @param _verbosityLvl
@@ -35,7 +36,7 @@ private[ddolibscala] object AstarSolver {
   def apply[T](
     _problem: Problem[T],
     _lowerBound: FastLowerBound[T] = DefaultFastLowerBound[T](),
-    _upperBound: Double = Double.PositiveInfinity,
+    _initialSolution: Option[Solution] = None,
     _dominance: NoLayerDominanceChecker[T] = DefaultNoLayerDominanceChecker[T](),
     _verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
     _debugMode: DebugMode = DebugMode.Off
@@ -46,7 +47,8 @@ private[ddolibscala] object AstarSolver {
 
       override def lowerBound(): org.ddolib.nolayer.modeling.FastLowerBound[T] = _lowerBound
 
-      override def upperBound(): Double = _upperBound
+      override def initialSolution(): org.ddolib.nolayer.solver.Solution =
+        _initialSolution.map(_.javaSolution).orNull
 
       override def dominance(): org.ddolib.nolayer.modeling.NoLayerDominanceChecker[T] = _dominance
 

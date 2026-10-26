@@ -28,7 +28,7 @@ object Solvers {
       relaxation: Relaxation[T],
       lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[layeredSolver.Solution] = None,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
       ranking: StateRanking[T] = new layeredModeling.DefaultStateRanking[T](),
       widthHeuristic: WidthHeuristic[T] = FixedWidth[T](10),
@@ -43,7 +43,7 @@ object Solvers {
         problem,
         relaxation,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         ranking,
         widthHeuristic,
@@ -76,7 +76,7 @@ object Solvers {
       problem: org.ddolib.layered.modeling.Problem[T],
       lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[layeredSolver.Solution] = None,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
       variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
@@ -85,7 +85,7 @@ object Solvers {
       layeredSolver.AstarSolver(
         problem,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         variableHeuristic,
         verbosityLvl,
@@ -100,7 +100,7 @@ object Solvers {
       columnWidth: Int = 5,
       lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[layeredSolver.Solution] = None,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
       variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
       verbosityLvl: VerbosityLvl = Silent,
@@ -110,7 +110,7 @@ object Solvers {
         problem,
         columnWidth,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         variableHeuristic,
         verbosityLvl,
@@ -125,7 +125,7 @@ object Solvers {
       weight: Double = 5,
       lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[layeredSolver.Solution] = None,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
       variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
       verbosityLvl: VerbosityLvl = Silent,
@@ -135,7 +135,7 @@ object Solvers {
         problem,
         weight,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         variableHeuristic,
         verbosityLvl,
@@ -149,7 +149,7 @@ object Solvers {
       problem: org.ddolib.layered.modeling.Problem[T],
       lowerBound: org.ddolib.layered.modeling.FastLowerBound[T] =
         new layeredModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[layeredSolver.Solution] = None,
       dominance: DominanceChecker[T] = DefaultDominanceChecker[T](),
       variableHeuristic: VariableHeuristic[T] = DefaultVariableHeuristic[T](),
       verbosityLvl: VerbosityLvl = Silent,
@@ -162,14 +162,13 @@ object Solvers {
       stateDistance: StateDistance[T] = new StateDistance[T] {
         override def distance(t: T, t1: T): Double = 0.0
       },
-      initialSolution: Array[Int] = Array.empty[Int],
       probability: Double = 0.2,
       useLNS: Boolean = true
     ): layeredSolver.Solver = {
       layeredSolver.LnsSolver(
         problem,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         variableHeuristic,
         verbosityLvl,
@@ -179,7 +178,6 @@ object Solvers {
         exportDot,
         restrictStrategy,
         stateDistance,
-        initialSolution,
         probability,
         useLNS
       )
@@ -194,7 +192,7 @@ object Solvers {
       problem: noLayerModeling.Problem[T],
       lowerBound: noLayerModeling.FastLowerBound[T] =
         new noLayerModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[noLayerSolver.Solution] = None,
       dominance: noLayerModeling.NoLayerDominanceChecker[T] =
         new noLayerModeling.DefaultNoLayerDominanceChecker[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
@@ -203,7 +201,7 @@ object Solvers {
       noLayerSolver.AstarSolver(
         problem,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         verbosityLvl,
         debugMode
@@ -217,7 +215,7 @@ object Solvers {
       weight: Double = 5,
       lowerBound: noLayerModeling.FastLowerBound[T] =
         new noLayerModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[noLayerSolver.Solution] = None,
       dominance: noLayerModeling.NoLayerDominanceChecker[T] =
         new noLayerModeling.DefaultNoLayerDominanceChecker[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
@@ -227,7 +225,7 @@ object Solvers {
         problem,
         weight,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         verbosityLvl,
         debugMode
@@ -241,7 +239,7 @@ object Solvers {
       columnWidth: Int = 5,
       lowerBound: noLayerModeling.FastLowerBound[T] =
         new noLayerModeling.DefaultFastLowerBound[T](),
-      upperBound: Double = Double.PositiveInfinity,
+      initialSolution: Option[noLayerSolver.Solution] = None,
       dominance: noLayerModeling.NoLayerDominanceChecker[T] =
         new noLayerModeling.DefaultNoLayerDominanceChecker[T](),
       verbosityLvl: VerbosityLvl = VerbosityLvl.Silent,
@@ -251,7 +249,7 @@ object Solvers {
         problem,
         columnWidth,
         lowerBound,
-        upperBound,
+        initialSolution,
         dominance,
         verbosityLvl,
         debugMode
