@@ -4,10 +4,17 @@ This file documents the DDOLib-Scala changes.
 
 ## Unreleased
 
+### Changed
+
+- DDOLib 0.2.0 as base version
+-
+
 ### Added
 
 - Object to instantiate `Decision`
 - Factories of pre-implemented stop criterion
+- API for the start heuristics
+- All the solver can use an initial solution
 
 ## [0.1.2]
 
