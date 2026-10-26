@@ -37,5 +37,5 @@ libraryDependencies ++= Seq(
   "org.scalacheck"            %% "scalacheck"      % "1.19.0"   % Test,
   "org.scalatest"             %% "scalatest"       % "3.2.19"   % Test,
   "org.scalatestplus"         %% "scalacheck-1-18" % "3.2.19.0" % Test,
-  "io.github.ddolib-cetic-ucl" % "ddolib"          % "0.1.0"
+  "io.github.ddolib-cetic-ucl" % "ddolib"          % "0.2.0"
 )
